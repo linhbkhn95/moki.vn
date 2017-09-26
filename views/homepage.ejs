@@ -1,0 +1,61 @@
+
+<!-- <button onclick="like()">Start</button> -->
+
+<!-- <ul id="nav">
+    <li><a href="#">Link1</a></li>
+    <li><a href="#">Link2</a></li>
+    <li><a href="#">Link3</a></li>
+    <li id="notification_li">
+        <span id="notification_count">3</span>
+        <a href="#" id="notificationLink">Notifications</a>
+        
+        <div id="notificationContainer">
+        <div id="notificationTitle">Notifications</div>
+        <div id="notificationsBody" class="notifications"></div>
+        <div id="notificationFooter"><a href="#">See All</a></div>
+        </div>
+        
+        </li>
+    <li><a href="#">Link4</a></li>
+    </ul> -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(window).bind('scroll', function () {
+          
+            if ($(window).scrollTop() > 150) {
+                $('.menu').addClass('fixed').addClass('animated').addClass('fadeInDown');
+                 $('.menu').css({'background-color':'#ffffff'});
+                $('.menu .search').css({'display':'none'});
+                $(".logo").attr("src","../../images/logo_small.png");
+            } else {
+                $('.menu').removeClass('fixed').removeClass('animated').removeClass('fadeInDown');;
+                $('.menu .search').css({'display':'block'})
+                $(".logo").attr("src","../../images/logo_medium.png");
+            }
+        });
+        $(function () {
+            $('.navbar-toggle').click(function () {
+                $('.navbar-nav').toggleClass('slide-in');
+                $('.side-body').toggleClass('body-slide-in');
+                $('#search').removeClass('in').addClass('collapse').slideUp(200);
+  
+                /// uncomment code for absolute positioning tweek see top comment in css
+                //$('.absolute-wrapper').toggleClass('slide-in');
+                
+            });
+          
+          // Remove menu for searching
+          
+        });
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+      </script>

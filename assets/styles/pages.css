@@ -1,0 +1,156 @@
+.header-eventlog{
+	 height: 72px;
+    background-color: white;
+}
+   body{ background-color: #ECECEC;}
+.badge{
+  font-size: 10px;
+}
+.col-md-10 .col-md-2 .list-group-item{
+	font-size: 9px;
+	 padding: 6px 15px;
+}
+.number-result{
+	margin-top: 20px;
+    font-size: 16px;
+}
+.page-size{
+	font-size: 11px;
+    padding: 0px 12px;
+    height: 28px;
+    margin-top: 20px;
+}
+.custom-alert{
+    padding: 0px;
+    margin-bottom: 8px;
+    background-color: white;
+    color: black;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+}
+.list-group-item .badge{
+	background-color: #777777;
+}
+.h6, h6 {
+      font-size: 9px;
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 3px;
+    margin-right: 2px;
+}
+.data-view{
+	
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.data-recevice p {
+ 
+    margin-top: 0px;
+    font-size: 9px;
+    margin-bottom: 0px;
+}
+.list-log{
+    padding-left: 6px;
+    max-height: 570px;
+    overflow-y: auto;
+    padding-right: 0px;
+}
+
+.head {
+  color: #fff;
+  font-size: 28px;
+  font-weight: normal;
+  padding: 30px 0;
+  text-align: center;
+  text-transform: uppercase;
+  background: rgba(26, 57, 117, 0.82);
+}
+
+.list-property{
+    padding: 4px;
+}
+.list-property .label{
+    display: inline-flex !important;
+    font-size: 12px !important;
+    margin-left: 2px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    /* margin-bottom: 3px; */
+}
+.header-eventlog{
+    padding-top: 25px;
+    margin-top: 17px;
+    padding-left: 0px;
+    background: rgb(248, 248, 249);
+    font-size: 11px;
+}
+.title-chart-y{
+    background-color: black;
+    color: white;
+}
+.header-property{
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #00bcd4;
+    color: white;
+}
+ .btn-search-eventlog{
+     padding-top: 31px;
+ }
+    .title-modal-create-alert{
+        background: rgb(0, 188, 212);
+        color: white !important;
+    }
+    .content-modal-creat-alert{
+        /* text-align: center; */
+    }
+   .number{
+        background: #00bcd4;
+        font-size: 35px;
+        text-align: center;
+        color: white;
+        padding: 15px;
+        /* font-weight: bold; */
+        box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+   }
+   .title{
+       padding: 8px;
+       font-size: 15px;
+   }
+   .box{
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+   }
+   .title-rc{
+    font-size: 20px;
+    letter-spacing: 0.005em;
+    box-sizing: border-box;
+    font-weight: 400;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    width: 100%;
+    height: 64px;
+    max-height: 64px;
+    padding: 0 16px;
+    margin: 0;
+    background: #00bcd4;
+    color: white;
+   }
+   .table-responsive{
+       background: yellow;
+       
+   }
+   .title-setting{
+    background: #00bcd4;
+    color: white;
+    padding: 6px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+   }

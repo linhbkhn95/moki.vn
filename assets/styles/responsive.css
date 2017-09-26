@@ -1,0 +1,74 @@
+body{ background: #fff;}
+
+/*Ipad ngang(1024 x 768)*/
+@media screen and (max-width: 1300px){
+    /*body{ background: red;}*/
+     .recharts-wrapper{
+        overflow-x: scroll;
+      width: auto !important;
+
+    }
+}
+@media screen and (max-width: 1024px){
+    /*body{ background: black;}*/
+    .recharts-wrapper{
+        overflow-x: scroll;
+        width: auto !important;
+    }
+}
+/*Ipad dọc(768 x 1024)*/
+@media screen and (max-width: 768px){
+    /*body{ background: red;}*/
+     .recharts-wrapper{
+        overflow-x: scroll;
+      width: auto !important;
+
+    }
+}
+
+/*Tablet nhỏ(480 x 640)*/
+@media screen and (max-width: 480px){
+  /*    body{ background: green;}*/
+  .avatar  .col-xs-4 img{
+      width: 58px !important;
+      height: 58px !important;
+      padding-top: 0px !important;
+  }
+  .avatar  .col-xs-8 div{
+      margin-top: 17px !important;
+      font-size: 19px !important;
+  }
+  .head{
+      font-size: 16px;
+      padding: 10px 0;
+  }
+     .recharts-wrapper{
+      overflow-x: scroll;
+      width: auto !important;
+    }
+}
+/*Iphone(480 x 640)*/
+@media screen and (max-width: 320px){
+     /*body{ background: blue;}*/
+     .menu .navbar-default{
+       padding-left: 0px;
+     }
+     .recharts-wrapper{
+        overflow-x: scroll;
+     
+         width: auto !important;
+    }
+}
+@media screen and (max-width: 550px){
+    /*body{ background: blue;}*/
+    .box .table-responsive{
+        /* overflow-x: scroll !important; */
+        /* background-color: yellow !important; */
+        width: auto !important;
+    }
+    .box div div div{
+        overflow-x: inherit !important;
+        overflow-y: inherit !important;
+    }
+   
+}

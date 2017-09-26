@@ -1,0 +1,27 @@
+.container {
+
+}
+.col-md-2 .list-group-item{
+	font-size: 11px;
+    font-weight: bold;
+    padding: 8px 20px;
+}
+body{
+	background-color: beige;
+}
+.col-md-2 .list-group{
+	height: 388px;
+    background-color: white;
+}
+
+.navbar-inverse {
+  
+    border-color: #f5f5f5;
+}
+.navbar-inverse .navbar-brand:focus, .navbar-inverse .navbar-brand:hover {
+    color: rgba(34, 172, 216, 0.91);
+    background-color: transparent;
+}
+.navbar-inverse .navbar-brand {
+    color: #c31411;
+}
