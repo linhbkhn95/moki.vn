@@ -14,7 +14,7 @@ class MenuCategory extends React.Component{
             {parentId:2,GroupMenu:"Bé ăn",
              listItem:[
             {id: 1, NameMemu: 'Ghế ăn bột cho bé', link: '/be',Component:"Home"},
-            {id: 2, NameMemu: 'Bình sữa và  phụ kiện', link: '/me',Component:"Home"}
+            {id: 2, NameMemu: 'Bình sữa và  phụ kiện', link: '/login',Component:"Home"}
       
       
             ]},

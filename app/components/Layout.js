@@ -6,7 +6,7 @@ var React = require('react');
 var {connect} = require('react-redux');
 class Layout extends React.Component{
        render(){
-         console.log(this.props.background)
+        
          return(
                <div className="">
                   
@@ -15,7 +15,7 @@ class Layout extends React.Component{
                         </div>
                         <div className="clearfix"></div>
                         <div className="wrapper">
-		                          {this.props.children}
+		                     {this.props.children}
 		                       </div>
 		               
                </div>
@@ -23,11 +23,7 @@ class Layout extends React.Component{
          )
      }
 }
-module.exports = connect(function(state){
-  return{
-    background:state.settings.backgroupBody
-  };
-})(Layout);
+module.exports =Layout;
   // <div className="container">
                   
   //                       <div className="row">

@@ -8,9 +8,9 @@ import {green100, green500, green700} from 'material-ui/styles/colors';
 
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
  var App = require('./components/App.js');
- var App = require('./components/App.js');
-var SlideMenu =  require('./components/SlideMenuBar.js');
+
 
 injectTapEventPlugin();
 ReactDOM.render(

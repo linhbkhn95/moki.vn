@@ -8,8 +8,8 @@ var data = {
 
 
  var auth = (state = data, action) => {
-   console.log('dmmsádadadad');
-    console.log(!isEmpty(action.user));
+  //  console.log('dmmsádadadad');
+  //   console.log(!isEmpty(action.user));
   switch(action.type) {
 
     case "SET_CURRENT_USER":

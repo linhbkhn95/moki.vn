@@ -9,6 +9,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
 import HomePage from './components/HomePage.js';
 import Category from './components/Category.js';
 
+var Login = require('app/components/pages/login/Login.js');
 class Home extends React.Component{
  
   render(){
@@ -27,18 +28,24 @@ class Home extends React.Component{
                   <img className="banner" src="../../images/caidatmoki.jpg" alt=""/>
               </div>
              
-              <Switch>
-                   <Route exact path="/" component={HomePage} />
-                   <Route path="/be" component={Category} />
+              {/* <Switch> */}
+                    <Route exact path="/" component={HomePage} />
+                    <Route  path="/:d" component={Category} />
+                    
+                    {/* <Route exact path="/product/:item" component={DetailProduct}/> */}
+                    {/* <Route render={function(){
+                          return <p> not dâ found</p>
+                           }
+                       } />  */}
                    {/* <Route path="/detail/:d" component={DetailProduct} /> */}
-              </Switch>
+              {/* </Switch> */}
            
               
             
             </div>
         </div>
         </div>
-        </Router>
+       </Router> 
     )
   }
 }

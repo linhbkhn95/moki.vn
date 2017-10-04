@@ -13,7 +13,7 @@ module.exports.bootstrap = function(cb) {
    
     sails.io.on('connect', function (socket){
     var time = new Date().toLocaleString();
-    console.log('co ket noi ' + socket.id);
+    // console.log('co ket noi ' + socket.id);
     socket.on("sendlog",()=>{
     	 var log=	{
 					timelocal:time,host_name:"localhost1337",brower:"IE",os:"win",bytes_tx:"681",referer:".",country:"local",country_code:"Lan",remote_host:"185.22.12.2",remote_user:".",method:"GET",query:".",url:"/timetable.aspx",http_version:"1.0",status_code:"200",time:"3-8-2017 22:25:21"

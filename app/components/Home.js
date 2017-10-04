@@ -185,27 +185,7 @@ class Home extends React.Component{
                      )
                    })
                    }
-                    {/* <li className="active header-menu-product" ><i className="fa fa-list" style={{paddingRight: "11px"}} aria-hidden="true"></i>Danh mục sản phẩm</li>
-                    <li>  <a href="#" data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01" className="collapsed"> Miễn phí <span className="fa fa-angle-double-down"></span>
-                    </a>
-                    <div className="collapse" id="toggleDemo" style={{height: "0px"}}>
-                      <ul className="nav nav-list">
-                        <li className="submenu-product"><a href="#">Submenu1.1</a></li>
-                        <li className="submenu-product"><a href="#">Submenu1.2</a></li>
-                        <li className="submenu-product"><a href="#">Submenu1.3</a></li>
-                      </ul>
-                    </div>
-                    </li>
-                    <li>Bé ăn</li>
-                    <li>Bé mặc</li>
-                    <li>Bé Ngủ</li>
-                    <li>Bé Tắm</li>
-                    <li>Bé Vệ sinh</li>
-                    <li>Bé khỏe - An toàn</li>
-                    <li>Bé chơi Mà Học</li>
-                    <li>Dành cho mẹ</li>
-                    <li>Đồ Dùng Gia Đình</li>
-                    <li>Sản phẩm khác</li> */}
+                  
                   </ul>
                   <img className="banner" src="../../images/caidatmoki.jpg" alt=""/>
               </div>

@@ -38,7 +38,7 @@ module.exports.routes = {
    '/eventLog':{
     view:'homepage'
    },
-   '/login':{
+   '/user/login':{
     view:'homepage'
    },
    '/linh':{
@@ -49,7 +49,16 @@ module.exports.routes = {
    },
    '/settings':{
      view:'homepage'
-   }
+   },
+   '/be/thia':{
+     view:'homepage'
+   },
+   '/shopCart':{
+    view:'homepage'
+  },
+  '/shopMK':{
+    view:'homepage'
+  }
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

@@ -1,0 +1,249 @@
+section#user_main div.home-user {
+    padding-bottom: 70px;
+}
+section#user_main div.home-user .banner {
+    position: relative;
+    background: url(https://moki.vn/moki/themes/img/background.png) no-repeat;
+    width: 100%;
+    height: 350px;
+    background-size: cover;
+}
+section#user_main div.home-user .banner .background-cover {
+    background: url(https://moki.vn/moki/themes/img/UgNUNkKQar6.png) bottom left repeat-x;
+    /* border-bottom-color: rgba(0,0,0,.4); */
+    /* border: 1px solid #ddd; */
+    /* border-color: rgba(0, 0, 0, .25); */
+    /* border-top-color: rgba(0, 0, 0, .1); */
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+section#user_main div.home-user .banner div.link-share {
+    right: 0;
+    padding: 10px;
+    position: absolute;
+}
+section#user_main div.home-user .group-head {
+    position: relative;
+    width: 100%;
+}
+section#user_main div.home-user .group-head .bt-info {
+    width: 100%;
+    height: 130px;
+    margin: -130px 0 0;
+}
+section#user_main div.home-user .group-head .bt-info .img-left {
+    width: auto;
+    float: left;
+}
+section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
+    margin: 0 10px;
+    overflow: hidden;
+    position: relative;
+    z-index: 999;
+    width: 168px;
+    height: 168px;
+}
+.itemImage {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.img-thumbnail {
+    display: inline-block;
+    max-width: 100%;
+    
+    padding: 4px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+section#user_main div.home-user .group-head .bt-info .name-user {
+    width: auto;
+    float: left;
+    padding-top: 80px;
+    font-size: 24px;
+    padding-left: 10px;
+    color: #fff;
+    font-weight: bold;
+    /* text-shadow: 1px 1px #f1f; */
+}
+section#user_main div.home-user .group-head .box-title {
+    float: left;
+    width: 100%;
+    background: rgb(255, 255, 255);
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-left: 1px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    position: absolute;
+}
+section#user_main div.home-user .group-head .box-title .content-right {
+    margin-left: 15%;
+    width: 85%;
+    float: left;
+}
+section#user_main div.home-user .group-head .box-title .content-right ul {
+    float: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+section#user_main div.home-user .group-head .box-title .content-right ul li {
+    float: left;
+    padding: 10px 10px 10px 10px;
+
+}
+section#user_main div.home-user .group-head .box-title .content-right ul li p {
+    padding: 10px 39px;
+    margin: 0;
+}
+section#user_main div.home-user .group-head .box-title .content-right ul li p span.color-title {
+    font-weight: bold;
+}
+section#user_main div.home-user .group-head .box-title .content-right ul li p span.total_product {
+    color: #f05077;
+    font-size: 14px;
+}
+section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share {
+    float: right;
+}
+section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share a {
+    color: #676767;
+    margin: 5px;
+}
+/* .custom-share{
+    font-size: 19px;
+    padding: 5px 9px 5px 9px;
+    /* padding: 5px; 
+    border: 2px solid #3c6fbb;
+    border-radius: 50%;
+} */
+
+section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa {
+    padding: 9px !important;
+    /* font-size: 9px !important; */
+    width: 30px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    margin: 5px 2px !important;
+    border-radius: 50% !important ;
+  }
+  
+  section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share.fa:hover {
+      opacity: 0.7;
+  }
+  
+  section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
+  section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa-twitter {
+    background: #55ACEE;
+    color: white;
+  }
+  
+  section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa-google {
+    background: #dd4b39;
+    color: white;
+  }
+
+  section#user_main div.content-main .left-list {
+    padding: 0px 10px;
+    background: #f0f0f0 url(//cdn.shopify.com/s/files/1/1786/6805/t/2/assets/bkg_collection.jpg?1013842…) 0 0 repeat;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+section#user_main div.content-main .left-list .text-box {
+    padding-left: 10px;
+    font-size: 18px;
+    float: left;
+    line-height: 18px;
+    position: relative;
+    font-weight: 400;
+}
+section#user_main div.content-main .left-list table tr td {
+    padding: 10px 0px;
+}
+section#user_main div.content-main .left-list table tr td span {
+    font-size: 14px;
+}
+section#user_main div.content-main .left-list table tr td .color-title i {
+    padding-right: 7px;
+}
+section#user_main div.content-main .left-list table tr td .total_product {
+    color: #f05077;
+}
+section#user_main div.content-main .left-list .text-box:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: -8px;
+    width: 8px;
+    height: 17px;
+    background: #f16e8e;
+}
+section#user_main div.content-main .left-list aside {
+    display: inline-block;
+    width: 100%;
+}
+section#user_main div.content-main .left-list aside div.comment .item figure {
+    float: left;
+    width: 55px;
+    height: 55px;
+    margin-right: 15px;
+}
+section#user_main div.content-main .left-list aside div.comment .item figure img {
+    height: 100% !important;
+    width: 100% !important;
+}
+section#user_main div.content-main .left-list aside div.comment .item .text-a {
+    margin: 0px;
+    line-height: 18px;
+    font-size: 14px;
+    max-height: 54px;
+    overflow: hidden;
+}
+section#user_main div.content-main .left-list aside div.comment .item .sub-content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+}
+section#user_main div.content-main .left-list aside div.comment .item .sub-content span {
+    font-size: 12px;
+}
+section#user_main div.content-main .left-list aside div.comment .item .sub-content a {
+    display: inline !important;
+    color: #f16e8e;
+    font-size: 12px;
+    font-weight: 400;
+    /* white-space: nowrap; */
+}
+section#user_main div.content-main .status-user {
+    position: relative;
+    border: 1px solid #ddd;
+    padding: 0 15px;
+    border-radius: 10px;
+    background: #f6f7f9;
+    margin-top: 14px;
+}
+section#user_main div.content-main .status-user div.text-status {
+    height: auto;
+    line-height: 20px;
+    color: #333;
+    padding: 5px;
+    word-break: break-word;
+}
+section#user_main div.content-main .status-user div.text-status .morecontent a {
+    color: #f16e8e !important;
+    display: inline;
+}

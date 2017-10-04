@@ -6,7 +6,7 @@ class Product extends React.Component{
       return(
           <div className="product ">
               <div className="img-product"> 
-                  <NavLink to="/be/thia"><img src={this.props.src} /></NavLink>
+                  <NavLink to="/product/5"><img src={this.props.src} /></NavLink>
              </div>
              <div className="name-product">
                   <a href="">{this.props.name} </a>
