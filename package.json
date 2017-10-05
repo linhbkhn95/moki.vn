@@ -49,6 +49,7 @@
     "redux": "^3.7.2",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9",
+    "sails-mysql": "^0.11.5",
     "slick-carousel": "^1.7.1",
     "utils-merge": "^1.0.0",
     "webpack": "^3.0.0",
