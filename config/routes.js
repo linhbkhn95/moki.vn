@@ -59,7 +59,7 @@ module.exports.routes = {
   '/shopMK': {
     view: 'homepage'
   },
-  '/api/categories': 'CategoryController.get',
+  
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
@@ -71,5 +71,22 @@ module.exports.routes = {
   ***************************************************************************/
 
   
+  /**
+   * Route view product
+   */
+  '/api/get_categories': 'CategoryController.get',
+  '/api/get_list_products': 'ProductController.getProducts',
+  '/api/get_products': 'ProductController.getProduct',
+  '/api/get_comment_products': 'ProductController.getComments',
+  
+  /**
+   * Route search product
+   */
+  '/api/search': 'ProductController.search',
+
+  /**
+   * Route login
+   */
+  '/api/login': 'UserController.login',
 
 };

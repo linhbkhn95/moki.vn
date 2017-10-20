@@ -25,6 +25,7 @@
     "grunt-sync": "0.5.2",
     "impromptu-react-sidemenu": "^0.1.1",
     "include-all": "^1.0.0",
+    "jsonwebtoken": "^8.1.0",
     "lodash.isempty": "^4.4.0",
     "material-ui": "^0.19.1",
     "material-ui-icons": "^1.0.0-beta.5",
