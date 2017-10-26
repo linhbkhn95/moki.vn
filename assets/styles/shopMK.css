@@ -247,3 +247,10 @@ section#user_main div.content-main .status-user div.text-status .morecontent a {
     color: #f16e8e !important;
     display: inline;
 }
+section#user_main div.content-main .title-product h2 {
+    color: #f05077;
+    text-align: center;
+}
+section#user_main div.content-main div.products-user {
+    margin-top: 20px;
+}

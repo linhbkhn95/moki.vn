@@ -59,6 +59,9 @@ module.exports.routes = {
   '/shopMK':{
     view:'homepage'
   }
+  // '/product/:d'   : {
+  //   view:'homepage'
+  // }
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

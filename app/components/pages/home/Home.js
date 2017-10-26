@@ -30,7 +30,8 @@ class Home extends React.Component{
              
               {/* <Switch> */}
                     <Route exact path="/" component={HomePage} />
-                    <Route  path="/:d" component={Category} />
+               
+                    <Route   path="/:d" component={Category} />
                     
                     {/* <Route exact path="/product/:item" component={DetailProduct}/> */}
                     {/* <Route render={function(){

@@ -36,7 +36,7 @@ import DetailProduct from 'app/utils/DetailProduct.js';
                       <Route  path="/user/login" component={Login} />
                       <Route  path="/shopCart" component={ShopCart} />
                       <Route  path="/shopMK" component={ShopMK} />
-                      <Route path="/product/:item" component={DetailProduct}/>
+                      <Route path="/product/:d" component={Home} /> 
                       <Route render={function(){
                           return <p> not found</p>
                            }

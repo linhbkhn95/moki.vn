@@ -5,8 +5,26 @@ import {NavDropdown,MenuItem} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {logout} from 'app/action/actionUserName';
+import ScrollToTop from 'react-scroll-up';
+import {setCart} from 'app/action/actionShoppingCart';
+import axios from 'axios';
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
   class Nav extends React.Component {
+  componentDidMount(){
+    
+      var that =this;
+      axios.post('/session/getCart')
+      .then(function(res){
+          console.log('vao NNAv');
+            if(res.data==="not cart")
+               that.props.dispatch(setCart([]));
+            else
+               that.props.dispatch(setCart(res.data));
+      })
+      .catch(function(e){
+          console.log(e);
+      })
+  }
   logout(){
     var {dispatch} = this.props;
 
@@ -69,7 +87,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                   {html1}
                      
                   <li><Link to=""><i className="fa fa-flag-checkered" aria-hidden="true"></i>Kiểm tra đơn hàng</Link></li>
-                  <li><NavLink to="/shopCart"><i className="fa fa-shopping-cart" ></i>Giỏ hàng</NavLink> <span className="badge">4</span></li>
+                  <li><NavLink to="/shopCart"><i className="fa fa-shopping-cart" ></i>Giỏ hàng</NavLink> <span className="badge">{this.props.count}</span></li>
                  {html2}
                 </ul>
               </div>
@@ -87,7 +105,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                   </div>
                   <div className="navbar">
                     <ul>
-                      <li className="active"><Link to="/">TRANG CHỦ</Link></li>
+                      <li className="active"><Link to="/home">TRANG CHỦ</Link></li>
                       <li><Link to="/">GÓC CỦA MẸ</Link></li>
                       <li><Link to="/">SHOP MOKI</Link></li>
                       <li><a href=""><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
@@ -100,7 +118,9 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                 </div>
               </div>
             </div>
-
+            <ScrollToTop showUnder={160}>
+             <img src="../images/up_arrow_round.png"/>
+                                </ScrollToTop>
 
           </header>
      
@@ -112,6 +132,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
 
  module.exports =connect(function(state){
    return{
-       sdt:state.username
+       sdt:state.username,
+       count :state.shoppingCart.count
    }})
   (Nav);

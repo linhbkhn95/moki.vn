@@ -11,6 +11,45 @@ class shoppingCart extends React.Component{
        dispatch(login(this.refs.sdt.value));
        this.props.history.push('/');
    }
+   renderCart(cart){
+        if(cart.length>0){
+            console.log(cart);
+            return(
+                cart.map(function(product,index){
+                    return(
+                    <tr key={index} className="ng-scope">
+                        <td className="name">
+                            <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
+                               <img className="img-responsive btn-block ng-scope" src="https://moki.vn/files/product/images/320s/51fdef35df0dde7d44d012e8b9bd71a2.jpg" />
+                                
+                            </a>
+                        </td>
+                        <td className="noname">
+                            <p className="name ng-binding">{product.nameProduct}</p>
+
+                            <p className="shopname">Shop <a href="/shop/momo" className="ng-binding">{product.shopMK}</a></p>
+                        </td>
+                        <td className="price">
+                            <p className="price ng-binding">42,000đ</p>
+                         <p className="ori_price ng-scope"><s><span className="line ng-binding">{product.price +"đ"}</span></s>&nbsp;&nbsp;&nbsp;<span className="percent ng-binding">KM 8%</span>
+                                </p>
+                            </td>  
+                            <td className="coupon">
+                               <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
+                            
+                            </td>
+                            <td className="del"><a href="" ><i className="fa fa-times" aria-hidden="true"></i></a></td> 
+                        </tr>
+                    )
+                })
+            )
+        }
+        else{
+            return (
+                <div>Không có sản phẩm nào được mua </div>
+            )
+        }
+   }
     render(){
         return(
                 <section className="cart">
@@ -20,7 +59,7 @@ class shoppingCart extends React.Component{
                           <div className="product_list">
                             <div className="headings">
                                 <h5>Giỏ hàng của tôi </h5>
-                                <span className="number ng-binding">( 1/1 sản phẩm mua được)</span>
+                                <span className="number ng-binding">( {this.props.shoppingCart.count}/{this.props.shoppingCart.count} sản phẩm mua được)</span>
                             </div>
                             <div className="content">
                                 <div className="table-responsive">
@@ -37,30 +76,8 @@ class shoppingCart extends React.Component{
                                                 <td className="del"></td>
                                             </tr>
                                         </thead>
-                                         <tbody className="ng-scope">
-                                              <tr className="ng-scope">
-                                                <td className="name">
-                                                    <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
-                                                       <img className="img-responsive btn-block ng-scope" src="https://moki.vn/files/product/images/320s/51fdef35df0dde7d44d012e8b9bd71a2.jpg" />
-                                                        
-                                                    </a>
-                                                </td>
-                                                <td className="noname">
-                                                    <p className="name ng-binding">Thìa thay thế bình Lovi</p>
-
-                                                    <p className="shopname">Shop <a href="/shop/momo" className="ng-binding">Momo Shop</a></p>
-                                                </td>
-                                                <td className="price">
-                                                    <p className="price ng-binding">42,000đ</p>
-                                                 <p className="ori_price ng-scope"><s><span className="line ng-binding">45,000đ</span></s>&nbsp;&nbsp;&nbsp;<span className="percent ng-binding">KM 8%</span>
-                                                        </p>
-                                                    </td>  
-                                                    <td className="coupon">
-                                                       <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
-                                                    
-                                                    </td>
-                                                    <td className="del"><a href="" ><i className="fa fa-times" aria-hidden="true"></i></a></td> 
-                                                </tr>
+                                             <tbody className="ng-scope">
+                                              {this.renderCart(this.props.shoppingCart.cart)}
                                                 
                                             </tbody>
                                         </table>
@@ -108,4 +125,28 @@ class shoppingCart extends React.Component{
     }
 }
 
-module.exports = connect(function(state){return{}})(shoppingCart);
+module.exports = connect(function(state){return{shoppingCart:state.shoppingCart}})(shoppingCart);
+
+// <tr className="ng-scope">
+// <td className="name">
+//     <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
+//        <img className="img-responsive btn-block ng-scope" src="https://moki.vn/files/product/images/320s/51fdef35df0dde7d44d012e8b9bd71a2.jpg" />
+        
+//     </a>
+// </td>
+// <td className="noname">
+//     <p className="name ng-binding">Thìa thay thế bình Lovi</p>
+
+//     <p className="shopname">Shop <a href="/shop/momo" className="ng-binding">Momo Shop</a></p>
+// </td>
+// <td className="price">
+//     <p className="price ng-binding">42,000đ</p>
+//  <p className="ori_price ng-scope"><s><span className="line ng-binding">45,000đ</span></s>&nbsp;&nbsp;&nbsp;<span className="percent ng-binding">KM 8%</span>
+//         </p>
+//     </td>  
+//     <td className="coupon">
+//        <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
+    
+//     </td>
+//     <td className="del"><a href="" ><i className="fa fa-times" aria-hidden="true"></i></a></td> 
+// </tr>
