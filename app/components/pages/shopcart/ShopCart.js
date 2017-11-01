@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
+import {removeCart} from 'app/action/actionShoppingCart';
 class shoppingCart extends React.Component{
     login(){
         var {dispatch} = this.props;
@@ -11,7 +12,13 @@ class shoppingCart extends React.Component{
        dispatch(login(this.refs.sdt.value));
        this.props.history.push('/');
    }
+   removeProduct(productId){
+      console.log('remove product'+productId);
+      this.props.dispatch(removeCart(productId));
+   }
    renderCart(cart){
+       var that= this;
+       console.log(this.props);
         if(cart.length>0){
             console.log(cart);
             return(
@@ -38,15 +45,16 @@ class shoppingCart extends React.Component{
                                <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
                             
                             </td>
-                            <td className="del"><a href="" ><i className="fa fa-times" aria-hidden="true"></i></a></td> 
+                            <td onClick={that.removeProduct.bind(that,product.productId)}  className="del"><i   className="fa fa-times" aria-hidden="true"></i></td> 
                         </tr>
                     )
+
                 })
             )
         }
         else{
             return (
-                <div>Không có sản phẩm nào được mua </div>
+                <div style={{paddingLeft:"20px",color:"#b3aa9e"}}>Không có sản phẩm nào được mua </div>
             )
         }
    }

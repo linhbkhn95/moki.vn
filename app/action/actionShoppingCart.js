@@ -13,8 +13,16 @@ function addCart(product){
       })
    return{type:ADD_CART,product};
  }
-  function  removeCart(){
-    return{type:REMOVE_CART};
+  function  removeCart(productId){
+    axios.post('/session/removeCart',{productId:productId})
+    .then(function(res){
+        console.log(res.data);
+     
+    })
+    .catch(function(e){
+        console.log(e);
+    })
+    return{type:REMOVE_CART,productId};
  }
  function setCart(cart){
      return{type:SET_CART,cart}

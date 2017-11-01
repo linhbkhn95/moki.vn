@@ -24,7 +24,11 @@ module.exports = {
             return res.view('homepage');
          },
          'removeCart':function(req,res){
-             
+            console.log("vao remove cart")
+            var index=req.session.cart.map(function(x){ return x.productId; }).indexOf(req.body.productId);
+            
+            req.session.cart.splice(index,1);
+            return res.send("ok");
          },
          'getCart':function(req,res){
              if(req.session.cart==null){
