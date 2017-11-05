@@ -8,7 +8,7 @@ class SlideProduct extends React.Component{
     
         this.state = {
           data:[
-            {productId:"1",src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
+            {productId:"6",src:"product6.jpg",name:"Giày đẹp",priceSale:"75,000",pre:"90,000"},
             {productId:"2",src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
             {productId:"3",src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
             {productId:"4",src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},

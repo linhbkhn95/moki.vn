@@ -4,7 +4,20 @@ import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
 import {removeCart} from 'app/action/actionShoppingCart';
+
+import ModalOrder from './ModalOrder.js';
+import ModalDeleteProduct from './components/ModalDeleteProduct.js';
 class shoppingCart extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+
+             lgShow: false,
+             showModalDelete:false,
+             productId_Del : null
+
+        }
+    }
     login(){
         var {dispatch} = this.props;
         
@@ -14,7 +27,17 @@ class shoppingCart extends React.Component{
    }
    removeProduct(productId){
       console.log('remove product'+productId);
-      this.props.dispatch(removeCart(productId));
+      this.setState({showModalDelete:true,productId_Del:productId});
+
+   //   this.props.dispatch(removeCart(productId));
+   }
+   showOrder(){
+       this.setState({lgShow:true});
+   }
+   access(){
+        if(this.state.productId_Del!=null)
+            this.props.dispatch(removeCart(this.state.productId_Del));
+        this.setState({showModalDelete:false,productId_Del:null});
    }
    renderCart(cart){
        var that= this;
@@ -45,7 +68,7 @@ class shoppingCart extends React.Component{
                                <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
                             
                             </td>
-                            <td onClick={that.removeProduct.bind(that,product.productId)}  className="del"><i   className="fa fa-times" aria-hidden="true"></i></td> 
+                            <td onClick={that.removeProduct.bind(that,product.productId)}  className="del"><i style={{cursor:"pointer"}}  className="fa fa-times" aria-hidden="true"></i></td> 
                         </tr>
                     )
 
@@ -59,6 +82,12 @@ class shoppingCart extends React.Component{
         }
    }
     render(){
+        console.log('aa');
+        var cart =this.props.shoppingCart.cart;
+
+        let lgClose = () => this.setState({ lgShow: false });
+        let closeModalDelete = () => this.setState({ showModalDelete: false });
+        
         return(
                 <section className="cart">
                   <div className="container">
@@ -118,7 +147,7 @@ class shoppingCart extends React.Component{
                                             </div>
                                         </div>
                                         <div className="checkoutnow text-center">
-                                            <button id="paymentBt" className="btn btn-default text-right"  disabled="disabled">Đặt hàng</button>
+                                            <button id="paymentBt" onClick={this.showOrder.bind(this)} className="btn btn-default text-right"  disabled={cart.length ?"":"disabled"}>Đặt hàng</button>
                                             <a href="/">Tiếp tục mua hàng</a>
                                         </div>
                                     </div>
@@ -127,6 +156,8 @@ class shoppingCart extends React.Component{
 
                     </div>
                 </div>
+                <ModalOrder show={this.state.lgShow} onHide={lgClose} />
+                <ModalDeleteProduct show={this.state.showModalDelete} onHide={closeModalDelete} access ={this.access.bind(this)} />
             </section>
             
         )
@@ -134,27 +165,3 @@ class shoppingCart extends React.Component{
 }
 
 module.exports = connect(function(state){return{shoppingCart:state.shoppingCart}})(shoppingCart);
-
-// <tr className="ng-scope">
-// <td className="name">
-//     <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
-//        <img className="img-responsive btn-block ng-scope" src="https://moki.vn/files/product/images/320s/51fdef35df0dde7d44d012e8b9bd71a2.jpg" />
-        
-//     </a>
-// </td>
-// <td className="noname">
-//     <p className="name ng-binding">Thìa thay thế bình Lovi</p>
-
-//     <p className="shopname">Shop <a href="/shop/momo" className="ng-binding">Momo Shop</a></p>
-// </td>
-// <td className="price">
-//     <p className="price ng-binding">42,000đ</p>
-//  <p className="ori_price ng-scope"><s><span className="line ng-binding">45,000đ</span></s>&nbsp;&nbsp;&nbsp;<span className="percent ng-binding">KM 8%</span>
-//         </p>
-//     </td>  
-//     <td className="coupon">
-//        <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
-    
-//     </td>
-//     <td className="del"><a href="" ><i className="fa fa-times" aria-hidden="true"></i></a></td> 
-// </tr>

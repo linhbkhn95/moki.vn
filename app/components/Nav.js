@@ -45,7 +45,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
     var html1 =  this.props.sdt ?  <li className="dropdown">
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Trịnh đức Bảo Linh <span className="caret"></span></a>
           <ul className="dropdown-menu">
-            <li><Link to="/login">Quản lý đơn hàng</Link></li>
+            <li><Link to="/user_shop/manager/order">Quản lý đơn hàng</Link></li>
             <li><Link to="">Quản lý tài khoản</Link></li>
             <li><Link onClick={this.logout.bind(this)} to="">Đăng xuất</Link></li>
           
@@ -97,7 +97,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
             <div className="menu">
               <div className="container">
                 <div className="left">
-                <img className="logo" src="../images/logo_medium.png" alt="Moki.vn - Ứng dụng mua bán trên di động | "/>
+                <img className="logo" src="../../images/logo_medium.png" alt="Moki.vn - Ứng dụng mua bán trên di động | "/>
                 </div>
                 <div className="right">
                   <div className="search">

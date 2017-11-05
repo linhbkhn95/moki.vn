@@ -25,7 +25,7 @@ module.exports = function notFound (data, options) {
   var sails = req._sails;
 
   // Set status code
-  res.status(404);
+  res.view('homepage');
 
   // Log error to console
   if (data !== undefined) {
