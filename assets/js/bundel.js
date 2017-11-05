@@ -64811,7 +64811,7 @@ var Nav = function (_React$Component) {
                     { className: 'active' },
                     _react2.default.createElement(
                       _reactRouterDom.Link,
-                      { to: '/home' },
+                      { to: '/' },
                       'TRANG CH\u1EE6'
                     )
                   ),

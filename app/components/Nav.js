@@ -105,7 +105,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                   </div>
                   <div className="navbar">
                     <ul>
-                      <li className="active"><Link to="/home">TRANG CHỦ</Link></li>
+                      <li className="active"><Link to="/">TRANG CHỦ</Link></li>
                       <li><Link to="/">GÓC CỦA MẸ</Link></li>
                       <li><Link to="/">SHOP MOKI</Link></li>
                       <li><a href=""><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
