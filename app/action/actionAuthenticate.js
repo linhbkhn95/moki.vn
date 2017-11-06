@@ -1,9 +1,10 @@
-var AUTHENTICATE ="AUTHENTICATE";
-var LOG_OUT_A ="LOG_OUT_A";
-function authenticate(){
-  return{type:AUTHENTICATE};
+var lOGIN ="lOGIN";
+var lOGOUT ="lOGOUT";
+function login(username){
+  return{type:"LOG_IN",data:{username:username,isAuthenticated:true}};
 }
-function logout_A(){
-   return{type:LOG_OUT_A};
+function logout(){
+  console.log('logout action');
+   return{type:"LOG_OUT"};
 }
-module.exports = {authenticate,logout_A};
+module.exports = {login,logout};

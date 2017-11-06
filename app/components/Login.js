@@ -7,6 +7,14 @@ import Divider from 'material-ui/Divider';
 import {login} from 'app/action/actionUserName';
 import {connect} from 'react-redux';
 import LinearProgress from 'material-ui/LinearProgress';
+
+
+import {login,logout} from 'app/action/actionAuthenticate.js';
+import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
+import {setCurrentUser} from 'app/action/authActions.js';
+import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 const style = {
   
   
@@ -36,11 +44,51 @@ class Login extends React.Component{
       this.setState({ errorTextPassword: '' })
     }
   }
-    login(){
+    login(e){
          var {dispatch} = this.props;
-        console.log(this.refs.username.getValue()+' ' +this.refs.password.getValue());
-        dispatch(login(this.refs.username.getValue()));
-        this.props.history.push('/');
+
+        e.preventDefault();
+
+       var that =this;
+        var {dispatch} = this.props;
+        var {username, password} = this.refs;
+
+    //  io.socket.get('/session/userlogin',{u:username.value}, function gotResponse(data, jwRes) {
+    //     console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
+    //   });
+       axios.post('auth/index', {phone: username.getValue(),password: password.getValue()})
+        .then(res => {
+          console.log(res.data);
+          localStorage.setItem('jwToken',res.data.token);
+          setAuthorizationToken(res.data.token);
+          dispatch(setCurrentUser(jwtDecode(res.data.token)));
+        //  dispatch(showNotifi(""));
+          console.log(jwtDecode(res.data.token));
+          console.log("dang nhap ok");
+          console.log(that.refs.username.getValue()+' ' +that.refs.password.getValue());
+          dispatch(login(that.refs.username.getValue()));
+          that.props.history.push('/');
+      //   if(res.data!=null){
+
+      //     dispatch(login(res.data.user.email));
+      //     dispatch(authenticate());
+      //     axios.get('/session/getMenu')
+      //     .then(res => {
+      //       console.log(res.data);
+      //         dispatch(loadMenu(res.data));
+      //     })
+      //     .catch(err => console.log(err));
+      //   }
+      //   else{
+
+      //   //  dispatch(showNotifi(res.data));
+      //   }
+       })
+      .catch(function(err){
+         console.log('loi cmmdadm');
+      //  dispatch(showNotifi(err.response.data.err));
+      });
+       
     }
     // _handleTextFieldChange: function(e) {
     //     this.setState({

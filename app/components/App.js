@@ -16,13 +16,27 @@ var UserManager = require('app/components/pages/usershopmanager/UserManager.js')
 
 import OrderStep from  'app/components/pages/shopcart/OrderStep.js';
 import DetailProduct from 'app/utils/DetailProduct.js';
+import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
+import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
+import {setCurrentUser} from 'app/action/authActions.js';
 
+import {logout}  from 'app/action/actionAuthenticate.js';
+if(localStorage.jwToken){
+  console.log('cssssssssssssssssssssssssssmm');
+  setAuthorizationToken(localStorage.jwToken);
+  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwToken)));
+  
+}
  class App extends React.Component{
  
 // require('style-loader!css-loader!foundation-sites/dist/css/foundation.min.css');
 //require('style!css!sass!./css/style.scss');
 // $(document).ready(() => $(document).foundation());
- 
+      componentDidMount(){
+      
+      }
+
      render(){
         return(
         

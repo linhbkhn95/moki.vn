@@ -35,8 +35,11 @@ class shoppingCart extends React.Component{
        this.setState({lgShow:true});
    }
    access(){
-        if(this.state.productId_Del!=null)
+        console.log('dy');
+        if(this.state.productId_Del!=null){
             this.props.dispatch(removeCart(this.state.productId_Del));
+        }
+          
         this.setState({showModalDelete:false,productId_Del:null});
    }
    renderCart(cart){

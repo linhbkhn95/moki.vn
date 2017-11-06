@@ -3,13 +3,71 @@ import {connect} from 'react-redux';
 import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
+
+
+
+
+import {logout} from 'app/action/actionAuthenticate.js';
+import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
+import {setCurrentUser} from 'app/action/authActions.js';
+import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
 class Login extends React.Component{
-    login(){
+    constructor(props){
+        super(props);
+        this.state={
+             textError:""
+             
+        }
+    }
+    login(e){
         var {dispatch} = this.props;
+
+       e.preventDefault();
+
+      var that =this;
+       var {dispatch} = this.props;
+       var {phone, password} = this.refs;
+       console.log(phone.value);
+   //  io.socket.get('/session/userlogin',{u:username.value}, function gotResponse(data, jwRes) {
+   //     console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
+   //   });
+      axios.post('/auth/index', {phone: phone.value,password: password.value})
+       .then(res => {
+         
+    //  console.log(res.data);
+         localStorage.setItem('jwToken',res.data.token);
+         setAuthorizationToken(res.data.token);
+         dispatch(setCurrentUser(jwtDecode(res.data.token)));
+       //  dispatch(showNotifi(""));
+         console.log(jwtDecode(res.data.token));
+         console.log("dang nhap ok");
+     //    console.log(that.refs.phone.getVal+' ' +that.refs.password.getValue());
+         dispatch(login(that.refs.phone.value));
+         that.props.history.push('/');
+     //   if(res.data!=null){
+
+     //     dispatch(login(res.data.user.email));
+     //     dispatch(authenticate());
+     //     axios.get('/session/getMenu')
+     //     .then(res => {
+     //       console.log(res.data);
+     //         dispatch(loadMenu(res.data));
+     //     })
+     //     .catch(err => console.log(err));
+     //   }
+     //   else{
+
+     //   //  dispatch(showNotifi(res.data));
+     //   }
+      })
+     .catch(function(err){
+        that.setState({textError:err.response.data.err});
         
-       console.log(this.refs.sdt.value+' ' +this.refs.password.value);
-       dispatch(login(this.refs.sdt.value));
-       this.props.history.push('/');
+     //  dispatch(showNotifi(err.response.data.err));
+     });
+      
    }
     render(){
         return(
@@ -30,7 +88,7 @@ class Login extends React.Component{
                                             
                                     <div style={{marginBottom: "25px"}} className="input-group">
                                                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                                                <input ref="sdt"  type="text" className="form-control" defaultValue="0123456789" placeholder="Nhập số điện thoại của bạn.."/>                                        
+                                                <input ref="phone"  type="text" className="form-control" defaultValue="0123456789" placeholder="Nhập số điện thoại của bạn.."/>                                        
                                             </div>
                                         
                                     <div style={{marginBottom: "25px"}} className="input-group">
@@ -39,7 +97,9 @@ class Login extends React.Component{
                                             </div>
                                             
 
-                                        
+                                    <div className="input-group">
+                                            <div style={{color:"red",padding:"4px",marginTop:"-14px"}} className="">{this.state.textError}</div>
+                                    </div>    
                                     <div className="input-group">
                                             <div className="checkbox">
                                                 <label>

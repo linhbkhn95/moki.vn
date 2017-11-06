@@ -3,7 +3,8 @@ import {Modal,Button, FormGroup,ControlLabel,FormControl,HelpBlock} from 'react-
 
 class ModalDeleteProduct extends React.Component{
     access(){
-      this.props.access.bind();
+      console.log('đồng ý');
+      this.props.access();
     }
     close(){
         this.props.onHide();

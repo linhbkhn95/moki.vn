@@ -26,11 +26,33 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
       })
   }
   logout(){
-    var {dispatch} = this.props;
+    
+       console.log("logout");
+   
+   
 
-    console.log("logout");
-    dispatch(logout());
-    this.context.router.push('/');
+        
+        var {dispatch,history} = this.props;
+        //logoutUser.bind(this);
+        // axios.post('/session/logOut')
+
+        // .then(res => {
+        //   if(res.data=="ok"){
+        //     console.log('logOut');
+      //    dispatch(logout());
+          localStorage.removeItem('jwToken');
+          dispatch(logout());
+          // setAuthorizationToken(false);
+          // dispatch(setCurrentUser({}));
+          this.context.router.push('/');
+
+
+         //   dispatch(resetMenu());
+            // that.context.router.history.push('/login');
+        //   }
+
+        // })
+        // .catch(err => console.log(err))
   }
    myFunction() {
       var x = document.getElementById("myTopnav");
@@ -42,8 +64,8 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
   }
   render() {
     
-    var html1 =  this.props.sdt ?  <li className="dropdown">
-          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Trịnh đức Bảo Linh <span className="caret"></span></a>
+    var html1 =  this.props.auth.isAuthenticated ?  <li className="dropdown">
+          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.props.auth.user.username}<span className="caret"></span></a>
           <ul className="dropdown-menu">
             <li><Link to="/user_shop/manager/order">Quản lý đơn hàng</Link></li>
             <li><Link to="">Quản lý tài khoản</Link></li>
@@ -51,7 +73,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
           
           </ul>
         </li> : <li>Chào mừng bạn đến với MOKI</li>
-    var html2 = this.props.sdt? null:  <li><Link to="/user/login">Đăng nhập</Link> /<Link to="/regester"> Đăng ký</Link></li>
+    var html2 = this.props.auth.isAuthenticated? null:  <li><Link to="/user/login">Đăng nhập</Link> /<Link to="/regester"> Đăng ký</Link></li>
     
     return (
          
@@ -132,7 +154,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
 
  module.exports =connect(function(state){
    return{
-       sdt:state.username,
+       auth:state.auth,
        count :state.shoppingCart.count
    }})
   (Nav);
