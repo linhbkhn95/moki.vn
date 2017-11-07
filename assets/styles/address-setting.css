@@ -1,0 +1,44 @@
+section .address-setting .noidung {
+    background: #fff;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    margin-top: 70px;
+    padding: 0 15px;
+    box-shadow: 1px 3px 5px #eee;
+}
+section.address-setting  .noidung .headings {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0px;
+}
+
+section .address-setting  .noidung .headings h5 {
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
+}
+section .address-setting  .noidung .content_adress .headdings  {
+    border-bottom: 1px solid #eee;
+    margin-top: 25px;
+    padding: 7px 15px;
+    overflow: hidden;
+    margin-left: -15px;
+    margin-right: -15px;
+    background: #f16e8e;
+}
+section .address-setting  .noidung .headdings h6 {
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
+    color: #fff;
+    padding: 5px 0;
+}
+section .address-setting  .noidung  .headdings a {
+    float: right;
+    background: #fff;
+    box-shadow: 0 3px 0 #b91635;
+    color: #f16e8e;
+    outline: none;
+}

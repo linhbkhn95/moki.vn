@@ -68,7 +68,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.props.auth.user.username}<span className="caret"></span></a>
           <ul className="dropdown-menu">
             <li><Link to="/user_shop/manager/order">Quản lý đơn hàng</Link></li>
-            <li><Link to="">Quản lý tài khoản</Link></li>
+            <li><Link to="/user_shop/manager/accountsetting">Quản lý tài khoản</Link></li>
             <li><Link onClick={this.logout.bind(this)} to="">Đăng xuất</Link></li>
           
           </ul>

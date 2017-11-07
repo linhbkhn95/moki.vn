@@ -53,7 +53,7 @@ class shoppingCart extends React.Component{
                     <tr key={index} className="ng-scope">
                         <td className="name">
                             <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
-                               <img className="img-responsive btn-block ng-scope" src="https://moki.vn/files/product/images/320s/51fdef35df0dde7d44d012e8b9bd71a2.jpg" />
+                               <img className="img-responsive btn-block ng-scope" src="../../images/anhbe.jpg" />
                                 
                             </a>
                         </td>

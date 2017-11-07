@@ -6,6 +6,10 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
 import {removeCart} from 'app/action/actionShoppingCart';
 import Layout from './components/Layout.js';
 import AccountSetting from './components/AccountSetting.js'
+import AddressSetting from './components/AddressSetting.js'
+import AccountInf from './components/AccountInf.js'
+import ChangePass from './components/ChangePass.js'
+
 import Order from './components/OrderManager.js';
 class UserManager extends React.Component{
   
@@ -22,6 +26,9 @@ class UserManager extends React.Component{
                             <h3>Please select a topic.</h3>
                             )}/>
                       <Route path="/user_shop/manager/accountsetting" component={AccountSetting} />
+                      <Route path="/user_shop/manager/accountinf" component={AccountInf} />
+                      <Route path="/user_shop/manager/changepass" component={ChangePass} />
+                      <Route path="/user_shop/manager/addresssetting" component={AddressSetting} />
                       <Route  path="/user_shop/manager/test" render={() => (
                             <h3> select test.</h3>
                             )}/>

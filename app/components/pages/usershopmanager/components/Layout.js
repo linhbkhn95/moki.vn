@@ -25,9 +25,9 @@ class Layout extends React.Component{
                                          <ul>
                                             <li><Link to="/user_shop/manager/accountsetting" className="">Quản lý tài khoản</Link></li>
                                             <li><Link to="/user_shop/manager/order" className="active">Đơn hàng của tôi</Link></li>
-                                            <li><Link to="/user_shop/manager/test" className="">Sổ địa chỉ</Link></li>
-                                            <li><Link to="/user_shop/manager" className="">Thông tin tài khoản</Link></li>
-                                            <li><Link to="/user_shop/manager/order" className="">Đổi mật khẩu</Link></li>
+                                            <li><Link to="/user_shop/manager/addresssetting" className="">Sổ địa chỉ</Link></li>
+                                            <li><Link to="/user_shop/manager/accountinf" className="">Thông tin tài khoản</Link></li>
+                                            <li><Link to="/user_shop/manager/changepass" className="">Đổi mật khẩu</Link></li>
                                             <li><Link to="/ShoppingCarts/address_book" className="">Danh sách chặn</Link></li>
                                         </ul>
                                         <img src="/../../images/banner/Layer 32.png" alt="" />
@@ -48,9 +48,9 @@ class Layout extends React.Component{
                                   </div>
                             </div>
                             <div className="col-md-9">
-                                  <div className="content">
+                                  
                                       {this.props.children}
-                                  </div>
+                                  
                             </div>
                         </div>
                     </div>
