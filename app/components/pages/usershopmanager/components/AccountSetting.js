@@ -12,13 +12,8 @@ class AccountSetting extends React.Component{
         return(
          
             
-                   <div>
-                        <div className="order">
-                            <div className="headings">
-                            <h5 style={{fontWeight:"bold"}}>Quản lý tài khoản</h5>
-                            </div>
-                        </div>
-                        
+                   <div className="account-setting">
+                      
                      
                     </div>
            
