@@ -27,6 +27,7 @@ class Detail extends React.Component{
             scrollTop:$("Header").offset().top
         },'slow')
     }
+    
     render(){
         console.log(this.props.productId)
         return(
@@ -79,7 +80,7 @@ class Detail extends React.Component{
                                                       </div>
                                                       <div className="box-comment">
                                                           <textarea className="form-control" placeholder="Ý kiến của bạn...." id="text-comment" rows="3"></textarea>
-                                                          <div className="btn-comment"><button className="btn btn-success">Gửi</button></div>
+                                                          <div className="btn-comment"><button onClick={this.comment.bind(this)} className="btn btn-success">Gửi</button></div>
                                                       </div>
                                                   </div>
   
