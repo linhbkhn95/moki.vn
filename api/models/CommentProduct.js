@@ -8,7 +8,18 @@
 module.exports = {
 
   attributes: {
-
+      text:{
+        type:'string'
+      },
+      productId:{
+        type:'string'
+      },
+      userId:{
+        type:'string'
+      },
+      date:{
+        type:'string'
+      }
   }
 };
 

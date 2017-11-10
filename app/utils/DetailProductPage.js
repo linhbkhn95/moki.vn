@@ -7,16 +7,27 @@ import SlideProduct from './SlideProduct.js';
 import Slider from'react-slick';
 const props = {width: 400,zoomZindex:99,zoomStyle:"z-index:9", zoomWidth: 500, img: "../images/test.jpg"};
 import React from 'react';
+
 import {connect} from 'react-redux';
 
 import InfoProduct from './components/InfoProduct.js';
 import {addCart} from 'app/action/actionShoppingCart.js';
+import axios from 'axios';
+import date from 'date-and-time';
 class Detail extends React.Component{
     constructor(props){
         super(props);
         this.state={
-
+            comment:"",
+            listComment:[]
         }
+    }
+    componentDidMount(){
+        var that = this;
+        axios.get('/commentproduct/getTop',{productId:this.props.productId})
+        .then(function(res){
+             that.setState({listComment:res.data});
+        })
     }
     buy(productId){
         var {dispatch} = this.props ;
@@ -27,9 +38,58 @@ class Detail extends React.Component{
             scrollTop:$("Header").offset().top
         },'slow')
     }
-    
+    onChange(event) {
+        this.setState({comment: event.target.value});
+    }
+  
+    comment(){
+        
+        console.log('comment');
+        let now = new Date();
+        var datetime = date.format(now, 'YYYY/MM/DD HH:mm:ss'); 
+        axios.post('/commentproduct/add',{productId:this.props.productId,userId:this.props.userId,text:this.state.comment,date:datetime})
+        .then(function(res){
+            console.log(res.data);
+           
+        })
+        this.setState({comment:""});
+    }
+    renderListComment(listComment){
+        var that =this;
+        if (listComment==="undefind"||listComment.length===0) {
+            
+                  return <p className="no-comments">Chưa có bình luận</p>
+            
+            
+                } else {
+                     
+                    return(
+                        listComment.map(function(comment,index){
+                            console.log(comment);
+                            return(
+                                    <div key={index} className="text-comment parent">
+                                        <div className="avatar">
+                                            <img className="img-avatar" src={that.props.auth.isAuthenticatec?that.props.auth.user.avatar:"../images/avatar.png"}/>
+                                        </div>
+                                        
+                                        <div className="sub-content">
+                                            <span>Bởi </span> 
+                                            <a className="sub">Trịnh linh</a> 
+                                            <span>lúc </span> 
+                                            <a className="sub">{comment.date}</a>
+                                    
+                                        
+                                        </div>
+                                        <p className="content"> {comment.text} </p>
+                                </div>
+                            )
+                          })
+            
+                )
+               }
+    }
     render(){
-        console.log(this.props.productId)
+       
         return(
           <div className="row">
            <InfoProduct productId={this.props.productId} />
@@ -56,31 +116,18 @@ class Detail extends React.Component{
                                           <div className="post-comment">
                                                   {/* <p className="no-comments">Chưa có bình luận </p> */}
                                                   <div id="commentDiv">
-                                                          <div className="text-comment parent">
-                                                              <div className="avatar">
-                                                                  <img className="img-avatar" src="../images/anhdaidienlinh.jpg"/>
-                                                              </div>
-                                                             
-                                                              <div className="sub-content">
-                                                                  <span>Bởi </span> 
-                                                                  <a className="sub">Trịnh đức Bảo Linh </a> 
-                                                                  <span>lúc </span> 
-                                                                  <a className="sub">08:57pm 01/10/2017</a>
-                                                          
-                                                                
-                                                              </div>
-                                                             <p className="content"> Đẹp </p>
-                                                        </div>
-  
+                                                      {this.renderListComment(this.state.listComment)}
+                                                     
+                                                         
                                                   </div>
                                                   <p className="section">Viết bình luận:  </p>
                                                   <div className="comment-form">
                                                       <div className="avatar-me">
-                                                             <img src="../images/avatar.png"/>
+                                                             <img style={{width:"55px"}} className="img-avatar" src={this.props.auth?this.props.auth.user.avatar:"../images/avatar.jpg"}/>
                                                       </div>
                                                       <div className="box-comment">
-                                                          <textarea className="form-control" placeholder="Ý kiến của bạn...." id="text-comment" rows="3"></textarea>
-                                                          <div className="btn-comment"><button onClick={this.comment.bind(this)} className="btn btn-success">Gửi</button></div>
+                                                          <textarea onChange={this.onChange.bind(this)} value={this.state.comment} className="form-control" placeholder="Ý kiến của bạn...." id="text-comment" rows="3"></textarea>
+                                                          <div className="btn-comment"><button onClick={this.comment.bind(this)} className="btn btn-success" disabled={this.state.comment ?"":"disabled"} >Gửi</button></div>
                                                       </div>
                                                   </div>
   
@@ -143,4 +190,8 @@ class Detail extends React.Component{
         )
     }
 }
-module.exports = connect(function(state){return{}})(Detail);
+module.exports = connect(function(state){
+    return{
+        auth:state.auth
+    }
+})(Detail);

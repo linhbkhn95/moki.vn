@@ -32,7 +32,7 @@ module.exports = {
             
               res.json({
                 user: user,
-                token: jwToken.issue({id : user.id,username:user.name })
+                token: jwToken.issue({userId : user.id,avatar:user.avatar,username:user.name })
               });
             }
           });

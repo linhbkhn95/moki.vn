@@ -10,9 +10,12 @@ module.exports = ({ match  }) => {
       <div className="col-md-9 right">
 
                   
-                   <Route exact path={`${match.url}`} component={CategoryPage} />
+                 
+                  <Route exact path={`${match.url}`} component={CategoryPage} />  
                
                    <Route path={`${match.url}/:d`} component={DetailProduct} /> 
+                   {/* <CategoryPage /> */}
+                   {/* <Route path={`${match.url}/product?:d`} component={DetailProduct} />  */}
                    {/* <CategoryPage /> */}
            
 

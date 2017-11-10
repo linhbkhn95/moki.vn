@@ -15,6 +15,9 @@ module.exports = {
      name:{
        type:'string'
      },
+     avata:{
+       type:'string'
+     },
     //  adress:{
     //    type:'string'
     //  },
