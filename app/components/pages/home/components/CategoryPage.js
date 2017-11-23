@@ -1,5 +1,6 @@
 import React from 'react';
 import Product from 'app/utils/Product.js'
+import axios from 'axios';
 class CategoryPage extends React.Component{
     constructor(props) {
         super(props);
@@ -20,7 +21,13 @@ class CategoryPage extends React.Component{
           ]
         };
       }
-      
+    componentDidMount(){
+        console.log('bugg');
+        axios.get('http://192.168.20.119:1337/api/get_categories')
+        .then(function(res){
+            console.log(res.data);
+        })
+    } 
     render(){
         return(
 
