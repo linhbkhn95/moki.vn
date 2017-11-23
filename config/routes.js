@@ -58,7 +58,7 @@ module.exports.routes = {
   },
   '/shopMK':{
     view:'homepage'
-  }
+  },
   // '/product/:d'   : {
   //   view:'homepage'
   // }
@@ -72,4 +72,70 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+
+
+
+
+
+  'post /roomm/:roomId/users': 'RoomMController.join',
+  'delete /roomm/:roomId/users': 'RoomMController.leave',
+  '/userm/announce': 'UserMController.announce',
+
+  //test socket
+  //'/user/connect': 'UserController.connect',
+
+  /**
+   * Route view user
+   */
+
+  '/api/user': 'UserController.get',
+
+  /**
+   * Route view product
+   */
+  '/api/get_categories': 'CategoryController.get',
+  '/api/get_list_products': 'ProductController.getProducts',
+  '/api/get_products': 'ProductController.getProduct',
+  '/api/get_comment_products': 'ProductController.getComments',
+  
+  
+  '/api/chatRoom': 'UserMController.chatRoom',
+  /**
+   * Route search product
+   */
+  '/api/search': 'ProductController.search',
+
+
+  /**
+   * public
+   */
+  '/api/get_user_info': 'UserController.get_user_infor',
+  '/api/get_list_sizes': 'ProductController.get_list_sizes',
+  '/api/get_list_brands': 'ProductController.get_list_brands',
+  '/api/get_list_conditions': 'ProductController.get_list_conditions',
+  '/api/get_user_listings': 'ProductController.user_listings',
+  
+
+  //'/api/test': 'ProductController.upload',
+  /**
+   * Route login
+   */
+  '/api/login': 'UserController.login',
+
+
+  /**
+   * buyer
+   */
+
+  '/api/set_comment_products': 'ProductController.setComments',
+  '/api/like_products': 'ProductController.like',
+  '/api/get_my_likes': 'ProductController.listMyLike',
+  '/api/set_rates': 'ProductController.setRates',
+  '/api/save_search': 'ProductController.set_save_search',
+  '/api/get_list_saved_search': 'ProductController.get_list_save_search',
+  '/api/logout': 'UserController.logout',
+  '/api/add_products': 'ProductController.addProduct',
+  '/api/get_list_conversation': 'UserController.get_list_conversation',
+  '/api/get_conversation': 'UserController.get_conversation',
+  
 };

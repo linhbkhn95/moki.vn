@@ -4,59 +4,54 @@
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
-var bcrypt = require('bcrypt');
 
 module.exports = {
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
+  autoPK: false,
 
   attributes: {
-     phone:{
-       type:'string'
-     },
-     name:{
-       type:'string'
-     },
-     avata:{
-       type:'string'
-     },
-    //  adress:{
-    //    type:'string'
-    //  },
-     encryptedPassword: {
-      type: 'string'
+    u_id: {
+      type: "integer",
+      primaryKey: true,
+      autoIncrement: true,
+      require: true,
+      unique: true
     },
-    // vip:{
-    //   type:'boolean'
-    // },
-    // We don't wan't to send back encrypted password either
-    toJSON: function () {
-      var obj = this.toObject();
-      delete obj.encryptedPassword;
-      return obj;
+    code: {
+      columnName: "u_code",
+      type: "string",
+      require: true,
+      unique: true
+    },
+    user_name: {
+      columnName: "u_user_name",
+      type: "string",
+      require: true,
+      unique: true
+    },
+    fromdate: {
+      columnName: "u_fromdate",
+      type: "datetime",
+      require: true,
+    },
+    thrudate: {
+      columnName: "u_thrudate",
+      type: "datetime",
+    },
+    status: {
+      columnName: "u_statusid",
+      type: "string",
+    },
+    type: {
+      columnName: "u_type",
+      type: "string",
+      require: true,
+    },
+    information: {
+      collection: "User_Information",
+      via: "ui_userid",
     }
-    
-  },
-   // Here we encrypt password before creating a User
-   beforeCreate : function (values, next) {
-    bcrypt.genSalt(10, function (err, salt) {
-      if(err) return next(err);
-      bcrypt.hash(values.password, salt, function (err, hash) {
-        if(err) return next(err);
-        values.encryptedPassword = hash;
-        next();
-      })
-    })
-  },
-
-  comparePassword : function (password, user, cb) {
-    bcrypt.compare(password, user.encryptedPassword, function (err, match) {
-
-      if(err) cb(err);
-      if(match) {
-        cb(null, true);
-      } else {
-        cb(err);
-      }
-    })
   }
 };
 

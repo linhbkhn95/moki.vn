@@ -31,6 +31,16 @@ module.exports.connections = {
   localDiskDb: {
     adapter: 'sails-disk'
   },
+  memory: {
+    adapter: 'sails-memory'
+  },
+  mysqlServer: {
+    adapter: 'sails-mysql',
+    host: '127.0.0.1',
+    user: 'root', //optional
+    password: 'chungtoilawindow', //optional
+    database: 'moki' //optional
+  },
 
   /***************************************************************************
   *                                                                          *
