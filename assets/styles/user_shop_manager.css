@@ -64,16 +64,16 @@ section .menu-manager ul li a.active:after {
 section .manager-user-shopcart .col-md-9 .content{
     padding-bottom: 30px;
 }
-section .content .order .tabsbutton {
+section .order .tabsbutton {
     margin-top: 25px;
 }
-section .content .order .tabsbutton ul {
+section  .order .tabsbutton ul {
     margin: 0 !important;
     padding: 0 !important ;
     width: 100% !important;
     background: #f9fafb !important ;
 }
-section .content .order .tabsbutton ul li {
+section  .order .tabsbutton ul li {
     list-style: none !important;
     display: inline-block !important;
     width: 33% !important;
@@ -81,18 +81,18 @@ section .content .order .tabsbutton ul li {
     border: 1px solid #f3f3f3 !important;
     border-bottom: 0 !important;
 }
-section .content .order .tabsbutton ul li a {
+section  .order .tabsbutton ul li a {
     display: block !important;
     padding: 25px 0 !important;
     color: #b9b9b9 !important;
     text-decoration: none !important;
     outline: none !important;
 }
-section .content .order .tabsbutton ul li.active a {
+section  .order .tabsbutton ul li.active a {
     background: #fff !important;
     color: #f16e8e !important;
 }
-section .content .order .tabsbutton ul li a:hover {
+section  .order .tabsbutton ul li a:hover {
   
     color: #f16e8e !important;
 }

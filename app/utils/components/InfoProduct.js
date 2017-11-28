@@ -26,15 +26,15 @@ class InfoProduct extends React.Component{
     }
     componentDidMount(){
         
-           var that =this;
-            axios.post('/product/getDetail',{productId:this.props.productId})
-            .then(function(res){
-                console.log(res.data);
-                that.setState({product:res.data});
-            })
-            .catch(function(e){
-                console.log(e);
-            })
+        //    var that =this;
+        //     axios.post('/f/getDetail',{productId:this.props.productId})
+        //     .then(function(res){
+        //         console.log(res.data);
+        //         that.setState({product:res.data});
+        //     })
+        //     .catch(function(e){
+        //         console.log(e);
+        //     })
          
     }
     // componentWillReceiveProps(nextProps){
@@ -67,8 +67,8 @@ class InfoProduct extends React.Component{
         },'slow')
     }
     render(){
-        const props = {width: 400,zoomZindex:99,zoomStyle:"z-index:9", zoomWidth: 500, img: this.state.product.urlImage};
-        console.log(this.props.productId)
+        const props = {width: 400,zoomZindex:99,zoomStyle:"z-index:9", zoomWidth: 500, img: this.props.data.image[0].url};
+        console.log(this.props.data)
         return( 
           <div className="row page-detail">
                     <div className="col-md-6">
@@ -91,7 +91,7 @@ class InfoProduct extends React.Component{
               </div>
               <div className="col-md-6">
                     <div className="col-md-12">
-                        <h2 style={{textAlign:"left"}} className="name-product">{this.state.product.nameProduct}</h2>
+                        <h2 style={{textAlign:"left"}} className="name-product">{this.props.data.name}</h2>
                   
                         <div style={{textAlign:"left"}} className="vote">
               
@@ -108,17 +108,17 @@ class InfoProduct extends React.Component{
                         </div> 
                   </div>
                   <div className="col-md-12">
-                    <p className="detail">Sản phẩm bán từ shop: <Link to="#"><span>{this.state.product.shopMK}</span></Link> </p>
-                    <p className="detail">Diểm uy tín shop: <span>5</span></p>
-                    <p className="detail">Số sản phẩm: <span>715</span> </p>
+                    <p className="detail">Sản phẩm bán từ shop: <Link to="#"><span>{this.props.data.seller.name}</span></Link> </p>
+                    <p className="detail">Diểm uy tín shop: <span>{this.props.data.seller.score}</span></p>
+                    <p className="detail">Số sản phẩm: <span>{this.props.data.seller.listing}</span> </p>
                     <p className="detail">Ngày tham gia: <span>25/12/2016</span> </p>
                   </div>
                   <div className="col-md-12">
                       <div style={{borderBottom: "1px solid #d9d9da",lineHeight: "0"}}></div>
                   </div>
                   <div className="col-md-12">
-                     <p className="detail"><i className="fa fa-bullseye"></i>Trạng thái: <span>Mới</span> </p>
-                     <p className="detail"><i className="fa fa-folder"></i>Thuộc danh mục:<Link to="#"><span>Bát thì đĩa ăn dặm</span></Link> </p>
+                     <p className="detail"><i className="fa fa-bullseye"></i>Trạng thái: <span>{this.props.data.condition}</span> </p>
+                     <p className="detail"><i className="fa fa-folder"></i>Thuộc danh mục:<Link to="#"><span>{this.props.data.category.name}</span></Link> </p>
                      <p className="detail"><i className="fa fa-tags"></i>Trạng thái: <Link to="#"><span>Bát thì đĩa ăn dặm</span></Link> <span>,</span>  <Link to="#"><span>Mono shop</span></Link> </p>
                   </div>
                   <div className="col-md-12">
@@ -134,7 +134,9 @@ class InfoProduct extends React.Component{
                
                   <div className="col-md-12">
                       <div style={{paddingTop:"20px"}} className="btn-buynow">
-                          <button onClick={this.buy.bind(this,this.state.product.Id)} className="btn btn-lg btn-success">Mua ngay</button>
+                          {/* <button onClick={this.buy.bind(this,this.state.product.Id)} className="btn btn-lg btn-success">Mua ngay</button> */}
+                          <button onClick={this.buy.bind(this,this.props.data.id)} className="btn btn-lg btn-success">Mua ngay</button>
+
                       </div>
                      
                   </div>

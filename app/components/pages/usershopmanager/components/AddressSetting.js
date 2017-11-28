@@ -29,7 +29,8 @@ class AddressSetting extends React.Component{
                             <div className="list-adress">
                                                                                                     <div className="col-md-6 item">
                                             <div className="contentt">
-                                                <p className="name">Trịnh đức Bảo Linh </p>
+                                                
+                                                <p className="name">Đinh Thị Ngọc <i class="fa fa-check item-check"></i></p>
                                                 <p className="address truncated" value="3646" data-city="1" data-province="1" data-ward="1" style={{wordWrap: "break-word"}}>aaa, Phường Lê Lợi, Thị Xã Sơn Tây, Hà Nội</p>
                                                 <p className="phone">01689952267</p>
                                                 <a href="/ShoppingCarts/edit_address/3646" className="btn edit">Sửa địa chỉ</a>                                            <a href="/ShoppingCarts/delete_address/3646" className="btn del">Xóa địa chỉ</a>                                        </div>

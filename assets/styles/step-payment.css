@@ -1,0 +1,228 @@
+.background-cart {
+    background: #f1f1f1;
+    position: inherit;
+    border-bottom: 1px solid #b9b9b9;
+    z-index: 1;
+}
+.popup-danhgia {
+    position: fixed;
+    background: #fff;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 570px;
+    height: 400px;
+    z-index: 11;
+    padding: 40px 25px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    display: none;
+    overflow: hidden;
+    backface-visibility: hidden;
+}
+.popup-danhgia figure {
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+}
+textarea.form-control {
+    height: auto;
+}
+.popup-danhgia .nutdanhgia {
+    margin-top: 30px;
+}
+.popup-danhgia button {
+    background: #9E9E9E;
+    border-radius: 5px;
+    outline: none;
+    border: 0;
+    width: 200px;
+    height: 50px;
+    color: #fff;
+    box-shadow: 0 3px 0 #b91635;
+    font-size: 16px;
+}
+.popup-thongbao {
+    z-index: 100;
+    max-width: 528px;
+    min-height: 205px;
+    background: #fff;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+    visibility: hidden;
+    display: none;
+    overflow: hidden;
+    backface-visibility: hidden;
+}
+.popup-thongbao .khoitren {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding: 15px 55px;
+}
+.popup-thongbao .khoiduoi {
+    background: #f16e8e;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding: 25px 0;
+}
+a {
+    color: #686868;
+    font-weight: 500;
+}
+section.thanhtoan {
+    width: 100%;
+    height: auto;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+section.thanhtoan .luachonphuongthucthanhtoan {
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 1px 3px 5px #eee;
+}
+section.thanhtoan .luachonphuongthucthanhtoan .headings {
+    border-bottom: 1px solid #eee;
+    padding: 10px 15px;
+}
+section.thanhtoan .luachonphuongthucthanhtoan h5 {
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
+}
+section.thanhtoan .luachonphuongthucthanhtoan ul.nav-tabs li {
+    width: 50%;
+}
+section.thanhtoan .luachonphuongthucthanhtoan ul.nav-tabs {
+    margin: 0;
+}
+section.thanhtoan .luachonphuongthucthanhtoan ul.nav-tabs li.active {
+    position: relative;
+}
+section.thanhtoan .luachonphuongthucthanhtoan ul.nav-tabs li.active a {
+    background: #fff;
+    color: #1c1c1c;
+}
+section.thanhtoan .luachonphuongthucthanhtoan ul.nav-tabs li {
+    width: 50%;
+}
+section.thanhtoan .luachonphuongthucthanhtoan ul.nav-tabs li a {
+    background: #f5f5f5;
+    color: #a6a6a6;
+    border: 0;
+    margin: 0;
+    padding: 25px 0;
+    border-radius: 0;
+}
+section.thanhtoan .luachonphuongthucthanhtoan div.tab-content {
+    padding: 25px;
+}
+section.thanhtoan .checkout_info_price {
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 1px 3px 5px #eee;
+}
+section.thanhtoan .checkout_info_price .headings {
+    border-bottom: 1px solid #eee;
+    padding: 10px 15px;
+}
+section.thanhtoan .checkout_info_price h5 {
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
+}
+section.thanhtoan .checkout_info_price .content {
+    padding: 10px 15px;
+}
+section.thanhtoan .checkout_info_price .content table.table {
+    margin-bottom: 0;
+    width: 100%;
+    border: 0;
+}
+section.thanhtoan .checkout_info_price .content table.table thead {
+    box-shadow: 1px 1px 3px #eee;
+}
+section.thanhtoan .checkout_info_price .content table.table thead tr td.noname {
+    width: 40%;
+}
+.checkout_info_price .content table.table thead tr td.noname p {
+    text-align: left;
+}
+.table-responsive {
+    min-height: 0.01%;
+    overflow-x: auto;
+}
+section.thanhtoan .checkout_info_price .content table.table thead tr td.price {
+    width: 30%;
+}
+section.thanhtoan .checkout_info_price .content table.table thead tr td.price p {
+    text-align: center;
+}
+section.thanhtoan .checkout_info_price .content table.table thead tr td.note {
+    width: 30%;
+}
+section.thanhtoan .checkout_info_price .content table.table thead tr td.note p {
+    text-align: right;
+}
+section.thanhtoan .checkout_info_price .content table.table tr{
+    display: block;
+}
+section.thanhtoan .checkout_info_price .content table.table tbody tr td {
+    border-color: #eee;
+    float: left;
+    padding: 0;
+}
+.hidden-lg {
+    display: none!important;
+}
+section.thanhtoan .checkout_info_price .content table.lebta {
+    width: 100%;
+}
+section.thanhtoan .checkout_info_price .content table.lebta thead {
+    box-shadow: -1px -1px 3px #eee;
+}
+.checkout_info_price .content table.lebta thead tr td .total {
+    font-weight: bold;
+}
+section.thanhtoan .checkout_info_price .content table.lebta thead tr td .total .vat {
+    font-weight: 400;
+    display: inline-block;
+}
+section.thanhtoan .checkout_info_price .content table.lebta thead tr td.price-colors {
+    color: #f16e8e;
+}
+section.thanhtoan .checkout_info_price .content table.lebta thead tr td.price p {
+    text-align: center;
+}
+.btn-default.active:hover {
+    color: #333;
+    background-color: #d4d4d4;
+    border-color: #8c8c8c;
+}
+section.thanhtoan .luachonphuongthucthanhtoan div.tab-content button {
+    width: 300px;
+    height: 40px;
+    margin: 0 auto;
+    background: #f16e8e;
+    outline: none;
+    border: 0;
+    color: #fff;
+    box-shadow: 0 3px 0 #b91635;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.table-responsive {
+    min-height: 0.01%;
+    overflow-x: auto;
+}

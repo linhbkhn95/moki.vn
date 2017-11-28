@@ -13,8 +13,11 @@ var Login = require('app/components/pages/login/Login.js');
 var ShopCart = require('app/components/pages/shopcart/ShopCart.js');
 var ShopMK = require('app/components/pages/shopMK/ShopMK.js');
 var UserManager = require('app/components/pages/usershopmanager/UserManager.js');
+var CategoryPage = require('app/components/pages/home/components/CategoryPage.js');
 
 import OrderStep from  'app/components/pages/shopcart/OrderStep.js';
+import AdminShop from  'app/components/pages/shopMK/AdminShop.js';
+
 import DetailProduct from 'app/utils/DetailProduct.js';
 import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
@@ -42,28 +45,39 @@ if(localStorage.jwToken){
         
              <Provider store={store}>
               <Router>
-                  
-                  <Layout>
+                  <div>
+                
                   {/* <Link to="/user/login">Đăng nhập</Link>  */}
                  
-                 <div>
+                
                
                    <Switch>
-                       
-                      <Route  exact   path="/" component={Home}/>
+                   <Layout>
+                      <Route  exact   path="/" component={CategoryPage}/>
                       <Route  path="/user/login" component={Login} />
                       <Route  path="/shopCart" component={ShopCart} />
                       <Route  path="/shopMK" component={ShopMK} />
                       <Route path="/product/:d" component={Home} /> 
                       <Route path="/user_shop/manager" component={UserManager}/>
                       <Route path="/user/order/step" component={OrderStep}/>
+                      <Route path="/test" component={CategoryPage}/>
+                     
                       <Route render={function(){
                           return <p> not found</p>
                            }
                        } />
+                  </Layout>
                  </Switch>
-                </div>
-               </Layout>
+              
+             
+               
+                 <Switch>
+                    <div>
+                    <Route path="/shop/admin" component={AdminShop}/>
+                    </div>
+                 </Switch>
+              
+               </div>
              </Router>
              </Provider>
         

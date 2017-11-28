@@ -1,0 +1,45 @@
+section .changepass-setting .noidung {
+    padding-bottom: 50px;
+}
+.noidung .padding-text {
+    padding-left: 30px;
+}
+.noidung .headings-color {
+    color: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    background: #f16e8e;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.noidung .content {
+    padding: 10px 30px;
+}
+.noidung h5 {
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
+}
+.noidung .content strong i {
+    color: #333;
+}
+.noidung .update_profile {
+    color: #fff;
+    background: #f16e8e;
+}
+section .changepass-setting .noidung {
+    background: #fff;
+    position: relative;
+    z-index: 2;
+    margin-top: 70px;
+    padding: 0 15px;
+    box-shadow: 1px 3px 5px #eee;
+}
+.changepass-setting .noidung h5 {
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0;
+    padding-left: 25px;
+}

@@ -17,17 +17,39 @@ import date from 'date-and-time';
 class Detail extends React.Component{
     constructor(props){
         super(props);
+        
+        //this.data = this.getdata();
         this.state={
             comment:"",
-            listComment:[]
+            listComment:[],
+            data:[]
         }
+    }
+    getdata(){
+        var that = this;
+        axios.post('/api/get_products',{id:3})
+        .then(function(res){
+            console.log(res.data.data);
+            // that.setState({listComment:res.data});
+            return res.data.data;
+        })
     }
     componentDidMount(){
         var that = this;
-        axios.get('/commentproduct/getTop',{productId:this.props.productId})
+        axios.post('/api/get_products',{id:3})
         .then(function(res){
-             that.setState({listComment:res.data});
+            console.log(res.data.data);
+            // that.setState({listComment:res.data});
+            that.setState({data:res.data.data[0]});
         })
+        axios.post('/api/get_comment_products',{product_id:3})
+        .then(function(res){
+            console.log(res.data.data);
+            // that.setState({listComment:res.data});
+            that.setState({listComment:res.data.data});
+        })
+
+
     }
     buy(productId){
         var {dispatch} = this.props ;
@@ -56,6 +78,7 @@ class Detail extends React.Component{
     }
     renderListComment(listComment){
         var that =this;
+
         if (listComment==="undefind"||listComment.length===0) {
             
                   return <p className="no-comments">Chưa có bình luận</p>
@@ -69,18 +92,20 @@ class Detail extends React.Component{
                             return(
                                     <div key={index} className="text-comment parent">
                                         <div className="avatar">
-                                            <img className="img-avatar" src={that.props.auth.isAuthenticatec?that.props.auth.user.avatar:"../images/avatar.png"}/>
+                                            {/* <img className="img-avatar" src={that.props.auth.isAuthenticatec?that.props.auth.user.avatar:"../images/avatar.png"}/> */}
+                                           <img className="img-avatar" src={comment.poster.avatar}/>
+
                                         </div>
                                         
                                         <div className="sub-content">
                                             <span>Bởi </span> 
-                                            <a className="sub">Trịnh linh</a> 
-                                            <span>lúc </span> 
-                                            <a className="sub">{comment.date}</a>
+                                            <a className="sub">{comment.poster.name}</a> 
+                                            <span> lúc </span> 
+                                            <a className="sub">{comment.created}</a>
                                     
                                         
                                         </div>
-                                        <p className="content"> {comment.text} </p>
+                                        <p className="content"> {comment.comment} </p>
                                 </div>
                             )
                           })
@@ -89,10 +114,17 @@ class Detail extends React.Component{
                }
     }
     render(){
+         console.log(this.state.data);
+
+         if(this.state.data.length===0){
+             return null
+         }
        
         return(
           <div className="row">
-           <InfoProduct productId={this.props.productId} />
+           {/* <InfoProduct productId={this.props.productId} /> */}
+           <InfoProduct data={this.state.data} />
+
           <div className="row">
             <div className="">
                 <div className="row">

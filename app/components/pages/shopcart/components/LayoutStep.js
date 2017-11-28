@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
 class Layout extends React.Component{
     render(){
         return(
@@ -12,9 +12,9 @@ class Layout extends React.Component{
                                 <span className="number">1. Đăng nhập</span>
                             </li>
                             <li data-target="step-2" className="current">
-                                <a href="/ShoppingCarts/checkout">
+                                <Link to="/user/order/step/address">
                                     <span className="number">2. Chọn địa chỉ</span>
-                                </a>
+                                </Link>
                             </li>
                             <li data-target="step-3" className="">
                                 <a href="/ShoppingCarts/payment">
@@ -31,6 +31,11 @@ class Layout extends React.Component{
                             </li>
                         </ul>
                      
+                    </div>
+                    <div className ="container">
+                         <div className="col-md-12">
+                             {this.props.children};
+                         </div>
                     </div>
                 </div>
             </section>

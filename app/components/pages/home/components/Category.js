@@ -11,9 +11,11 @@ module.exports = ({ match  }) => {
 
                   
                  
-                  <Route exact path={`${match.url}`} component={CategoryPage} />  
+                  <Route exact path={`/be`} component={CategoryPage} />  
                
+                   {/* <Route path={`${match.url}/:d`} component={DetailProduct} />  */}
                    <Route path={`${match.url}/:d`} component={DetailProduct} /> 
+
                    {/* <CategoryPage /> */}
                    {/* <Route path={`${match.url}/product?:d`} component={DetailProduct} />  */}
                    {/* <CategoryPage /> */}

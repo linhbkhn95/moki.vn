@@ -42,3 +42,32 @@ section .address-setting  .noidung  .headdings a {
     color: #f16e8e;
     outline: none;
 }
+section .address-setting .noidung .content_adress .item .contentt p.name {
+    font-weight: bold;
+}
+section .address-setting .noidung .content_adress .item .contentt p.address {
+    height: 60px;
+    line-height: 20px;
+}
+section .address-setting .noidung .content_adress .item a.edit {
+    background: #f16e8e;
+    box-shadow: 0 3px 0 #b91635;
+    color: #fff;
+    outline: none;
+    float: left;
+}
+section .address-setting .noidung .content_adress .item a.del {
+    color: #f16e8e;
+    background-color: transparent;
+    box-shadow: 0 0 0;
+}
+section .address-setting .noidung .content_adress .item {
+    padding: 7px;
+}
+section .address-setting .noidung .content_adress .item .contentt {
+    overflow: hidden;
+    border: 1px dashed #f16e8e;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 0px;
+}

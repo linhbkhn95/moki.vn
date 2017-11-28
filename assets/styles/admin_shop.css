@@ -1,0 +1,39 @@
+.tab-admin-shop{
+    background: #e1738f;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-left: 116px;
+    margin-bottom: 40px;
+}
+.tab-admin-shop ul{
+  background: rgb(245, 240, 240);
+}
+.tab-admin-shop ul li{
+    list-style: none;
+    float: left;
+    padding: 10px;
+}
+.tab-admin-shop ul li a{
+    color: white !important;
+    font-weight: bold;
+}
+  .title-tab-admin-shop{
+    text-align: center;
+    font-size: 16px;
+    color: #d37790;
+    font-weight: bold;
+}
+
+.title-moduleadd-product{
+    color: #e652a2;
+    /* font-size: 17px; */
+    padding: 8px;
+    font-weight: 700;
+}
+.title-add-product{
+    background: #d558a3;
+    color: white;
+    border-radius: 0px 24px 24px 0px;
+    padding: 5px;
+}
