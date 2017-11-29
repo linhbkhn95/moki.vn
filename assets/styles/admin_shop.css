@@ -37,3 +37,99 @@
     border-radius: 0px 24px 24px 0px;
     padding: 5px;
 }
+
+ div.text-comment {
+    position: relative;
+    padding-left: 70px;
+    margin-top: 30px;
+}
+ .post-comment .text-comment .avatar {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    left: 0px;
+}
+ .post-comment .text-comment .avatar .img-avatar {
+    width: 55px;
+    height: 55px;
+}
+ .post-comment div.text-comment span {
+    font-size: 11px;
+    font-style: italic;
+}
+ .post-comment div.text-comment a {
+    font-size: 12px;
+    color: #f16e8e;
+}
+.post-comment div.text-comment span {
+    font-size: 11px;
+    font-style: italic;
+}
+ .post-comment div.text-comment a {
+    font-size: 12px;
+    color: #f16e8e;
+}
+.post-comment div.text-comment p.content {
+    margin-bottom: 0;
+    padding: 5px 0px 10px 10px;
+    font-size: 14px;
+}
+
+.post-comment div.text-comment p {
+    margin-top: 3px;
+    font-size: 13px;
+    line-height: 18px;
+}
+.post-comment div.text-comment {
+    position: relative;
+    padding-left: 70px;
+    margin-top: 30px;
+}
+.post-comment .comment-form .avatar-me {
+    display: inline-block;
+    width: 55px;
+    vertical-align: top;
+    margin: 0px;
+}
+.post-comment .comment-form .box-comment {
+    display: inline-block;
+    width: calc(100% - 75px);
+    text-align: right;
+    margin-left: 10px;
+    /* border: 1px solid #ececec; */
+}
+ .post-comment .comment-form .box-comment {
+    display: inline-block;
+    width: calc(100% - 75px);
+    text-align: right;
+    margin-left: 10px;
+    /* border: 1px solid #ececec; */
+}
+
+
+.avatar-alert {
+    width: 38px;
+    border-radius: 50%;
+    
+  }
+  .name-alert{
+    float: left;
+    padding-right: 5px;
+    font-weight: 700;
+    padding-top: 5px;
+  }
+  .alert-message{
+    padding-bottom: 7px;
+    /* border-bottom: 1px solid #d8d4d4; */
+  }
+  .time-alert{
+    color: #89908e;
+    /* margin-bottom: -3px !important; */
+    font-size: 12px;
+    margin-top: 8px;
+    /* margin-left: 5px; */
+    font-size: 13px;
+  }
+  .alert-message p{
+      line-height: 0px;
+  }

@@ -110,14 +110,16 @@ class ModalOrder extends React.Component{
                        </div>
                     </div>
                     <div className="col-md-12">
-                      <div className="title-moduleadd-product">Vận chuyển</div>
+                    <div className="title-moduleadd-product">Vận chuyển</div>
+                     <div className="col-md-12">
+                      
                       <div className="col-md-12">
                             <FormGroup controlId="formControlsTextarea">
                               <ControlLabel>Nơi bán</ControlLabel>
                             <FormControl componentClass="textarea" placeholder="Nhập nơi bán của bạn.." />
                             </FormGroup>
                         </div>
-                       
+                       </div>
                        
                     </div>
               </div>

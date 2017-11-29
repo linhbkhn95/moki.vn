@@ -90,6 +90,7 @@ class Detail extends React.Component{
                         listComment.map(function(comment,index){
                             console.log(comment);
                             return(
+                                 
                                     <div key={index} className="text-comment parent">
                                         <div className="avatar">
                                             {/* <img className="img-avatar" src={that.props.auth.isAuthenticatec?that.props.auth.user.avatar:"../images/avatar.png"}/> */}
@@ -106,7 +107,9 @@ class Detail extends React.Component{
                                         
                                         </div>
                                         <p className="content"> {comment.comment} </p>
-                                </div>
+                                 </div>
+                                
+                            
                             )
                           })
             

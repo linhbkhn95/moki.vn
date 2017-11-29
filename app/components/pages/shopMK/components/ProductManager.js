@@ -22,6 +22,8 @@ import React from 'react';
 import axios from 'axios';
 // Import React Table
 import ModalAddProduct from './product/ModalAddProduct.js';
+import ModalEditProduct from './product/ModalEditProduct.js';
+
 import {Col, FormControl,Checkbox} from 'react-bootstrap';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -34,6 +36,7 @@ class TableDemo extends React.Component {
     super();
     this.state = {
         showModalAddProduct:false,
+        showModalEditProduct:false,
       data: [
            {
                id:"DH123", name:"Giày tây", groupproduct:"Giày",total:"1,300,000 Vnđ"
@@ -56,6 +59,12 @@ class TableDemo extends React.Component {
   }
   closeModalAddProduct(){
       this.setState({showModalAddProduct:false});
+  }
+  showModalEditProduct(){
+    this.setState({showModalEditProduct:true});
+  }
+  closeModalEditProduct(){
+      this.setState({showModalEditProduct:false});
   }
   fetchData(state, instance) {
     // Whenever the table model changes, or the user sorts or changes pages, this method gets called and passed the current table model.
@@ -200,7 +209,7 @@ class TableDemo extends React.Component {
                         style:{textAlign:'center'},
                         Cell: (row) => (
                           <div>
-                          <button style={{textAlign:"center"}} className="btn btn-info"   >Chi tiết </button>
+                          <button onClick={this.showModalEditProduct.bind(this)} style={{textAlign:"center"}} className="btn btn-info"   >Chi tiết </button>
                           <button style={{textAlign:"center"}} className="btn btn-danger"   >Xóa</button>
                           </div>
           
@@ -249,6 +258,7 @@ class TableDemo extends React.Component {
                 />
                 <br />
                 <ModalAddProduct show={this.state.showModalAddProduct} close={this.closeModalAddProduct.bind(this)}/>
+                <ModalEditProduct show={this.state.showModalEditProduct} close={this.closeModalEditProduct.bind(this)}/>
              </div>
               )
             }
