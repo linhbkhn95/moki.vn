@@ -65,7 +65,7 @@ if(localStorage.jwToken){
                            }
                        } /> 
                       {/* <Route  path="/shopCart" component={ShopCart} /> */}
-                      <Route  path="/shopMK"  render={function(){
+                      <Route  path="/shopMK-:c.html"  render={function(){
                           return<Layout><ShopMK /></Layout>
                            }
                        } />
