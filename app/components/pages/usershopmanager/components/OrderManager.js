@@ -14,8 +14,10 @@ class Order extends React.Component{
             
                    <div>
                         <div className="order">
-                            <div className="headings">
-                            <h5 style={{fontWeight:"bold"}}>Đơn hàng của tôi</h5>
+                        <div className="col-md-12 ">
+                          <div className="noidung">
+                            <div className="headings color-heading">
+                                <h5>Quản đơn hàng</h5>
                             </div>
                             <div className="tabsbutton">
                                     <ul> 
@@ -39,7 +41,8 @@ class Order extends React.Component{
                             <Route       path="/user_shop/manager/order/fail" component={OrderFail} />
                         </div>
                     </div>
-           
+                    </div>
+            </div>
             
                
             

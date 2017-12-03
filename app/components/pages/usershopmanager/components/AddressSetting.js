@@ -13,7 +13,7 @@ class AddressSetting extends React.Component{
          
              <div className="address-setting" >
                   
-              <div className="col-md-9 col-sm-12">
+              <div className="col-md-12 col-sm-12">
                     <div className="noidung">
                         <div className="headings">
                             <h5>Quản lý địa chỉ</h5>

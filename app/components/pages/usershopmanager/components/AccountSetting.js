@@ -13,7 +13,7 @@ class AccountSetting extends React.Component{
          
             
             <div className="account-setting">
-                 <div className="col-md-9 col-sm-12">
+                 <div className="col-md-12 col-sm-12">
 				<div className="noidung">
 					<div className="headings color-heading">
 						<h5>Quản lý tài khoản</h5>

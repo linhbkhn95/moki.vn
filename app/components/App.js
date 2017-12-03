@@ -70,8 +70,14 @@ if(localStorage.jwToken){
                            }
                        } />
                       {/* <Route path="/product/:d" component={Home} />  */}
-                      <Route path="/user_shop/manager" component={UserManager}/>
-                      <Route path="/user/order/step" component={OrderStep}/>
+                      <Route path="/user_shop/manager"  render={function(){
+                          return<Layout><UserManager /></Layout>
+                           }
+                       } />
+                      <Route path="/user/order/step"  render={function(){
+                          return<Layout><OrderStep /></Layout>
+                           }
+                       } />
                       <Route path="/category" component={Home}/>
                      
                       <Route render={function(){
