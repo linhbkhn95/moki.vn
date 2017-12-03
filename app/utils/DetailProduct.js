@@ -6,8 +6,8 @@ module.exports = ({ match  }) => {
     
   
     return (
-       
-         <DetailProductPage productId={match.params.d} />
-      
+      <div className="col-md-9 right">
+         <DetailProductPage product_Id={match.params.c} />
+      </div>
   )
 }

@@ -21,10 +21,20 @@ class CategoryPage extends React.Component{
           ]
         };
       }
+    componentWillReceiveProps(nextProps){
+        var that =this;
+        console.log('componentWillReceiveProps');
+         axios.get('/api/get_list_products',{category_id:nextProps.category_id})
+         .then(function(res){
+             console.log(res.data.data.products);
+              that.setState({data:res.data.data.products});
+           
+         })
+    }
     componentDidMount(){
         var that =this;
         console.log('bugg');
-         axios.get('/api/get_list_products',{category_id:'1'})
+         axios.get('/api/get_list_products',{category_id:this.props.category_id})
          .then(function(res){
              console.log(res.data.data.products);
               that.setState({data:res.data.data.products});
@@ -32,8 +42,9 @@ class CategoryPage extends React.Component{
          })
     } 
     render(){
+        console.log(this.props.category_id);
         return(
-
+             
             <div>
               
               {/* {this.props.url} */}

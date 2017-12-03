@@ -34,7 +34,7 @@ class Detail extends React.Component{
             return res.data.data;
         })
     }
-    componentDidMount(){
+    componentWillReceiveProps(nextProps){
         var that = this;
         axios.post('/api/get_products',{id:3})
         .then(function(res){
@@ -42,7 +42,23 @@ class Detail extends React.Component{
             // that.setState({listComment:res.data});
             that.setState({data:res.data.data[0]});
         })
-        axios.post('/api/get_comment_products',{product_id:3})
+        axios.post('/api/get_comment_products',{product_Id:3})
+        .then(function(res){
+            console.log(res.data.data);
+            // that.setState({listComment:res.data});
+            that.setState({listComment:res.data.data});
+        })
+
+    }
+    componentDidMount(){
+        var that = this;
+        axios.post('/api/get_products',{id:this.props.product_Id})
+        .then(function(res){
+            console.log(res.data.data);
+            // that.setState({listComment:res.data});
+            that.setState({data:res.data.data[0]});
+        })
+        axios.post('/api/get_comment_products',{product_id:this.props.product_id})
         .then(function(res){
             console.log(res.data.data);
             // that.setState({listComment:res.data});
@@ -78,7 +94,7 @@ class Detail extends React.Component{
     }
     renderListComment(listComment){
         var that =this;
-
+        console.log(this.props.product_Id);
         if (listComment==="undefind"||listComment.length===0) {
             
                   return <p className="no-comments">Chưa có bình luận</p>

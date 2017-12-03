@@ -70,7 +70,7 @@ class MenuCategory extends React.Component{
               listItem.map(function(i,index){
     
               return(
-                <li key={index}  className="submenu-product"><Link  to={"#/category"+"/"+i.id}>{i.name} </Link></li>
+                <li key={index}  className="submenu-product"><Link  to={"/category/group-product/"+i.name.split(' ').join('-')+"--"+i.id+".html"}>{i.name} </Link></li>
                 )
               })
     

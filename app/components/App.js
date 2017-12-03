@@ -6,7 +6,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect,NavLi
 var {Provider} = require('react-redux');
 
 var store = require('app/store.js');
-var Test =require('app/components/Test.js');
+var HomePage =require('app/components/Home.js');
 var Layout = require('app/components/Layout.js');
  var Home = require('app/components/pages/home/Home.js');
 var Login = require('app/components/pages/login/Login.js');
@@ -52,21 +52,33 @@ if(localStorage.jwToken){
                 
                
                    <Switch>
-                   <Layout>
-                      <Route  exact   path="/" component={CategoryPage}/>
-                      <Route  path="/user/login" component={Login} />
-                      <Route  path="/shopCart" component={ShopCart} />
-                      <Route  path="/shopMK" component={ShopMK} />
-                      <Route path="/product/:d" component={Home} /> 
-                      <Route path="/user_shop/manager" component={UserManager}/>
-                      <Route path="/user/order/step" component={OrderStep}/>
-                      <Route path="/test" component={CategoryPage}/>
-                     
-                      <Route render={function(){
-                          return <p> not found</p>
+                
+                      <Route  exact   path="/" component={HomePage}
+                          />
+                      {/* <Route  path="/home" component={Home}/> */}
+                      <Route  path="/user/login" render={function(){
+                          return<Layout><Login /></Layout>
+                           }
+                       } /> 
+                        <Route  path="shopCart" render={function(){
+                          return<Layout><ShopCart /></Layout>
+                           }
+                       } /> 
+                      {/* <Route  path="/shopCart" component={ShopCart} /> */}
+                      <Route  path="/shopMK"  render={function(){
+                          return<Layout><ShopMK /></Layout>
                            }
                        } />
-                  </Layout>
+                      {/* <Route path="/product/:d" component={Home} />  */}
+                      <Route path="/user_shop/manager" component={UserManager}/>
+                      <Route path="/user/order/step" component={OrderStep}/>
+                      <Route path="/category" component={Home}/>
+                     
+                      <Route render={function(){
+                          return <p> Trang không tồn tại</p>
+                           }
+                       } />
+                 
                  </Switch>
               
              
@@ -76,7 +88,7 @@ if(localStorage.jwToken){
                     <Route path="/shop/admin" component={AdminShop}/>
                     </div>
                  </Switch>
-              
+               
                </div>
              </Router>
              </Provider>
