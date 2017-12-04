@@ -11,7 +11,7 @@ const pushnotify = require('../util/pushnotify');
 module.exports = {
     getNewProducts: function (req, res) {
         let params = req.allParams();
-        let index = params['index'] || 1;
+        let index = params['index'] || 0;
         let sort = params['sort'] || 'p_id';
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
         let count = params['count'] || 20; //default 20
@@ -25,7 +25,7 @@ module.exports = {
         }
 
         return new Promise((resolve, reject) => {
-            StoredProcedure.query("call moki.getListProductNew(?, 'p_id', 1, 20, 'ENABLE', '23:00:00')", [0], function (err, [data, server_status]) {
+            StoredProcedure.query("call moki.getListProductNew(?, ?, ?, ?, ?, '23:00:00')", [index, sort, typeSort, count, status], function (err, [data, server_status]) {
                 if (err) {
                     reject(err)
                     return;
@@ -76,6 +76,51 @@ module.exports = {
             })
         })
     },
+
+    setOrder: function (req, res) {
+        let user_id = req.session.user_id;
+        let order_detail = req.param('order_detail');
+        let address = req.param('address');
+        let paid = req.param('paid')||0;
+        let phone = req.param('phone');
+        let city = req.param('city');
+
+        if(!order_detail||!(order_detail instanceof Array)||order_detail.length == 0 || !address || !phone || !city) {
+            return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.createOrder(?, ?, ?, ?, ?)", [user_id, address, paid, phone, city ], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                let order_id = data[0].new_id;
+
+                Promise.all(order_detail.map((product) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.addProductToOrder(?, ?, ?)", [order_id, product.product_id, product.number], function (err, [data, server_status]) {
+                            resolve(data[0]);
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = {
+                        id: orders[orders.length - 1].o_id,
+                        code: orders[orders.length - 1].o_code,
+                        create: orders[orders.length - 1].o_fromdate,
+                        address: orders[orders.length - 1].o_address,
+                        total_price: orders[orders.length - 1].o_total_price,
+                        phone: orders[orders.length - 1].o_phone,
+                        city: orders[orders.length - 1].city
+                    };
+                    res.json(result);
+                    resolve(products)
+                })
+            })
+        })
+    },
+
     getProducts: async function (req, res) {
 
         let categoryId = req.param('category_id') || 'ALL';

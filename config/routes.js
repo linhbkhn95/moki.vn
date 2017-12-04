@@ -140,4 +140,6 @@ module.exports.routes = {
   '/api/get_list_conversation': 'UserController.get_list_conversation',
   '/api/get_conversation': 'UserController.get_conversation',
   '/api/check_login': 'UserController.checkLogin',
+  '/api/buy_cart': 'ProductController.setOrder',
+  
 };

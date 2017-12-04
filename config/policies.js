@@ -59,7 +59,8 @@ module.exports.policies = {
     setRates: 'buyer',
     set_save_search: 'buyer',
     get_list_save_search: 'buyer',
-    addProduct: 'buyer'
+    addProduct: 'buyer',
+    setOrder: 'buyer'
   },
 
   CategoryController: {
