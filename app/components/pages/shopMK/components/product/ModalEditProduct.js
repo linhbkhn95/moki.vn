@@ -54,7 +54,7 @@ class ModalEditProduct extends React.Component{
                      
                     return(
                         listComment.map(function(comment,index){
-                            console.log(comment);
+                  //          console.log(comment);
                             return(
                                 //     <div key={index} className="text-comment parent">
                                 //         <div className="avatar">
@@ -73,7 +73,7 @@ class ModalEditProduct extends React.Component{
                                 //         </div>
                                 //         <p className="content"> {comment.comment} </p>
                                 // </div>
-                                <div className="col-md-12 alert-message">
+                                <div key={index} className="col-md-12 alert-message">
                                     <div className="col-md-2 row"><img className="avatar-alert" src={comment.poster.avatar}/></div>
                                     <div className=" col-md-9 row">
                                         <strong style={{color: "#d558a5"}}>{comment.poster.name}</strong> {comment.comment} 
@@ -100,7 +100,7 @@ class ModalEditProduct extends React.Component{
         // })
         axios.post('/api/get_comment_products',{product_id:3})
         .then(function(res){
-            console.log(res.data.data);
+           // console.log(res.data.data);
             // that.setState({listComment:res.data});
             that.setState({listComment:res.data.data});
         })

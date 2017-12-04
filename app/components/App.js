@@ -60,7 +60,7 @@ if(localStorage.jwToken){
                           return<Layout><Login /></Layout>
                            }
                        } /> 
-                        <Route  path="shopCart" render={function(){
+                        <Route  path="/shopCart" render={function(){
                           return<Layout><ShopCart /></Layout>
                            }
                        } /> 
