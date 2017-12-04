@@ -988,7 +988,7 @@ module.exports = {
 
     user_listings: async function (req, res) {
         let user_id = req.session.user_id;
-
+        console.log(user_id)
         let count = req.param('count') || 10;
         let index = req.param('index') || 0;
         let keyword = req.param('keyword');

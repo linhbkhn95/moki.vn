@@ -35,7 +35,8 @@ module.exports.policies = {
     connect: 'buyer',
     get_user_infor: 'public',
     get_list_conversation: 'buyer',
-    get_conversation: 'buyer'
+    get_conversation: 'buyer',
+    checkLogin: 'buyer',
   },
 
   UserMController: {

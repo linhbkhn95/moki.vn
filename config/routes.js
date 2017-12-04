@@ -137,5 +137,5 @@ module.exports.routes = {
   '/api/add_products': 'ProductController.addProduct',
   '/api/get_list_conversation': 'UserController.get_list_conversation',
   '/api/get_conversation': 'UserController.get_conversation',
-  
+  '/api/check_login': 'UserController.checkLogin',
 };

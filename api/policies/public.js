@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const {key, survival_time} = require ('../util/jwt');
 
 module.exports = function (req, res, next) {
-    var token = req.headers['Authorization'];
+    var token = req.headers['authorization'];
     // If the requesting user is not logged in, then they are _never_ allowed to write.
     // No reason to continue-- we can go ahead and bail out now.
 
@@ -21,6 +21,7 @@ module.exports = function (req, res, next) {
     })
 
     if(!check) {
+        console.log('no token')
         return next();
     }
 
@@ -31,7 +32,7 @@ module.exports = function (req, res, next) {
     var [header, payload, verify_signature] = token.split(".")
     var payload = Buffer.from(payload, 'base64').toString();
     var { user_id, user_code, type } = JSON.parse(payload).data;
-
+    console.log(user_id, user_code, type)
     req.session.user_id = user_id;
     req.session.user_code = user_code;
     req.session.type = type;
