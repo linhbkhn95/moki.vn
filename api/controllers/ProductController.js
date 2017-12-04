@@ -9,6 +9,73 @@ const response = require('../util/response');
 const pushnotify = require('../util/pushnotify');
 
 module.exports = {
+    getNewProducts: function (req, res) {
+        let params = req.allParams();
+        let index = params['index'] || 1;
+        let sort = params['sort'] || 'p_id';
+        let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
+        let count = params['count'] || 20; //default 20
+        let status = 'ENABLE';
+        let token = req.headers['authorization'];
+        
+        var self = this;
+
+        if (count > 200) {
+            count = 200;
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.getListProductNew(?, 'p_id', 1, 20, 'ENABLE', '23:00:00')", [0], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                
+                let user_id = req.session.user_id;
+                Promise.all(data.map((product) => {
+                    let listImages = self.listImages;
+                    let listVideos = self.listVideos;
+                    let isLike = self.isLike;
+                    let ui_userid = product.ui_name;
+                    let can_edit = 0;
+                    if (!!token && (ui_userid == user_id || req.session.type == 'ADMIN')) {
+                        can_edit = 1;
+                    }
+
+                    return new Promise(async (resolve, reject) => {
+                        resolve({
+                            id: product.p_id,
+                            code: product.p_code,
+                            name: product.p_name,
+                            image: await listImages(product.p_id),
+                            video: await listVideos(product.p_id),
+                            price: product.p_price,
+                            price_percent: product.p_price_percent,
+                            brand: product.pb_name,//Thương hiệu
+                            described: product.p_description,
+                            created: product.ui_fromdate,
+                            like: product.p_nlike,
+                            comment: product.p_ncomment,
+                            is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                            is_blocked: 0,
+                            can_edit: can_edit,
+                            banned: 0, //khoá user
+                            seller: {
+                                id: product.ui_userid,
+                                username: product.ui_name,
+                                avatar: product.ui_avartar,
+                            }
+                        })
+                    })
+                })).then((products) => {
+                    let result = response.OK;
+                    result.data=products;
+                    res.json(result);
+                    resolve(products)
+                })
+            })
+        })
+    },
     getProducts: async function (req, res) {
 
         let categoryId = req.param('category_id') || 'ALL';
@@ -343,7 +410,7 @@ module.exports = {
         let condition_id = req.param('condition_id');
         let index = req.param('index') || 0;
         let count = req.param('count') || 10;
-        let token = req.param('token')
+        let token = req.headers['authorization'];
         let self = this;
         if (count > 200) {
             count = 200;
@@ -482,7 +549,7 @@ module.exports = {
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
         let count = params['count'] || 20; //default 20
         let status = 'ENABLE';
-        let token = params['token']
+        let token = req.headers['authorization'];
         var self = this;
 
         if (count > 200) {
@@ -892,7 +959,7 @@ module.exports = {
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
         let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
-        let token = params['token']
+        let token = req.headers['authorization'];
 
 
         return new Promise((resolve, reject) => {

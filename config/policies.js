@@ -49,6 +49,7 @@ module.exports.policies = {
     get_list_conditions: 'public',
     get_list_sizes: 'public',
     get_list_brands: 'public',
+    getNewProducts: 'public',
     getProducts: 'public',
     get_products: 'public',
     getComments: 'public',
