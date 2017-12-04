@@ -7,16 +7,13 @@
 
 module.exports = {
 	    'addCart':function(req,res){
-            
             if(req.session.cart ==null){
                 req.session.cart= [];
                 req.session.cart.push(req.body.product);
-              
             }
             else{
                 console.log(req.session.cart);
                 req.session.cart.push(req.body.product);
-             
             }
             return res.send("ok");
          },
@@ -36,10 +33,5 @@ module.exports = {
              }
              return res.send(req.session.cart);
          }
-         
-         
-
-         
-
 };
 

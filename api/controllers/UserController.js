@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
+var md5 = require('md5');
 const jwt = require('jsonwebtoken');
 const response = require('../util/response');
 const { key, survival_time } = require('../util/jwt');
@@ -72,14 +72,14 @@ module.exports = {
 
     login: function (req, res) {
         let userName = req.param('user_name');
-        let pwdMD5 = req.param('password');
-
+        let password = req.param('password');
+        let pwdMD5 = md5('password');
         let user_agent = req.headers['user-agent'] || "anonymous";
         StoredProcedure.query('call moki.login(?, ?, ?)', [userName, pwdMD5, user_agent], function (err, [data, server_status]) {
             if (err) {
                 return res.json(err)
             }
-            console.log("111")
+
             // user_login.update({ ul_user_id: 2173 }, { ul_status: 'ONLINE' }).exec(function afterwards(err, updated) {
             //     console.log("222")
             //     console.log(err, updated)
