@@ -73,8 +73,11 @@ module.exports = {
     login: function (req, res) {
         let userName = req.param('user_name');
         let password = req.param('password');
-        let pwdMD5 = md5('password');
+        console.log(userName, password);
+        let pwdMD5 = md5(password);
+        console.log(pwdMD5)
         let user_agent = req.headers['user-agent'] || "anonymous";
+        console.log(user_agent)
         StoredProcedure.query('call moki.login(?, ?, ?)', [userName, pwdMD5, user_agent], function (err, [data, server_status]) {
             if (err) {
                 return res.json(err)
