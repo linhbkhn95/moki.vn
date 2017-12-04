@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const {key, survival_time} = require ('../util/jwt');
 
 module.exports = function (req, res, next) {
-    var token = req.headers['authorization'];
+    var token = req.headers['Authorization'];
     console.log(token)
     // If the requesting user is not logged in, then they are _never_ allowed to write.
     // No reason to continue-- we can go ahead and bail out now.
