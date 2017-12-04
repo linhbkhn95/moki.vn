@@ -141,5 +141,6 @@ module.exports.routes = {
   '/api/get_conversation': 'UserController.get_conversation',
   '/api/check_login': 'UserController.checkLogin',
   '/api/buy_cart': 'ProductController.setOrder',
+  '/api/view_order': 'ProductController.viewOrder',
   
 };

@@ -121,6 +121,68 @@ module.exports = {
         })
     },
 
+    viewOrder: function (req, res) {
+        let user_id = req.session.user_id;
+
+        let order_id = req.param('order_id');
+        let status = req.param('status')||'ENABLE';
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.viewOrderByUsernameId(?, ?)", [user_id, status ], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                if(!!order_id) {
+                    data = data.find((order) => {
+                        return order.o_id==order_id;
+                    })
+                    if(!data) {
+                        res.json(response.PARAMETER_VALUE_IS_INVALID);
+                        return;
+                    } else {
+                        data = [data];
+                    }
+                }
+                
+
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
+                            resolve({data, order});
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = orders.map(({data, order}) => {
+                        return {
+                            id: order.o_id,
+                            code: order.o_code,
+                            create: order.o_fromdate,
+                            address: order.o_address,
+                            total_price: order.o_total_price,
+                            phone: order.o_phone,
+                            city: order.city,
+                            products: data.map((p) => {
+                                return {
+                                    id: p.ord_p_id,
+                                    code: p.ord_p_code,
+                                    name: p.ord_p_name,
+                                    number: p.ord_number,
+                                    price: p.ord_p_price,
+                                    price_percent: p.ord_p_price_percent,
+                                    status: p.ord_status
+                                }
+                            })
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
     getProducts: async function (req, res) {
 
         let categoryId = req.param('category_id') || 'ALL';

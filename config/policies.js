@@ -60,7 +60,8 @@ module.exports.policies = {
     set_save_search: 'buyer',
     get_list_save_search: 'buyer',
     addProduct: 'buyer',
-    setOrder: 'buyer'
+    setOrder: 'buyer',
+    viewOrder: 'buyer',
   },
 
   CategoryController: {
