@@ -62,6 +62,7 @@ module.exports.policies = {
     addProduct: 'buyer',
     setOrder: 'buyer',
     viewOrder: 'buyer',
+    viewOrderByShop: 'salesman'
   },
 
   CategoryController: {

@@ -183,6 +183,52 @@ module.exports = {
         })
     },
 
+    viewOrderByShop: function (req, res) {
+        let user_id = req.session.user_id;
+        console.log(user_id)
+        let status = req.param('status')||'ENABLE';
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.viewOrderOfShop(?, ?)", [user_id, status ], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [data, server_status]) {
+                            resolve({data, order});
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = orders.map(({data, order}) => {
+                        return {
+                            id: order.ord_id,
+                            id_p: order.ord_p_id,
+                            code: order.ord_p_code,
+                            name: order.ord_p_name,
+                            number: order.ord_number,
+                            price: order.ord_p_price,
+                            price_percent: order.ord_p_price_percent,
+                            status: order.ord_status,
+                            create: order.ord_p_fromdate,
+                            user: {
+                                id: data[0].ui_userid,
+                                name: data[0].ui_name,
+                                phone: data[0].ui_phone,
+                                avartar: data[0].ui_avartar
+                            }
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
     getProducts: async function (req, res) {
 
         let categoryId = req.param('category_id') || 'ALL';

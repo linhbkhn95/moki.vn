@@ -83,6 +83,11 @@ module.exports.routes = {
 
   //test socket
   //'/user/connect': 'UserController.connect',
+  /*
+  * route view salesman
+  */
+  '/api/get_list_order_shop': 'ProductController.viewOrderByShop',
+  
 
   /**
    * Route view user
