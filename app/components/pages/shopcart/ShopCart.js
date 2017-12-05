@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
-import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
+import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect,NavLink} from 'react-router-dom';
 import {removeCart,setQuantity} from 'app/action/actionShoppingCart';
 
 import ModalOrder from './ModalOrder.js';
@@ -33,7 +33,8 @@ class shoppingCart extends React.Component{
    //   this.props.dispatch(removeCart(productId));
    }
    showOrder(){
-       this.setState({lgShow:true});
+      // this.setState({lgShow:true});
+      this.context.router.history.push('/user/order/step/address')
    }
    componentWillReceiveProps(nextStop){
        let total=0;
@@ -75,7 +76,7 @@ class shoppingCart extends React.Component{
                         <td className="noname">
                             <p className="name ng-binding">{product.name}</p>
 
-                            <p className="shopname">Shop <a href={"/shopMK."+product.shop_id+".html"} className="ng-binding">{product.shop_name}</a></p>
+                            <p className="shopname">Shop <NavLink to={"/shopMK."+product.shop_id+".html"} className="ng-binding">{product.shop_name}</NavLink></p>
                         </td>
                         <td className="price">
                             <p className="price ng-binding">42,000đ</p>
@@ -161,14 +162,14 @@ class shoppingCart extends React.Component{
                                             </div>
                                             <div className="table_price_row row2">
                                             <span className="col">Khuyến mại:</span>
-                                            <span className="col text-right ng-binding ng-scope" >-3,000đ</span>
+                                            <span className="col text-right ng-binding ng-scope" >{this.props.shoppingCart.count>0?"-3,000đ":"0đ"}</span>
                                             
                                         </div>
                                         </div>
                                         <div className="table_price table_price2">
                                             <div className="table_price_row row1">
                                                 <span className="col total">Tổng <span className="vat">(Đã bao gồm VAT):</span></span>
-                                                <span className="col text-right ng-binding">43,000 đ</span>
+                                                <span className="col text-right ng-binding">{this.state.total} đ</span>
                                             </div>
                                         </div>
                                         <div className="checkoutnow text-center">
@@ -188,5 +189,8 @@ class shoppingCart extends React.Component{
         )
     }
 }
+shoppingCart.contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
 module.exports = connect(function(state){return{shoppingCart:state.shoppingCart}})(shoppingCart);

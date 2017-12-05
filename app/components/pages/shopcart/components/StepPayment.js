@@ -1,7 +1,15 @@
 import React from 'react';
-
+import {connect}from 'react-redux';
 class StepPayment extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
 
+        }
+    }
+    componentDidMount(){
+
+    }
     render(){
         return(
             <div className="background-cart">
@@ -179,4 +187,4 @@ class StepPayment extends React.Component{
         )
     }
 }
-module.exports = StepPayment;
+module.exports = connect(function(state){return{stepOrder:state.stepOrder}})(StepPayment);

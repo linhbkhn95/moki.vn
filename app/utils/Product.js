@@ -1,19 +1,51 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import { connect } from 'react-redux';
-
+import axios from 'axios'
 class Product extends React.Component{
-   
+    constructor(props){
+      super(props);
+      this.state={
+         
+          
+             
+              is_liked:0,
+              like:1
+         
+      }
+    }
     like(){
+      var that =this;
        var {auth} = this.props;
        if(!auth.isAuthenticated){
+         
         this.context.router.history.push('/user/login');
        }
        else{
-          console.log('like');
+          axios.post('/api/like_products',{product_id:this.props.productId})
+          .then((res)=>{
+            if(res.data.code==1000){
+                that.setState({is_liked:!that.state.is_liked,like:res.data.data.like})
+            }
+          })
+
+          
+           
        }
     }
+    componentDidMount(){
+      if(this.props.auth.isAuthenticated){
+        let product={};
+        product.like=this.props.like;
+        product.is_liked=this.props.is_liked;
+
+      }
+    }
+    componentWillReceiveProps(NextProps){
+
+    }
     render(){
+        
       return(
           <div className="product ">
               <div className="img-product"> 
@@ -29,7 +61,7 @@ class Product extends React.Component{
              <i className="fa fa-star-o" aria-hidden="true"></i>
              <i className="fa fa-star-o" aria-hidden="true"></i> */}
               <div className="like-product">
-                {this.props.like} <i onClick={this.like.bind(this)} style={{fontWeight:this.props.is_liked? "bold":"",cursor:"pointer",fontSize:"20px"}} className="fa fa-heart-o" aria-hidden="true"> </i><i style={{fontSize:"20px"}}  className="fa fa-comment-o icon-comment" aria-hidden="true"></i><i style={{fontSize:"13px"}}>{this.props.comment}</i>
+                { this.props.auth.isAuthenticated? this.state.like:this.props.like} <i onClick={this.like.bind(this,this.props.productId)} style={{fontWeight:this.state.is_liked? "bold":"normal",cursor:"pointer",fontSize:"20px"}} className="fa fa-heart-o" aria-hidden="true"> </i><i style={{fontSize:"20px"}}  className="fa fa-comment-o icon-comment" aria-hidden="true"></i><i style={{fontSize:"13px"}}>{this.props.comment}</i>
               </div>
              </div>
               <div className="price-product">

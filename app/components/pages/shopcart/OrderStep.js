@@ -3,7 +3,11 @@ import LayoutStep from './components/LayoutStep.js';
 import StepAddress from './components/StepAddress.js';
 import StepPayment from './components/StepPayment.js';
 import {Route} from 'react-router-dom';
+import {connect}from 'react-redux';
 class OrderStep extends React.Component{
+    componentWillMount(){
+
+    }
     render(){
         return(
             <div style={{marginTop:"10px"}}>
@@ -16,7 +20,7 @@ class OrderStep extends React.Component{
                             
                             )}/>
                       <Route path="/user/order/step/address" component={StepAddress} />
-                      <Route path="/user/order/step/payment" component={StepPayment} />
+                      <Route path="/user/order/step/payment"  component={StepPayment} />
                             
                     </div>
                </LayoutStep>
@@ -24,4 +28,4 @@ class OrderStep extends React.Component{
         )
     }
 }
-module.exports = OrderStep;
+module.exports =OrderStep;

@@ -65,7 +65,7 @@ class Home extends React.Component{
                                                                                 this.state.data.map(function(item,index){
                                                                                     return(
                                                                                         <div key={index} style={{width:"33%",float:"left"}}>
-                                                                                        <Product like={item.like} is_liked={item.is_liked} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_new} pre={item.price_percent}  />
+                                                                                        <Product productId={item.id} like={item.like} is_liked={item.is_liked} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_new} pre={item.price_percent}  />
                                                                                         </div>
                                                                                     )
 

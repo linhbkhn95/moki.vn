@@ -30,6 +30,7 @@ class Detail extends React.Component{
         axios.post('/api/get_products',{id:3})
         .then(function(res){
             console.log(res.data.data);
+
             // that.setState({listComment:res.data});
             return res.data.data;
         })
@@ -42,7 +43,7 @@ class Detail extends React.Component{
             // that.setState({listComment:res.data});
             that.setState({data:res.data.data[0]});
         })
-        axios.post('/api/get_comment_products',{product_Id:3})
+        axios.post('/api/get_comment_products',{product_id:this.props.product_Id})
         .then(function(res){
             console.log(res.data.data);
             // that.setState({listComment:res.data});
@@ -58,7 +59,7 @@ class Detail extends React.Component{
             // that.setState({listComment:res.data});
             that.setState({data:res.data.data[0]});
         })
-        axios.post('/api/get_comment_products',{product_id:this.props.product_id})
+        axios.post('/api/get_comment_products',{product_id:this.props.product_Id})
         .then(function(res){
             console.log(res.data.data);
             // that.setState({listComment:res.data});
@@ -81,13 +82,22 @@ class Detail extends React.Component{
     }
   
     comment(){
-        
+        let last_id=0;
+        let listComment=this.state.listComment;
+        var that=this;
         console.log('comment');
         let now = new Date();
-        var datetime = date.format(now, 'YYYY/MM/DD HH:mm:ss'); 
-        axios.post('/commentproduct/add',{productId:this.props.productId,userId:this.props.userId,text:this.state.comment,date:datetime})
+        var datetime = date.format(now, 'YYYY/MM/DD HH:mm:ss');
+        if(listComment.length>0){
+            last_id=listComment[listComment.length-1].id;
+        }
+        axios.post('/api/set_comment_products',{product_id:this.props.product_Id,comment:this.state.comment,last_id:last_id})
         .then(function(res){
-            console.log(res.data);
+            if(res.data.code==1000){
+               console.log(res.data);
+                listComment = listComment.concat(res.data.data);
+                that.setState({listComment:listComment})
+            }
            
         })
         this.setState({comment:""});
