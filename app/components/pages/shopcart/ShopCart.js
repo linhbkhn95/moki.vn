@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
-import {removeCart} from 'app/action/actionShoppingCart';
+import {removeCart,setQuantity} from 'app/action/actionShoppingCart';
 
 import ModalOrder from './ModalOrder.js';
 import ModalDeleteProduct from './components/ModalDeleteProduct.js';
+import { toASCII } from 'punycode';
 class shoppingCart extends React.Component{
     constructor(props){
         super(props);
@@ -14,8 +15,8 @@ class shoppingCart extends React.Component{
 
              lgShow: false,
              showModalDelete:false,
-             productId_Del : null
-
+             productId_Del : null,
+             total:0
         }
     }
     login(){
@@ -34,6 +35,14 @@ class shoppingCart extends React.Component{
    showOrder(){
        this.setState({lgShow:true});
    }
+   componentWillReceiveProps(nextStop){
+       let total=0;
+       let cart = nextStop.shoppingCart.cart;
+         cart.map((product=>{
+             total+=(product.quantity*parseInt(product.price));
+         }))
+      this.setState({total:total});
+   }
    access(){
         console.log('dy');
         if(this.state.productId_Del!=null){
@@ -42,6 +51,11 @@ class shoppingCart extends React.Component{
           
         this.setState({showModalDelete:false,productId_Del:null});
    }
+   onChangeQuantity(value,product_id){
+       console.log(value +" " +product_id);
+       var quantity = parseInt(value);
+        this.props.dispatch(setQuantity({product_id:product_id,quantity:quantity}));
+   }    
    renderCart(cart){
        var that= this;
        console.log(this.props);
@@ -49,18 +63,19 @@ class shoppingCart extends React.Component{
             console.log(cart);
             return(
                 cart.map(function(product,index){
+                    
                     return(
                     <tr key={index} className="ng-scope">
                         <td className="name">
                             <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
-                               <img className="img-responsive btn-block ng-scope" src="../../images/anhbe.jpg" />
+                               <img style={{width:"50px",height:"50px"}} className="img-responsive btn-block ng-scope" src={product.image} />
                                 
                             </a>
                         </td>
                         <td className="noname">
-                            <p className="name ng-binding">{product.nameProduct}</p>
+                            <p className="name ng-binding">{product.name}</p>
 
-                            <p className="shopname">Shop <a href="/shop/momo" className="ng-binding">{product.shopMK}</a></p>
+                            <p className="shopname">Shop <a href={"/shopMK."+product.shop_id+".html"} className="ng-binding">{product.shop_name}</a></p>
                         </td>
                         <td className="price">
                             <p className="price ng-binding">42,000đ</p>
@@ -68,10 +83,14 @@ class shoppingCart extends React.Component{
                                 </p>
                             </td>  
                             <td className="coupon">
-                               <input id="codeI9234"  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
+                               <input min="1" step="1" onChange={e => that.onChangeQuantity(e.target.value,product.product_id)} style={{textAlign:"center"}} defaultValue={product.quantity}  className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="number"  />
                             
                             </td>
-                            <td onClick={that.removeProduct.bind(that,product.productId)}  className="del"><i style={{cursor:"pointer"}}  className="fa fa-times" aria-hidden="true"></i></td> 
+                            <td className="coupon">
+                               <input className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="text" placeholder="Mã khuyến mại" />
+                            
+                            </td>
+                            <td onClick={that.removeProduct.bind(that,product.product_id)}  className="del"><i style={{cursor:"pointer"}}  className="fa fa-times" aria-hidden="true"></i></td> 
                         </tr>
                     )
 
@@ -108,10 +127,13 @@ class shoppingCart extends React.Component{
                                             <tr>
                                                 <td colSpan="2"><p>Sản phẩm</p></td>
                                                 <td className="price">
-                                                    <p>Giá</p>
+                                                    <p style={{width:"113px"}}>Giá</p>
                                                 </td>
                                                 <td className="coupon">
-                                                    <p>Mã khuyến mại</p>
+                                                    <p>Số lượng</p>
+                                                </td>
+                                                <td className="coupon">
+                                                    <p style={{width:"124px"}}>Mã khuyến mại</p>
                                                 </td>
                                                 <td className="del"></td>
                                             </tr>
@@ -135,7 +157,7 @@ class shoppingCart extends React.Component{
                                         <div className="table_price">
                                             <div className="table_price_row row1">
                                                 <span className="col">Tạm tính:</span>
-                                                <span className="col text-right ng-binding">45,000 đ</span>
+                                                <span className="col text-right ng-binding">{this.state.total+" đ"}</span>
                                             </div>
                                             <div className="table_price_row row2">
                                             <span className="col">Khuyến mại:</span>

@@ -13,17 +13,17 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
   componentDidMount(){
     
       var that =this;
-      axios.post('/session/getCart')
-      .then(function(res){
-          console.log('vao NNAv');
-            if(res.data==="not cart")
-               that.props.dispatch(setCart([]));
-            else
-               that.props.dispatch(setCart(res.data));
-      })
-      .catch(function(e){
-          console.log(e);
-      })
+      // axios.post('/session/getCart')
+      // .then(function(res){
+      //     console.log('vao NNAv');
+      //       if(res.data==="not cart")
+      //          that.props.dispatch(setCart([]));
+      //       else
+               that.props.dispatch(setCart());
+      // })
+      // .catch(function(e){
+      //     console.log(e);
+      // })
   }
   logout(){
     
@@ -65,7 +65,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
   render() {
     
     var html1 =  this.props.auth.isAuthenticated ?  <li className="dropdown">
-          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{this.props.auth.user.username}<span className="caret"></span></a>
+          <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src={this.props.auth.avartar} />{this.props.auth.user.username}<span className="caret"></span></a>
           <ul className="dropdown-menu">
             <li><Link to="/user_shop/manager/order">Quản lý đơn hàng</Link></li>
             <li><Link to="/user_shop/manager/accountsetting">Quản lý tài khoản</Link></li>

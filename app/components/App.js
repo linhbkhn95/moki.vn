@@ -65,8 +65,9 @@ if(localStorage.jwToken){
                            }
                        } /> 
                       {/* <Route  path="/shopCart" component={ShopCart} /> */}
-                      <Route  path="/shopMK-:c.html"  render={function(){
-                          return<Layout><ShopMK /></Layout>
+                      <Route  path="/shopMK.:c.html"  render={function( {match}  ){
+                           console.log(match)
+                          return<Layout><ShopMK user_id={match.params.c}/></Layout>
                            }
                        } />
                       {/* <Route path="/product/:d" component={Home} />  */}

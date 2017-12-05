@@ -20,7 +20,7 @@ class ProfileManager extends React.Component{
                <div className="col-md-12">
                <div className="title-moduleadd-product" >Thông tin chủ cửa hàng</div>
                <div className="col-md-12">
-                 <div className="col-md-12">
+                 <div className="col-md-6">
                    <FieldGroup
                        id="formControlsText"
                        type="text"
@@ -28,7 +28,7 @@ class ProfileManager extends React.Component{
                        placeholder="Nhập tên của bạn..."
                    />
                  </div>
-                 <div className="col-md-12">
+                 <div className="col-md-6">
                     <FieldGroup
                         id="formControlsText"
                         type="text"
@@ -38,7 +38,7 @@ class ProfileManager extends React.Component{
                     />
                
                </div>
-               <div className="col-md-12">
+               <div className="col-md-6">
                    <FieldGroup
                        id="formControlsText"
                        type="text"
@@ -46,7 +46,7 @@ class ProfileManager extends React.Component{
                        placeholder="Nhập số điện thoại..."
                    />
                  </div>
-                 <div className="col-md-12">
+                 <div className="col-md-6">
                     <FieldGroup
                         id="formControlsText"
                         type="text"
@@ -56,7 +56,7 @@ class ProfileManager extends React.Component{
                     />
                
                </div>
-               <div className="col-md-12">
+               <div className="col-md-6">
                     <FieldGroup
                         id="formControlsText"
                         type="text"
@@ -76,7 +76,7 @@ class ProfileManager extends React.Component{
           
            <div className="title-moduleadd-product">Thông tin cửa hàng</div>
             <div className="col-md-12">
-                 <div className="col-md-12">
+                 <div className="col-md-6">
                    <FieldGroup
                        id="formControlsText"
                        type="text"
@@ -84,7 +84,7 @@ class ProfileManager extends React.Component{
                        placeholder="Nhập tên của cửa hàng..."
                    />
                  </div>
-                 <div className="col-md-12">
+                 <div className="col-md-6">
                     <FieldGroup
                         id="formControlsText"
                         type="text"
@@ -124,7 +124,9 @@ class ProfileManager extends React.Component{
                   />
              
             </div>
+            
             </div>  
+            <div className="col-md-12"><div className="pull-right" ><button className="btn btn-primary">Lưu thay đổi</button></div></div>
            </div>
             </div>
         )

@@ -37,7 +37,7 @@ class SlideProduct extends React.Component{
                     <Slider {...settings}>
                         {this.state.data.map(function(item,index){
                                 return(
-                                <div key={index}><Product productId={item.productId} src={"../../images/"+item.src} name={item.name} priceSale={item.priceSale} pre={item.pre}  /> </div>
+                                <div key={index}><Product  productId={item.productId} src={"../../images/"+item.src} name={item.name} priceSale={item.priceSale} pre={item.pre}  /> </div>
                                 )
                             })
                         } 
