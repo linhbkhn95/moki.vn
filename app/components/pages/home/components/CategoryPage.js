@@ -24,7 +24,8 @@ class CategoryPage extends React.Component{
     componentWillReceiveProps(nextProps){
         var that =this;
         console.log('componentWillReceiveProps');
-         axios.get('/api/get_list_products',{category_id:nextProps.category_id})
+        console.log(nextProps.category_id);
+         axios.post('/api/get_list_products',{category_id:nextProps.category_id})
          .then(function(res){
              console.log(res.data.data.products);
               that.setState({data:res.data.data.products});
@@ -34,7 +35,7 @@ class CategoryPage extends React.Component{
     componentDidMount(){
         var that =this;
         console.log('bugg');
-         axios.get('/api/get_list_products',{category_id:this.props.category_id})
+         axios.post('/api/get_list_products',{category_id:this.props.category_id})
          .then(function(res){
              console.log(res.data.data.products);
               that.setState({data:res.data.data.products});
@@ -53,7 +54,7 @@ class CategoryPage extends React.Component{
                   this.state.data.map(function(item,index){
                       return(
                           <div key={index} style={{width:"33%",float:"left"}}>
-                          <Product productId={item.id}  src={item.image.length>0?item.image[0].url:'../images/product1.jpg'} name={item.name} priceSale={item.price_percent} pre={item.price}  />
+                          <Product like={item.like} is_liked={item.is_liked} comment={item.comment} productId={item.id}  src={item.image.length>0?item.image[0].url:'../images/product1.jpg'} name={item.name} priceSale={item.price_percent} pre={item.price}  />
                           </div>
                       )
 

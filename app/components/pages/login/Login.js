@@ -33,19 +33,23 @@ class Login extends React.Component{
    //  io.socket.get('/session/userlogin',{u:username.value}, function gotResponse(data, jwRes) {
    //     console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
    //   });
-      axios.post('/auth/index', {phone: phone.value,password: password.value})
+      axios.post('/api/login', {user_name: phone.value,password: password.value})
        .then(res => {
          
     //  console.log(res.data);
-         localStorage.setItem('jwToken',res.data.token);
-         setAuthorizationToken(res.data.token);
-         dispatch(setCurrentUser(jwtDecode(res.data.token)));
+        if(res.data.code==1000){
+         var data =res.data.data;
+         localStorage.setItem('jwToken',data.token);
+         setAuthorizationToken(data.token);
+      //   dispatch(setCurrentUser(jwtDecode(res.data.token)));
+          dispatch(setCurrentUser({id:data.id,username:data.username,avartar:data.avartar}))
+
        //  dispatch(showNotifi(""));
-         console.log(jwtDecode(res.data.token));
+         console.log(jwtDecode(data.token));
          console.log("dang nhap ok");
      //    console.log(that.refs.phone.getVal+' ' +that.refs.password.getValue());
          dispatch(login(that.refs.phone.value));
-         that.props.history.push('/');
+         this.context.router.history.push('/');
      //   if(res.data!=null){
 
      //     dispatch(login(res.data.user.email));
@@ -61,12 +65,14 @@ class Login extends React.Component{
 
      //   //  dispatch(showNotifi(res.data));
      //   }
+        }
       })
      .catch(function(err){
-        that.setState({textError:err.response.data.err});
-        
+      //  that.setState({textError:err.response.data.err});
+        console.log(err);
      //  dispatch(showNotifi(err.response.data.err));
      });
+    
       
    }
     render(){
@@ -140,5 +146,8 @@ class Login extends React.Component{
         )
     }
 }
+Login.contextTypes = {
+    router: React.PropTypes.object.isRequired
+  }
 
 module.exports = connect(function(state){return{}})(Login);

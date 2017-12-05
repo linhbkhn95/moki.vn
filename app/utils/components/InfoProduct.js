@@ -60,7 +60,16 @@ class InfoProduct extends React.Component{
     buy(productId){
         var {dispatch} = this.props ;
         console.log(this.refs.quantity.value);
-        dispatch(addCart(this.state.product)); 
+        let product={};
+        product.product_id=productId;
+        product.quantity=parseInt(this.refs.quantity.value);
+        product.image = this.props.data.image[0].url;
+        product.name=this.props.data.name;
+        product.price = this.props.data.price
+        product.price_new= this.props.data.price_new;
+        product.shop_name=this.props.data.seller.name;
+        product.shop_id = this.props.data.seller.id;
+        dispatch(addCart(product)); 
       
         $('html,body').animate({
             scrollTop:$("Header").offset().top

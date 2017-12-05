@@ -211,7 +211,7 @@ class shopMK extends React.Component{
                                         
                                         
                                                  </div> 
-                                                 <div className="col-md-9">
+                                                 <div className="col-md-9" style={{paddingTop:"14px"}}>
                                                     <div className="col-md-12 tab-admin-shop">
                                                         <ul>
                                                             <li ><NavLink to="/shop/admin">Trang chủ</NavLink> </li>

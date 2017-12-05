@@ -1,25 +1,45 @@
 import React from  'react';
 import Product from 'app/utils/Product.js'
-
+import axios from 'axios';
 class Home extends React.Component{
     constructor(props) {
         super(props);
     
         this.state = {
           data:[
-            {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
-            {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"},
-            {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
-            {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"}
+            // {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
+            // {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
+            // {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
+            // {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
+            // {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"},
+            // {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
+            // {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
+            // {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
+            // {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
+            // {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"}
           ]
         };
       }
+    componentWillMount(nextStop){
+        var that=this;
+        axios.post('/api/get_user_listings', {user_id:2174})
+        .then(res => {
+            if(res.data.code==1000){
+                that.setState({data:res.data.data});
+               // console.log(res.data.data);
+            }
+        });
+    }
+    componentDidMount(){
+       var that=this;
+        axios.post('/api/get_user_listings', {user_id:2174})
+        .then(res => {
+            if(res.data.code==1000){
+                that.setState({data:res.data.data});
+               // console.log(res.data.data);
+            }
+        });
+    }
     render(){
         return(
             <div>
@@ -45,7 +65,7 @@ class Home extends React.Component{
                                                                                 this.state.data.map(function(item,index){
                                                                                     return(
                                                                                         <div key={index} style={{width:"33%",float:"left"}}>
-                                                                                        <Product  src={"../../images/"+item.src} name={item.name} priceSale={item.priceSale} pre={item.pre}  />
+                                                                                        <Product like={item.like} is_liked={item.is_liked} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_new} pre={item.price_percent}  />
                                                                                         </div>
                                                                                     )
 

@@ -56,7 +56,7 @@ class Login extends React.Component{
     //  io.socket.get('/session/userlogin',{u:username.value}, function gotResponse(data, jwRes) {
     //     console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
     //   });
-       axios.post('auth/index', {phone: username.getValue(),password: password.getValue()})
+       axios.post('api/login', {user_name: username.getValue(),password: password.getValue()})
         .then(res => {
           console.log(res.data);
           localStorage.setItem('jwToken',res.data.token);

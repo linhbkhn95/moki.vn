@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
 import Product from 'app/utils/Product.js'
+import axios from 'axios';
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
 class shopMK extends React.Component{
     constructor(props) {
@@ -10,26 +11,31 @@ class shopMK extends React.Component{
     
         this.state = {
           data:[
-            {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
-            {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"},
-            {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
-            {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"}
+            
           ]
         };
       }
-    login(){
-        var {dispatch} = this.props;
-        
-       console.log(this.refs.sdt.value+' ' +this.refs.password.value);
-       dispatch(login(this.refs.sdt.value));
-       this.props.history.push('/');
-   }
+      componentWillReceiveProps(nextProps){
+        var that=this;
+        axios.post('/api/get_user_listings', {user_id:nextProps.user_id})
+        .then(res => {
+            if(res.data.code==1000){
+                that.setState({data:res.data.data});
+                console.log(res.data.data);
+            }
+        });
+    }
+    componentDidMount(){
+       var that=this;
+       console.log(this.props.user_id)
+        axios.post('/api/get_user_listings', {user_id:this.props.user_id})
+        .then(res => {
+            if(res.data.code==1000){
+                that.setState({data:res.data.data});
+                console.log(res.data.data);
+            }
+        });
+    }
     render(){
         return(
               <div className="container" style={{paddingTop:"10px"}}>
@@ -231,7 +237,7 @@ class shopMK extends React.Component{
                                                                                 this.state.data.map(function(item,index){
                                                                                     return(
                                                                                         <div key={index} style={{width:"33%",float:"left"}}>
-                                                                                        <Product  src={"../../images/"+item.src} name={item.name} priceSale={item.priceSale} pre={item.pre}  />
+                                                                                       <Product like={item.like} is_liked={item.is_liked} productId={item.id} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_new} pre={item.price_percent}  />
                                                                                         </div>
                                                                                     )
 

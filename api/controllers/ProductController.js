@@ -371,7 +371,7 @@ module.exports = {
     },
 
     getProducts: async function (req, res) {
-
+       console.log(req.param('category_id'));
         let categoryId = req.param('category_id') || 'ALL';
         let index = req.param('index') || 0;
         let sort = req.param('sort') || 'p_fromdate';
