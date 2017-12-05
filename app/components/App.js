@@ -38,7 +38,7 @@ if(localStorage.jwToken){
 //require('style!css!sass!./css/style.scss');
 // $(document).ready(() => $(document).foundation());
       componentDidMount(){
-      
+           
       }
 
      render(){

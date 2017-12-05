@@ -8,6 +8,8 @@ import {logout} from 'app/action/actionUserName';
 import ScrollToTop from 'react-scroll-up';
 import {setCart} from 'app/action/actionShoppingCart';
 import axios from 'axios';
+import {setTitle}from 'app/action/actionTitlePage.js'
+
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
   class Nav extends React.Component {
   componentDidMount(){
@@ -20,6 +22,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
       //          that.props.dispatch(setCart([]));
       //       else
                that.props.dispatch(setCart());
+               this.props.dispatch(setTitle(" "))
       // })
       // .catch(function(e){
       //     console.log(e);
