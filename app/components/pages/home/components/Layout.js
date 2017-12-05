@@ -4,10 +4,15 @@ import MenuCategory from './MenuCategory.js';
 
 import LayoutMain from 'app/components/Layout.js';
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
-
+import {connect}from 'react-redux'
 
 class Layout extends React.Component{
- 
+  constructor(props){
+    super(props);
+    this.state={
+         titlePage:''
+    }
+  }
   render(){
     var that =this;
     return(
@@ -15,7 +20,7 @@ class Layout extends React.Component{
           <div>
         
           <div className="container">
-           <div className="title-group-product"> <h2>Miễn phí</h2> <hr /> </div>
+           <div className="title-group-product"> <h2>{this.props.titlePage?this.props.titlePage.toUpperCase():""}</h2> <hr /> </div>
             <div className="row">
 
               <div className="col-md-3 left">
@@ -35,4 +40,6 @@ class Layout extends React.Component{
     )
   }
 }
-module.exports =  Layout;
+module.exports =  connect(function(state){return{
+  titlePage:state.titlePage}
+})(Layout);

@@ -7,7 +7,7 @@ module.exports = ({ match  }) => {
   
     return (
       <div className="col-md-9 right">
-         <DetailProductPage product_Id={match.params.c} />
+         <DetailProductPage titlePage={match.params.x.split('-').join(' ')} product_Id={match.params.c} />
       </div>
   )
 }

@@ -25,6 +25,11 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
       //     console.log(e);
       // })
   }
+  search(e){
+    e.preventDefault();
+    let key = this.refs.search.value;
+    this.context.router.history.push('/products/search.'+key+'.html');
+  }
   logout(){
     
        console.log("logout");
@@ -123,7 +128,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                 </div>
                 <div className="right">
                   <div className="search">
-                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm.."/>
+                   <form onSubmit={this.search.bind(this)}> <input type="text"  ref="search" placeholder="Tìm kiếm sản phẩm.."/></form>
                   </div>
                   <div className="navbar">
                     <ul>
@@ -151,6 +156,9 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
   }
 }
 
+Nav.contextTypes = {
+  router: React.PropTypes.object.isRequired
+}
 
  module.exports =connect(function(state){
    return{

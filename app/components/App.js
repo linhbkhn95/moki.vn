@@ -14,6 +14,7 @@ var ShopCart = require('app/components/pages/shopcart/ShopCart.js');
 var ShopMK = require('app/components/pages/shopMK/ShopMK.js');
 var UserManager = require('app/components/pages/usershopmanager/UserManager.js');
 var CategoryPage = require('app/components/pages/home/components/CategoryPage.js');
+var Search =       require('app/components/pages/search/Search.js');
 
 import OrderStep from  'app/components/pages/shopcart/OrderStep.js';
 import AdminShop from  'app/components/pages/shopMK/AdminShop.js';
@@ -80,7 +81,11 @@ if(localStorage.jwToken){
                            }
                        } />
                       <Route path="/category" component={Home}/>
-                     
+                      <Route path="/products/search.:key.html" render={function({match}){
+                           console.log(match.params)
+                          return<div><Search keysearch={match.params.key} /></div>
+                           }
+                       } />
                       <Route render={function(){
                           return <p> Trang không tồn tại</p>
                            }

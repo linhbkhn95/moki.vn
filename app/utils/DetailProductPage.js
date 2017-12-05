@@ -9,6 +9,7 @@ const props = {width: 400,zoomZindex:99,zoomStyle:"z-index:9", zoomWidth: 500, i
 import React from 'react';
 
 import {connect} from 'react-redux';
+import {setTitle}from 'app/action/actionTitlePage.js'
 
 import InfoProduct from './components/InfoProduct.js';
 import {addCart} from 'app/action/actionShoppingCart.js';
@@ -37,6 +38,8 @@ class Detail extends React.Component{
     }
     componentWillReceiveProps(nextProps){
         var that = this;
+        this.props.dispatch(setTitle(this.props.titlePage))
+        
         axios.post('/api/get_products',{id:3})
         .then(function(res){
             console.log(res.data.data);
@@ -53,6 +56,8 @@ class Detail extends React.Component{
     }
     componentDidMount(){
         var that = this;
+        this.props.dispatch(setTitle(this.props.titlePage))
+        
         axios.post('/api/get_products',{id:this.props.product_Id})
         .then(function(res){
             console.log(res.data.data);

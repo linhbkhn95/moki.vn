@@ -1,6 +1,8 @@
 import React from 'react';
 import Product from 'app/utils/Product.js'
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {setTitle}from 'app/action/actionTitlePage.js'
 class CategoryPage extends React.Component{
     constructor(props) {
         super(props);
@@ -23,6 +25,7 @@ class CategoryPage extends React.Component{
       }
     componentWillReceiveProps(nextProps){
         var that =this;
+        this.props.dispatch(setTitle(this.props.titlePage))
         console.log('componentWillReceiveProps');
         console.log(nextProps.category_id);
          axios.post('/api/get_list_products',{category_id:nextProps.category_id})
@@ -34,6 +37,8 @@ class CategoryPage extends React.Component{
     }
     componentDidMount(){
         var that =this;
+        console.log(this.props.titlePage)
+        this.props.dispatch(setTitle(this.props.titlePage))
         console.log('bugg');
          axios.post('/api/get_list_products',{category_id:this.props.category_id})
          .then(function(res){
@@ -65,4 +70,7 @@ class CategoryPage extends React.Component{
        
     }
 }
-module.exports = CategoryPage;
+module.exports = connect(function(state){
+    return{
+        
+}})(CategoryPage);

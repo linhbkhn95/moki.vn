@@ -9,7 +9,7 @@ module.exports = ({ match  }) => {
      
       <div className="col-md-9 right">
 
-                  <CategoryPage category_id={match.params.d}/>
+                  <CategoryPage titlePage={match.params.y.split('-').join(' ')} category_id={match.params.d}/>
                   {/* <Route exact path={`/be`} component={CategoryPage} />   */}
                
                    {/* <Route path={`${match.url}/:d`} component={DetailProduct} />  */}
