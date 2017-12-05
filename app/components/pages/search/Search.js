@@ -2,33 +2,27 @@ import React from 'react';
 import Product from 'app/utils/Product.js'
 import axios from 'axios';
 import Layout from 'app/components/pages/home/components/Layout.js';
+import {setTitle}from 'app/action/actionTitlePage.js'
+import { connect } from "react-redux";
 class Search extends React.Component{
     constructor(props) {
         super(props);
     
         this.state = {
           data:[
-            // {productId:"6",src:"product6.jpg",name:"Giày đẹp",priceSale:"75,000",pre:"90,000"},
-            // {productId:"2",src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            // {productId:"3",src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            // {productId:"4",src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            // {productId:"5",src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"},
-
-            // {productId:"6",src:"product6.jpg",name:"Giày đẹp",priceSale:"75,000",pre:"90,000"},
-            // {productId:"2",src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            // {productId:"3",src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            // {productId:"4",src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            // {productId:"5",src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"}
+           
           ]
         };
       }
     componentWillReceiveProps(nextProps){
         console.log('  componentWillReceiveProps(nextProps){')
+        this.props.dispatch(setTitle("kết quả tìm kiếm"))
         console.log(nextProps)
     }
     componentDidMount(){
         var that =this;
         console.log('  componentDidMount(){')
+        this.props.dispatch(setTitle("kết quả tìm kiếm"))
         console.log('bugg');
         console.log(this.props.keysearch)
          axios.post('/api/search',{keyword:this.props.keysearch})
@@ -61,4 +55,8 @@ class Search extends React.Component{
        
     }
 }
-module.exports = Search;
+module.exports = connect(function(state){
+
+    return{}
+
+})(Search);
