@@ -87,7 +87,15 @@ module.exports.routes = {
   * route view salesman
   */
   '/api/get_list_order_shop': 'ProductController.viewOrderByShop',
+  '/api/set_status_product_order': 'ProductController.setStatusProductOrder',
   
+  
+
+  /**
+   * Route view user
+   */
+
+  '/api/set_order_status': 'ProductController.setOrderStatus',
 
   /**
    * Route view user

@@ -17,7 +17,7 @@ module.exports = {
         let count = params['count'] || 20; //default 20
         let status = 'ENABLE';
         let token = req.headers['authorization'];
-        
+
         var self = this;
 
         if (count > 200) {
@@ -30,7 +30,7 @@ module.exports = {
                     reject(err)
                     return;
                 }
-                
+
                 let user_id = req.session.user_id;
                 Promise.all(data.map((product) => {
                     let listImages = self.listImages;
@@ -69,7 +69,7 @@ module.exports = {
                     })
                 })).then((products) => {
                     let result = response.OK;
-                    result.data=products;
+                    result.data = products;
                     res.json(result);
                     resolve(products)
                 })
@@ -81,16 +81,16 @@ module.exports = {
         let user_id = req.session.user_id;
         let order_detail = req.param('order_detail');
         let address = req.param('address');
-        let paid = req.param('paid')||0;
+        let paid = req.param('paid') || 0;
         let phone = req.param('phone');
         let city = req.param('city');
 
-        if(!order_detail||!(order_detail instanceof Array)||order_detail.length == 0 || !address || !phone || !city) {
+        if (!order_detail || !(order_detail instanceof Array) || order_detail.length == 0 || !address || !phone || !city) {
             return res.json(response.PARAMETER_VALUE_IS_INVALID);
         }
 
         return new Promise((resolve, reject) => {
-            StoredProcedure.query("call moki.createOrder(?, ?, ?, ?, ?)", [user_id, address, paid, phone, city ], function (err, [data, server_status]) {
+            StoredProcedure.query("call moki.createOrder(?, ?, ?, ?, ?)", [user_id, address, paid, phone, city], function (err, [data, server_status]) {
                 if (err) {
                     reject(err)
                     return;
@@ -125,36 +125,36 @@ module.exports = {
         let user_id = req.session.user_id;
 
         let order_id = req.param('order_id');
-        let status = req.param('status')||'ENABLE';
+        let status = req.param('status') || 'ENABLE';
 
         return new Promise((resolve, reject) => {
-            StoredProcedure.query("call moki.viewOrderByUsernameId(?, ?)", [user_id, status ], function (err, [data, server_status]) {
+            StoredProcedure.query("call moki.viewOrderByUsernameId(?, ?)", [user_id, status], function (err, [data, server_status]) {
                 if (err) {
                     reject(err)
                     return;
                 }
-                if(!!order_id) {
+                if (!!order_id) {
                     data = data.find((order) => {
-                        return order.o_id==order_id;
+                        return order.o_id == order_id;
                     })
-                    if(!data) {
+                    if (!data) {
                         res.json(response.PARAMETER_VALUE_IS_INVALID);
                         return;
                     } else {
                         data = [data];
                     }
                 }
-                
+
 
                 Promise.all(data.map((order) => {
                     return new Promise((resolve, reject) => {
                         StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
-                            resolve({data, order});
+                            resolve({ data, order });
                         })
                     })
                 })).then((orders) => {
                     let result = response.OK;
-                    result.data = orders.map(({data, order}) => {
+                    result.data = orders.map(({ data, order }) => {
                         return {
                             id: order.o_id,
                             code: order.o_code,
@@ -163,6 +163,7 @@ module.exports = {
                             total_price: order.o_total_price,
                             phone: order.o_phone,
                             city: order.city,
+                            status: order.o_statusid,
                             products: data.map((p) => {
                                 return {
                                     id: p.ord_p_id,
@@ -186,10 +187,10 @@ module.exports = {
     viewOrderByShop: function (req, res) {
         let user_id = req.session.user_id;
         console.log(user_id)
-        let status = req.param('status')||'ENABLE';
+        let status = req.param('status') || 'ENABLE';
 
         return new Promise((resolve, reject) => {
-            StoredProcedure.query("call moki.viewOrderOfShop(?, ?)", [user_id, status ], function (err, [data, server_status]) {
+            StoredProcedure.query("call moki.viewOrderOfShop(?, ?)", [user_id, status], function (err, [data, server_status]) {
                 if (err) {
                     reject(err)
                     return;
@@ -198,12 +199,12 @@ module.exports = {
                 Promise.all(data.map((order) => {
                     return new Promise((resolve, reject) => {
                         StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [data, server_status]) {
-                            resolve({data, order});
+                            resolve({ data, order });
                         })
                     })
                 })).then((orders) => {
                     let result = response.OK;
-                    result.data = orders.map(({data, order}) => {
+                    result.data = orders.map(({ data, order }) => {
                         return {
                             id: order.ord_id,
                             id_p: order.ord_p_id,
@@ -220,6 +221,146 @@ module.exports = {
                                 phone: data[0].ui_phone,
                                 avartar: data[0].ui_avartar
                             }
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
+    setStatusProductOrder: function (req, res) {
+        let user_id = req.session.user_id;
+
+        let status = req.param('status');
+
+        switch (status) {
+            case 'ENABLE':
+                status = "ENABLE";
+                break;
+            case 'APPROVED':
+                status = "APPROVED";
+                break;
+            case 'UNENABLE':
+                status = "UNENABLE";
+                break;
+
+            default:
+                return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
+
+        let ord_id = req.param('ord_id');
+        if (!ord_id || isNaN(ord_id) || parseInt(ord_id) < 0) {
+            return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.setStatusProductOrder(?, ?, ?)", [ord_id, status, user_id], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return res.json(response.NOT_ACCESS);
+                }
+
+                if(data.length < 1) {
+                    return res.json(response.NOT_ACCESS);
+                }
+
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.ord_p_user_id], function (err, [data, server_status]) {
+                            resolve({ data, order });
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = orders.map(({ data, order }) => {
+                        return {
+                            id: order.ord_id,
+                            id_p: order.ord_p_id,
+                            code: order.ord_p_code,
+                            name: order.ord_p_name,
+                            number: order.ord_number,
+                            price: order.ord_p_price,
+                            price_percent: order.ord_p_price_percent,
+                            status: order.ord_status,
+                            create: order.ord_p_fromdate,
+                            user: {
+                                id: data[0].ui_userid,
+                                name: data[0].ui_name,
+                                phone: data[0].ui_phone,
+                                avartar: data[0].ui_avartar
+                            }
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
+    setOrderStatus: function (req, res) {
+        let user_id = req.session.user_id;
+
+        let status = req.param('status');
+
+        switch (status) {
+            case 'ENABLE':
+                status = "ENABLE";
+                break;
+            case 'APPROVED':
+                status = "APPROVED";
+                break;
+            case 'UNENABLE':
+                status = "UNENABLE";
+                break;
+
+            default:
+                return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
+
+        let order_id = req.param('order_id');
+        if (!order_id || isNaN(order_id) || parseInt(order_id) < 0) {
+            return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.setStatusOrder(?, ?)", [order_id, status], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
+                            resolve({ data, order });
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = orders.map(({ data, order }) => {
+                        return {
+                            id: order.o_id,
+                            code: order.o_code,
+                            create: order.o_fromdate,
+                            address: order.o_address,
+                            total_price: order.o_total_price,
+                            phone: order.o_phone,
+                            city: order.city,
+                            status: order.o_statusid,
+                            products: data.map((p) => {
+                                return {
+                                    id: p.ord_p_id,
+                                    code: p.ord_p_code,
+                                    name: p.ord_p_name,
+                                    number: p.ord_number,
+                                    price: p.ord_p_price,
+                                    price_percent: p.ord_p_price_percent,
+                                    status: p.ord_status
+                                }
+                            })
                         }
                     });
                     res.json(result);
@@ -322,10 +463,10 @@ module.exports = {
             }
             res.status(200);
 
-            
+
 
             if (parseInt(user_id) !== response.me) {
-                pushnotify.pushNotify("New Product", "Có một sản phẩm mới", { "product_id": id_product.toString()})
+                pushnotify.pushNotify("New Product", "Có một sản phẩm mới", { "product_id": id_product.toString() })
             }
 
 
