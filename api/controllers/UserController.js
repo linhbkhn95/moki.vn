@@ -116,6 +116,49 @@ module.exports = {
         });
     },
 
+    checkLogin: function (req, res) {
+        let user_id = req.session.user_id;
+
+        let user_agent = req.headers['user-agent'] || "anonymous";
+
+        StoredProcedure.query('call moki.checkLogin(?, ?)', [user_id, user_agent], function (err, [data, server_status]) {
+            if (err) {
+                return res.json(err)
+            }
+
+            // user_login.update({ ul_user_id: 2173 }, { ul_status: 'ONLINE' }).exec(function afterwards(err, updated) {
+            //     console.log("222")
+            //     console.log(err, updated)
+            //     console.log('Updated user to have name');
+            // });
+
+            if (!data || data.length == 0) {
+                return res.json(response.NO_DATA_OR_END_OF_LIST_DATA)
+            }
+            let user = data[0]
+            var payload = {
+                user_id: user.u_id,
+                user_code: user.u_code,
+                type: user.u_type,
+            }
+
+            let token = jwt.sign({
+                data: payload
+            }, key, { expiresIn: survival_time });
+
+            let result = response.OK
+
+            result.data = {
+                id: user.u_id,
+                username: user.u_user_name,
+                avartar: user.ui_avartar,
+                token: token
+            }
+
+            return res.json(result)
+        });
+    },
+
     logout: function (req, res) {
 
         let user_id = req.session.user_id;

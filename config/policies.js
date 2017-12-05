@@ -35,7 +35,8 @@ module.exports.policies = {
     connect: 'buyer',
     get_user_infor: 'public',
     get_list_conversation: 'buyer',
-    get_conversation: 'buyer'
+    get_conversation: 'buyer',
+    checkLogin: 'buyer',
   },
 
   UserMController: {
@@ -48,6 +49,7 @@ module.exports.policies = {
     get_list_conditions: 'public',
     get_list_sizes: 'public',
     get_list_brands: 'public',
+    getNewProducts: 'public',
     getProducts: 'public',
     get_products: 'public',
     getComments: 'public',
@@ -57,7 +59,10 @@ module.exports.policies = {
     setRates: 'buyer',
     set_save_search: 'buyer',
     get_list_save_search: 'buyer',
-    addProduct: 'buyer'
+    addProduct: 'buyer',
+    setOrder: 'buyer',
+    viewOrder: 'buyer',
+    viewOrderByShop: 'salesman'
   },
 
   CategoryController: {

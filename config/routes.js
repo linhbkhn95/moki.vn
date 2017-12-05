@@ -83,6 +83,11 @@ module.exports.routes = {
 
   //test socket
   //'/user/connect': 'UserController.connect',
+  /*
+  * route view salesman
+  */
+  '/api/get_list_order_shop': 'ProductController.viewOrderByShop',
+  
 
   /**
    * Route view user
@@ -114,6 +119,8 @@ module.exports.routes = {
   '/api/get_list_brands': 'ProductController.get_list_brands',
   '/api/get_list_conditions': 'ProductController.get_list_conditions',
   '/api/get_user_listings': 'ProductController.user_listings',
+  '/api/get_new_products': 'ProductController.getNewProducts',
+  
   
 
   //'/api/test': 'ProductController.upload',
@@ -137,5 +144,8 @@ module.exports.routes = {
   '/api/add_products': 'ProductController.addProduct',
   '/api/get_list_conversation': 'UserController.get_list_conversation',
   '/api/get_conversation': 'UserController.get_conversation',
+  '/api/check_login': 'UserController.checkLogin',
+  '/api/buy_cart': 'ProductController.setOrder',
+  '/api/view_order': 'ProductController.viewOrder',
   
 };

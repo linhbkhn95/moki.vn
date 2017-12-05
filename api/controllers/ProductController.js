@@ -9,6 +9,226 @@ const response = require('../util/response');
 const pushnotify = require('../util/pushnotify');
 
 module.exports = {
+    getNewProducts: function (req, res) {
+        let params = req.allParams();
+        let index = params['index'] || 0;
+        let sort = params['sort'] || 'p_id';
+        let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
+        let count = params['count'] || 20; //default 20
+        let status = 'ENABLE';
+        let token = req.headers['authorization'];
+        
+        var self = this;
+
+        if (count > 200) {
+            count = 200;
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.getListProductNew(?, ?, ?, ?, ?, '23:00:00')", [index, sort, typeSort, count, status], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                
+                let user_id = req.session.user_id;
+                Promise.all(data.map((product) => {
+                    let listImages = self.listImages;
+                    let listVideos = self.listVideos;
+                    let isLike = self.isLike;
+                    let ui_userid = product.ui_name;
+                    let can_edit = 0;
+                    if (!!token && (ui_userid == user_id || req.session.type == 'ADMIN')) {
+                        can_edit = 1;
+                    }
+
+                    return new Promise(async (resolve, reject) => {
+                        resolve({
+                            id: product.p_id,
+                            code: product.p_code,
+                            name: product.p_name,
+                            image: await listImages(product.p_id),
+                            video: await listVideos(product.p_id),
+                            price: product.p_price,
+                            price_percent: product.p_price_percent,
+                            brand: product.pb_name,//Thương hiệu
+                            described: product.p_description,
+                            created: product.ui_fromdate,
+                            like: product.p_nlike,
+                            comment: product.p_ncomment,
+                            is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                            is_blocked: 0,
+                            can_edit: can_edit,
+                            banned: 0, //khoá user
+                            seller: {
+                                id: product.ui_userid,
+                                username: product.ui_name,
+                                avatar: product.ui_avartar,
+                            }
+                        })
+                    })
+                })).then((products) => {
+                    let result = response.OK;
+                    result.data=products;
+                    res.json(result);
+                    resolve(products)
+                })
+            })
+        })
+    },
+
+    setOrder: function (req, res) {
+        let user_id = req.session.user_id;
+        let order_detail = req.param('order_detail');
+        let address = req.param('address');
+        let paid = req.param('paid')||0;
+        let phone = req.param('phone');
+        let city = req.param('city');
+
+        if(!order_detail||!(order_detail instanceof Array)||order_detail.length == 0 || !address || !phone || !city) {
+            return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.createOrder(?, ?, ?, ?, ?)", [user_id, address, paid, phone, city ], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                let order_id = data[0].new_id;
+
+                Promise.all(order_detail.map((product) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.addProductToOrder(?, ?, ?)", [order_id, product.product_id, product.number], function (err, [data, server_status]) {
+                            resolve(data[0]);
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = {
+                        id: orders[orders.length - 1].o_id,
+                        code: orders[orders.length - 1].o_code,
+                        create: orders[orders.length - 1].o_fromdate,
+                        address: orders[orders.length - 1].o_address,
+                        total_price: orders[orders.length - 1].o_total_price,
+                        phone: orders[orders.length - 1].o_phone,
+                        city: orders[orders.length - 1].city
+                    };
+                    res.json(result);
+                    resolve(products)
+                })
+            })
+        })
+    },
+
+    viewOrder: function (req, res) {
+        let user_id = req.session.user_id;
+
+        let order_id = req.param('order_id');
+        let status = req.param('status')||'ENABLE';
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.viewOrderByUsernameId(?, ?)", [user_id, status ], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                if(!!order_id) {
+                    data = data.find((order) => {
+                        return order.o_id==order_id;
+                    })
+                    if(!data) {
+                        res.json(response.PARAMETER_VALUE_IS_INVALID);
+                        return;
+                    } else {
+                        data = [data];
+                    }
+                }
+                
+
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
+                            resolve({data, order});
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = orders.map(({data, order}) => {
+                        return {
+                            id: order.o_id,
+                            code: order.o_code,
+                            create: order.o_fromdate,
+                            address: order.o_address,
+                            total_price: order.o_total_price,
+                            phone: order.o_phone,
+                            city: order.city,
+                            products: data.map((p) => {
+                                return {
+                                    id: p.ord_p_id,
+                                    code: p.ord_p_code,
+                                    name: p.ord_p_name,
+                                    number: p.ord_number,
+                                    price: p.ord_p_price,
+                                    price_percent: p.ord_p_price_percent,
+                                    status: p.ord_status
+                                }
+                            })
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
+    viewOrderByShop: function (req, res) {
+        let user_id = req.session.user_id;
+        console.log(user_id)
+        let status = req.param('status')||'ENABLE';
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.viewOrderOfShop(?, ?)", [user_id, status ], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [data, server_status]) {
+                            resolve({data, order});
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    result.data = orders.map(({data, order}) => {
+                        return {
+                            id: order.ord_id,
+                            id_p: order.ord_p_id,
+                            code: order.ord_p_code,
+                            name: order.ord_p_name,
+                            number: order.ord_number,
+                            price: order.ord_p_price,
+                            price_percent: order.ord_p_price_percent,
+                            status: order.ord_status,
+                            create: order.ord_p_fromdate,
+                            user: {
+                                id: data[0].ui_userid,
+                                name: data[0].ui_name,
+                                phone: data[0].ui_phone,
+                                avartar: data[0].ui_avartar
+                            }
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
     getProducts: async function (req, res) {
        console.log(req.param('category_id'));
         let categoryId = req.param('category_id') || 'ALL';
@@ -343,7 +563,7 @@ module.exports = {
         let condition_id = req.param('condition_id');
         let index = req.param('index') || 0;
         let count = req.param('count') || 10;
-        let token = req.param('token')
+        let token = req.headers['authorization'];
         let self = this;
         if (count > 200) {
             count = 200;
@@ -482,7 +702,7 @@ module.exports = {
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
         let count = params['count'] || 20; //default 20
         let status = 'ENABLE';
-        let token = params['token']
+        let token = req.headers['authorization'];
         var self = this;
 
         if (count > 200) {
@@ -892,7 +1112,7 @@ module.exports = {
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
         let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
-        let token = params['token']
+        let token = req.headers['authorization'];
 
 
         return new Promise((resolve, reject) => {
@@ -988,7 +1208,7 @@ module.exports = {
 
     user_listings: async function (req, res) {
         let user_id = req.session.user_id;
-
+        console.log(user_id)
         let count = req.param('count') || 10;
         let index = req.param('index') || 0;
         let keyword = req.param('keyword');
