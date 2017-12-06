@@ -184,6 +184,91 @@ module.exports = {
         })
     },
 
+    viewListOrder: function (req, res) {
+        let user_id = req.session.user_id;
+
+        let index = req.param('index') || 0;
+        let count = req.param('count') || 10; //default 10
+        let status = req.param('status');
+        let fromdate = req.param('fromdate');
+        let thrudate = req.param('thrudate');
+        let order_id = req.param('order_id');
+        
+        var self = this;
+
+        if (count > 200) {
+            count = 200;
+        }
+        
+
+        return new Promise((resolve, reject) => {
+            let query = `call moki.get_list_order(?, ?, ${fromdate ? '"' + fromdate + '"' : 'NULL'},${thrudate ? '"' + thrudate + '"' : 'NULL'},${status ? '"' + status + '"' : 'NULL'})`;
+            console.log(query)
+            StoredProcedure.query(query, [index, count], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                if (!!order_id) {
+                    data = data.find((order) => {
+                        return order.o_id == order_id;
+                    })
+                    if (!data) {
+                        res.json(response.PARAMETER_VALUE_IS_INVALID);
+                        return;
+                    } else {
+                        data = [data];
+                    }
+                }
+
+                //console.log(data);
+                Promise.all(data.map((order) => {
+                    return new Promise((resolve, reject) => {
+                        StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
+                            StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [user, server_status]) {
+                                resolve({ data, order, user });
+                            })
+                        })
+                    })
+                })).then((orders) => {
+                    let result = response.OK;
+                    
+                    result.data = orders.map(({ data, order, user }) => {
+                        return {
+                            id: order.o_id,
+                            code: order.o_code,
+                            create: order.o_fromdate,
+                            address: order.o_address,
+                            total_price: order.o_total_price,
+                            phone: order.o_phone,
+                            city: order.city,
+                            status: order.o_statusid,
+                            user: {
+                                id: user[0].ui_userid,
+                                name: user[0].ui_name,
+                                phone: user[0].ui_phone,
+                                avartar: user[0].ui_avartar
+                            },
+                            products: data.map((p) => {
+                                return {
+                                    id: p.ord_p_id,
+                                    code: p.ord_p_code,
+                                    name: p.ord_p_name,
+                                    number: p.ord_number,
+                                    price: p.ord_p_price,
+                                    price_percent: p.ord_p_price_percent,
+                                    status: p.ord_status
+                                }
+                            })
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
+                })
+            })
+        })
+    },
+
     viewOrderByShop: function (req, res) {
         let user_id = req.session.user_id;
         console.log(user_id)
@@ -219,6 +304,8 @@ module.exports = {
                                 id: data[0].ui_userid,
                                 name: data[0].ui_name,
                                 phone: data[0].ui_phone,
+                                address: order.o_address,
+                                city: order.o_city,
                                 avartar: data[0].ui_avartar
                             }
                         }

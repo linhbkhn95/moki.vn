@@ -92,10 +92,11 @@ module.exports.routes = {
   
 
   /**
-   * Route view user
+   * Route view admin
    */
 
   '/api/set_order_status': 'ProductController.setOrderStatus',
+  '/api/get_list_order': 'ProductController.viewListOrder',
 
   /**
    * Route view user
