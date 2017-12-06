@@ -9,14 +9,17 @@ var data=[
 
      },
      
+   
     {
-      step:3,  url:"/user/order/step/payment",name:"3. Thanh toán",
+       step:3, url:"/user/order/step/order_info",name:"3. Xác nhận",
+
         
     },
     {
-       step:4, url:"/user/order/step/order_info",name:"4. Xác nhạn",
+        step:4, url:"/user/order/step/success",name:"4. Hoàn thành",
         
-    }
+         
+     }
 ]
 class Layout extends React.Component{
     clickStep(step){

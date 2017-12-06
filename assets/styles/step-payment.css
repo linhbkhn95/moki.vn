@@ -154,9 +154,9 @@ section.thanhtoan .checkout_info_price .content table.table thead {
     box-shadow: 1px 1px 3px #eee;
 }
 section.thanhtoan .checkout_info_price .content table.table thead tr td.noname {
-    width: 40%;
+    /* width: 40%;*/
 }
-.checkout_info_price .content table.table thead tr td.noname p {
+/* .checkout_info_price .content table.table thead tr td.noname p {
     text-align: left;
 }
 .table-responsive {
@@ -177,10 +177,10 @@ section.thanhtoan .checkout_info_price .content table.table thead tr td.note p {
 }
 section.thanhtoan .checkout_info_price .content table.table tr{
     display: block;
-}
+} */
 section.thanhtoan .checkout_info_price .content table.table tbody tr td {
     border-color: #eee;
-    float: left;
+    /* float: left; */
     padding: 0;
 }
 .hidden-lg {

@@ -1,16 +1,80 @@
 import React from 'react';
 import {connect}from 'react-redux';
+import {stepSuccess}from 'app/action/actionStepOrder.js';
+
 class StepPayment extends React.Component{
     constructor(props){
         super(props);
-        this.state={
+        this.state = {
 
+             lgShow: false,
+             showModalDelete:false,
+             productId_Del : null,
+             total:0
         }
     }
-    componentDidMount(){
-
+    componentWillReceiveProps(nextStop){
+        let total=0;
+        let cart = nextStop.shoppingCart.cart;
+          cart.map((product=>{
+              total+=(product.quantity*parseInt(product.price));
+          }))
+       this.setState({total:total});
     }
+    componentDidMount(){
+        let total=0;
+        let cart = this.props.shoppingCart.cart;
+          cart.map((product=>{
+              total+=(product.quantity*parseInt(product.price));
+          }))
+       this.setState({total:total});
+    }
+    renderCart(cart){
+        var that= this;
+        console.log(this.props);
+         if(cart.length>0){
+             console.log(cart);
+             return(
+                 cart.map(function(product,index){
+                     
+                     return(
+                        <tr ng-repeat="productType in shoppingCartService.shoppingCart.productTypes | orderEnableProductType" className="ng-scope">
+                            <td className="name" style={{whiteSpace:"normal; padding-left: 8px;"}}>
+                                <p className="price ng-binding">{product.name} ({product.quantity})</p>
+                            </td>
+                            <td className="price text-right">
+                                <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountValue!=0">{product.price}đ x {product.quantity}</p>
+                                {/* <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountValue!=0">- 3,000đ</p> */}
+                                <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountPromotionValue!=0">= {parseInt(product.price)*product.quantity}đ</p>
+                            </td>
+                            <td className="note">
+                                <p ng-if="productType.totalPrice!=0" class="price ng-scope">&nbsp;</p>
+                                {/* <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountValue!=0">(KM 8%)</p> */}
+                                <p className="price ng-scope" ng-if="productType.totalDiscountPromotionValue!=0"></p>
+                        </td>    
+                    </tr>
+                     )
+ 
+                 })
+             )
+         }
+         else{
+             return (
+                 <div style={{paddingLeft:"20px",color:"#b3aa9e"}}>Không có sản phẩm nào được mua </div>
+             )
+         }
+    }
+    nextStep(){
+		var {dispatch} = this.props
+		
+				dispatch(stepSuccess())
+				this.props.history.push('/user/order/step/success')
+	
+		 
+			
+	}
     render(){
+        var cart =this.props.shoppingCart.cart;
         return(
             <div className="background-cart">
             <div className="container"> 
@@ -70,7 +134,7 @@ class StepPayment extends React.Component{
         <section className="thanhtoan">
         <div className="container">
             <div className="row">
-                <div className="col-md-8 ng-scope" ng-controller="PaymentController">
+                <div className="col-md-6 ng-scope" ng-controller="PaymentController">
                     <div className="luachonphuongthucthanhtoan">
                         <div className="headings">
                             <h5>Lựa chọn hình thức thanh toán</h5>
@@ -79,9 +143,9 @@ class StepPayment extends React.Component{
                         <input id="balanceI" hidden="" value="0"/> */}
                         <div role="tabpanel main-tabs">
                             
-                            <ul className="nav nav-tabs" role="tablist" id="payTypeSl">
-                                <li role="presentation" className="active text-center">
-                                    <a data-id="1" href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                            <ul className="nav nav-tabs" role="" id="payTypeSl">
+                                <li style={{width:"100%"}}   className="col-md-12 active text-center">
+                                    <a >
                                         
                                         <figure>
                                             <img src="../moki/themes/img/TIEN_MAT.png" alt=""/>
@@ -89,24 +153,24 @@ class StepPayment extends React.Component{
                                         <p>Thanh toán tiền mặt</p>
                                     </a>
                                 </li>
-                                <li id="mokiPointLi" role="presentation" className="">
+                                {/* <li id="mokiPointLi" role="presentation" className="">
                                     <a data-id="2" href="#tab" className="text-center" aria-controls="tab" role="tab" data-toggle="tab">
                                        
                                         <figure><img src="../moki/themes/img/MOKI_POINT.png" alt=""/></figure>
                                         <p>Thanh toán bằng MOKI Point</p>
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                            
                             <div className="tab-content">
                                 <div role="tabpanel" className="tab-pane active" id="home">
                                     <p>Bạn sẽ thanh toán bằng tiền mặt sau khi nhận hàng</p>
-                                    <button className="btn btn-default text-right hidden-xs" ng-click="choicePayType()">Tiếp tục</button>
+                                    <button className="btn btn-default text-right hidden-xs" onClick={this.nextStep.bind(this)}>Tiếp tục</button>
                                 </div>
-                                <div role="tabpanel" className="tab-pane" id="tab">
+                                {/* <div role="tabpanel" className="tab-pane" id="tab">
                                     <p>Bạn sẽ thanh toán bằng Moki Coin</p>
                                     <button className="btn btn-default text-right  hidden-xs" ng-click="choicePayType()">Tiếp tục</button>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="hidden-md hidden-lg hidden-sm choise-payment">
                                 <button className="btn text-right" ng-click="choicePayType()">Tiếp tục</button>
@@ -114,7 +178,7 @@ class StepPayment extends React.Component{
                         </div>
                     </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                     <div className="checkout_info_price ng-scope" ng-controller="ShoppingCartController">
         <div className="">
             <div className="headings">
@@ -126,7 +190,7 @@ class StepPayment extends React.Component{
                     <table className="table">
                         <thead id="tableheader">
                             <tr>
-                                <td className="noname">
+                                <td colSpan="2" className="noname">
                                     <p className="text-left">Sản phẩm</p>
                                 </td>
                                 <td className="price">
@@ -138,21 +202,9 @@ class StepPayment extends React.Component{
                             </tr>
                         </thead>
                         <tbody>
-                           <tr ng-repeat="productType in shoppingCartService.shoppingCart.productTypes | orderEnableProductType" className="ng-scope">
-                                <td className="name" style={{whiteSpace:"normal; padding-left: 8px;"}}>
-                                    <p className="price ng-binding">Thìa thay thế ăn dặm 2/589</p>
-                                </td>
-                                <td className="price text-right">
-                                    <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountValue!=0">40,000đ</p>
-                                    <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountValue!=0">- 3,000đ</p>
-                                    <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountPromotionValue!=0">= 37,000đ</p>
-                                </td>
-                                <td className="note">
-                                    <p ng-if="productType.totalPrice!=0" class="price ng-scope">&nbsp;</p>
-                                    <p className="price ng-binding ng-scope" ng-if="productType.totalDiscountValue!=0">(KM 8%)</p>
-                                    <p className="price ng-scope" ng-if="productType.totalDiscountPromotionValue!=0"></p>
-                                </td>    
-                            </tr>
+                                    {this.renderCart(cart)}
+
+                           
                         </tbody>
                     </table>
                     <hr className="hidden-lg hidden-md hidden-sm line-hr"/>
@@ -163,7 +215,7 @@ class StepPayment extends React.Component{
                                     <span className="col total">Tổng tiền<span className="vat">(Đã gồm VAT):</span></span>
                                 </td>
                                 <td className="price text-right price-colors">
-                                    <p className="ng-binding">37,000đ</p>
+                                    <p className="ng-binding">{this.state.total}đ</p>
                                 </td>
                                 <td className="price text-right price-colors">
                                 </td>
@@ -187,4 +239,5 @@ class StepPayment extends React.Component{
         )
     }
 }
-module.exports = connect(function(state){return{stepOrder:state.stepOrder}})(StepPayment);
+module.exports = connect(function(state){return{stepOrder:state.stepOrder,shoppingCart:state.shoppingCart
+}})(StepPayment);

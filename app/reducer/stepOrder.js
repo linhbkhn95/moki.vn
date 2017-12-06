@@ -4,9 +4,9 @@
 var data = {
   step: 3,
   current:2,
-  data: {
+  
     adress:{}
-  }
+
 };
 
 
@@ -18,6 +18,14 @@ var data = {
     case "SET_STEP_CURRENT":
       return {
             ...state,current:action.stepCurrent
+      };
+    case "SET_ADDRESS":
+      return {
+            ...state,adress:action.adress,current:state.current+1,step:state.step+1,
+      };
+    case "STEP_SUCCESS":
+      return {
+            ...state,current:state.current+1,step:state.step+1,
       };
     default:
        return state;

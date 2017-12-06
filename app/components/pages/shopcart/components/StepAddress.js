@@ -1,7 +1,39 @@
 import React from 'react';
+import {NavLink}from 'react-router-dom'
+import {connect}from 'react-redux';
+import {setAddress}from 'app/action/actionStepOrder.js';
 
 class StepAddress extends React.Component{
-
+	constructor(props){
+		super(props);
+		this.state={
+			 
+			 display:'none'
+		}
+	}
+    onSiteChanged(e) {
+		this.setState({
+		   display:'block'
+		  });
+	  }
+	  onAddressChanged(e) {
+		this.setState({
+		 
+		  display:"none"
+		  });
+	  }
+	nextStep(){
+		var {dispatch} = this.props
+		  if(this.state.display=="none"){
+				dispatch(setAddress("tesst"))
+				this.props.history.push('/user/order/step/order_info')
+		  }
+		  else{
+			dispatch(setAddress("khac"))
+			this.props.history.push('/user/order/step/order_info')
+		  }
+			
+	}
     render(){
         return(
 			<div className="background-cart">
@@ -15,14 +47,18 @@ class StepAddress extends React.Component{
 					<form action="/ShoppingCarts/checkout" className="form-horizontal ng-pristine ng-valid" id="addressForm" method="post"><div style={{display:"none"}}><input type="hidden" name="_method" value="POST"/></div>					<div className="content" style={{marginTop: "0px"}}>
 																					<div className="radio" style={{padding: "10px"}}>
 									<label>
-										<input type="radio" name="optradio" value="3439" data-city="1" data-province="10" data-ward="167" checked=""/>
+										<input  onChange={this.onAddressChanged.bind(this)} type="radio" name="adress" value="3439" data-city="1" data-province="10" data-ward="167" checked=""/>
 										Số 112 ngõ 165 phố chợ khâm thiên, Phường Trung Phụng, Quận Đống Đa, Hà Nội									</label>
 								</div>
 																			<div className="radio" style={{border: "1px solid #f2f2f2", backgroundColor: "#fffef1"
 						,padding: "10px"}}>
-						<label><input type="radio" name="optradio" value="0"/>Thêm địa chỉ khác</label>
+						<label><input type="radio" name="site_name" 
+                                   value="khac" 
+                                   
+                                   onChange={this.onSiteChanged.bind(this)} />Thêm địa chỉ khác</label>
+
 					</div>
-					<div className="newAddress">
+					<div style={{display:this.state.display}} className="newAddress">
 						<div className="form-group">
 							<label className="col-sm-4 control-label">Tỉnh/Thành phố</label>
 							<div className="col-sm-6">
@@ -50,12 +86,10 @@ class StepAddress extends React.Component{
 					</div>
 					<div className="form-group hidden-xs">
 						<div className="col-sm-6">
-							<button type="button" className="btn btn-default text-righ" ng-click="addAddress()">Tiếp tục</button>
+							<button type="button" onClick={this.nextStep.bind(this)} className="btn btn-default text-righ" ng-click="addAddress()">Tiếp tục</button>
 						</div>
 					</div>
-					<div className="hidden-md hidden-lg hidden-sm select-address">
-						<button type="button" className="btn btn-default text-righ" ng-click="addAddress()">Tiếp tục</button>
-					</div>
+					
 									</div></form>
 			</div>
             </div>
@@ -65,4 +99,5 @@ class StepAddress extends React.Component{
         )
     }
 }
-module.exports = StepAddress;
+
+ module.exports=connect(function(state){return{stepOrder:state.stepOrder}})(StepAddress);

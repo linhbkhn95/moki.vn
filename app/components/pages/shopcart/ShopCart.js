@@ -68,10 +68,10 @@ class shoppingCart extends React.Component{
                     return(
                     <tr key={index} className="ng-scope">
                         <td className="name">
-                            <a href="../san-pham/Thia-thay-the-binh-Lovi-9234.html">
+                            <NavLink to={"/category/product/"+product.name.split(' ').join('-')+"--"+ product.product_id+".html"}>
                                <img style={{width:"50px",height:"50px"}} className="img-responsive btn-block ng-scope" src={product.image} />
                                 
-                            </a>
+                            </NavLink>
                         </td>
                         <td className="noname">
                             <p className="name ng-binding">{product.name}</p>
