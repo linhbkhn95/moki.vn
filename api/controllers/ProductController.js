@@ -126,61 +126,73 @@ module.exports = {
 
         let order_id = req.param('order_id');
         let status = req.param('status') || 'ENABLE';
+        let self = this;
 
-        return new Promise((resolve, reject) => {
-            StoredProcedure.query("call moki.viewOrderByUsernameId(?, ?)", [user_id, status], function (err, [data, server_status]) {
-                if (err) {
-                    reject(err)
+        StoredProcedure.query("call moki.viewOrderByUsernameId(?, ?)", [user_id, status], function (err, [data, server_status]) {
+            if (err) {
+                reject(err)
+                return;
+            }
+            if (!!order_id) {
+                data = data.find((order) => {
+                    return order.o_id == order_id;
+                })
+                if (!data) {
+                    res.json(response.PARAMETER_VALUE_IS_INVALID);
                     return;
+                } else {
+                    data = [data];
                 }
-                if (!!order_id) {
-                    data = data.find((order) => {
-                        return order.o_id == order_id;
+            }
+
+
+            Promise.all(data.map((order) => {
+                return new Promise((resolve, reject) => {
+                    StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
+                        resolve({ data, order });
                     })
-                    if (!data) {
-                        res.json(response.PARAMETER_VALUE_IS_INVALID);
-                        return;
-                    } else {
-                        data = [data];
-                    }
-                }
-
-
-                Promise.all(data.map((order) => {
+                })
+            })).then((orders) => {
+                Promise.all(orders.map(({ data, order }) => {
                     return new Promise((resolve, reject) => {
-                        StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
-                            resolve({ data, order });
+                        Promise.all(
+                            data.map((p) => {
+                                return new Promise(async (resolve, reject) => {
+                                    resolve(
+                                        {
+                                            id: p.ord_p_id,
+                                            code: p.ord_p_code,
+                                            image: await self.listImages(p.ord_p_id),
+                                            video: await self.listVideos(p.ord_p_id),
+                                            name: p.ord_p_name,
+                                            number: p.ord_number,
+                                            price: p.ord_p_price,
+                                            price_percent: p.ord_p_price_percent,
+                                            status: p.ord_status
+                                        }
+                                    )
+                                })
+                            })
+                        ).then((products) => {
+                            resolve({
+                                id: order.o_id,
+                                code: order.o_code,
+                                create: order.o_fromdate,
+                                address: order.o_address,
+                                total_price: order.o_total_price,
+                                phone: order.o_phone,
+                                city: order.city,
+                                status: order.o_statusid,
+                                products: products
+                            })
                         })
                     })
                 })).then((orders) => {
                     let result = response.OK;
-                    result.data = orders.map(({ data, order }) => {
-                        return {
-                            id: order.o_id,
-                            code: order.o_code,
-                            create: order.o_fromdate,
-                            address: order.o_address,
-                            total_price: order.o_total_price,
-                            phone: order.o_phone,
-                            city: order.city,
-                            status: order.o_statusid,
-                            products: data.map((p) => {
-                                return {
-                                    id: p.ord_p_id,
-                                    code: p.ord_p_code,
-                                    name: p.ord_p_name,
-                                    number: p.ord_number,
-                                    price: p.ord_p_price,
-                                    price_percent: p.ord_p_price_percent,
-                                    status: p.ord_status
-                                }
-                            })
-                        }
-                    });
+                    result.data = orders;
                     res.json(result);
-                    resolve(result)
                 })
-            })
+            });
         })
     },
 
@@ -193,79 +205,88 @@ module.exports = {
         let fromdate = req.param('fromdate');
         let thrudate = req.param('thrudate');
         let order_id = req.param('order_id');
-        
+
         var self = this;
 
         if (count > 200) {
             count = 200;
         }
-        
 
-        return new Promise((resolve, reject) => {
-            let query = `call moki.get_list_order(?, ?, ${fromdate ? '"' + fromdate + '"' : 'NULL'},${thrudate ? '"' + thrudate + '"' : 'NULL'},${status ? '"' + status + '"' : 'NULL'})`;
-            console.log(query)
-            StoredProcedure.query(query, [index, count], function (err, [data, server_status]) {
-                if (err) {
-                    reject(err)
+
+        let query = `call moki.get_list_order(?, ?, ${fromdate ? '"' + fromdate + '"' : 'NULL'},${thrudate ? '"' + thrudate + '"' : 'NULL'},${status ? '"' + status + '"' : 'NULL'})`;
+        console.log(query)
+        StoredProcedure.query(query, [index, count], function (err, [data, server_status]) {
+            if (err) {
+                reject(err)
+                return;
+            }
+            if (!!order_id) {
+                data = data.find((order) => {
+                    return order.o_id == order_id;
+                })
+                if (!data) {
+                    res.json(response.PARAMETER_VALUE_IS_INVALID);
                     return;
+                } else {
+                    data = [data];
                 }
-                if (!!order_id) {
-                    data = data.find((order) => {
-                        return order.o_id == order_id;
-                    })
-                    if (!data) {
-                        res.json(response.PARAMETER_VALUE_IS_INVALID);
-                        return;
-                    } else {
-                        data = [data];
-                    }
-                }
+            }
 
-                //console.log(data);
-                Promise.all(data.map((order) => {
+            Promise.all(data.map((order) => {
+                return new Promise((resolve, reject) => {
+                    StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
+                        StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [user, server_status]) {
+                            resolve({ data, order, user });
+                        })
+                    })
+                })
+            })).then((orders) => {
+                Promise.all(orders.map(({ data, order, user }) => {
                     return new Promise((resolve, reject) => {
-                        StoredProcedure.query("call moki.viewOrderDetail(?)", [order.o_id], function (err, [data, server_status]) {
-                            StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [user, server_status]) {
-                                resolve({ data, order, user });
+                        Promise.all(
+                            data.map((p) => {
+                                return new Promise(async (resolve, reject) => {
+                                    resolve(
+                                        {
+                                            id: p.ord_p_id,
+                                            code: p.ord_p_code,
+                                            image: await self.listImages(p.ord_p_id),
+                                            video: await self.listVideos(p.ord_p_id),
+                                            name: p.ord_p_name,
+                                            number: p.ord_number,
+                                            price: p.ord_p_price,
+                                            price_percent: p.ord_p_price_percent,
+                                            status: p.ord_status
+                                        }
+                                    )
+                                })
+                            })
+                        ).then((products) => {
+                            resolve({
+                                id: order.o_id,
+                                code: order.o_code,
+                                create: order.o_fromdate,
+                                address: order.o_address,
+                                total_price: order.o_total_price,
+                                phone: order.o_phone,
+                                city: order.city,
+                                status: order.o_statusid,
+                                user: {
+                                    id: user[0].ui_userid,
+                                    name: user[0].ui_name,
+                                    phone: user[0].ui_phone,
+                                    avartar: user[0].ui_avartar
+                                },
+                                products: products
                             })
                         })
                     })
                 })).then((orders) => {
                     let result = response.OK;
-                    
-                    result.data = orders.map(({ data, order, user }) => {
-                        return {
-                            id: order.o_id,
-                            code: order.o_code,
-                            create: order.o_fromdate,
-                            address: order.o_address,
-                            total_price: order.o_total_price,
-                            phone: order.o_phone,
-                            city: order.city,
-                            status: order.o_statusid,
-                            user: {
-                                id: user[0].ui_userid,
-                                name: user[0].ui_name,
-                                phone: user[0].ui_phone,
-                                avartar: user[0].ui_avartar
-                            },
-                            products: data.map((p) => {
-                                return {
-                                    id: p.ord_p_id,
-                                    code: p.ord_p_code,
-                                    name: p.ord_p_name,
-                                    number: p.ord_number,
-                                    price: p.ord_p_price,
-                                    price_percent: p.ord_p_price_percent,
-                                    status: p.ord_status
-                                }
-                            })
-                        }
-                    });
+                    result.data = orders;
                     res.json(result);
-                    resolve(result)
                 })
-            })
+            });
         })
     },
 
@@ -273,6 +294,7 @@ module.exports = {
         let user_id = req.session.user_id;
         console.log(user_id)
         let status = req.param('status') || 'ENABLE';
+        let self = this;
 
         return new Promise((resolve, reject) => {
             StoredProcedure.query("call moki.viewOrderOfShop(?, ?)", [user_id, status], function (err, [data, server_status]) {
@@ -288,30 +310,37 @@ module.exports = {
                         })
                     })
                 })).then((orders) => {
-                    let result = response.OK;
-                    result.data = orders.map(({ data, order }) => {
-                        return {
-                            id: order.ord_id,
-                            id_p: order.ord_p_id,
-                            code: order.ord_p_code,
-                            name: order.ord_p_name,
-                            number: order.ord_number,
-                            price: order.ord_p_price,
-                            price_percent: order.ord_p_price_percent,
-                            status: order.ord_status,
-                            create: order.ord_p_fromdate,
-                            user: {
-                                id: data[0].ui_userid,
-                                name: data[0].ui_name,
-                                phone: data[0].ui_phone,
-                                address: order.o_address,
-                                city: order.o_city,
-                                avartar: data[0].ui_avartar
-                            }
-                        }
-                    });
-                    res.json(result);
-                    resolve(result)
+                    Promise.all(orders.map(({ data, order }) => {
+                        return new Promise(async (resolve, reject) => {
+                            resolve(
+                                {
+                                    id: order.ord_id,
+                                    id_p: order.ord_p_id,
+                                    code: order.ord_p_code,
+                                    name: order.ord_p_name,
+                                    number: order.ord_number,
+                                    price: order.ord_p_price,
+                                    image: await self.listImages(order.ord_p_id),
+                                    video: await self.listVideos(order.ord_p_id),
+                                    price_percent: order.ord_p_price_percent,
+                                    status: order.ord_status,
+                                    create: order.ord_p_fromdate,
+                                    user: {
+                                        id: data[0].ui_userid,
+                                        name: data[0].ui_name,
+                                        phone: data[0].ui_phone,
+                                        address: order.o_address,
+                                        city: order.o_city,
+                                        avartar: data[0].ui_avartar
+                                    }
+                                }
+                            )
+                        })
+                    })).then((orders) => {
+                        let result = response.OK;
+                        result.data = orders;
+                        res.json(result);
+                    })
                 })
             })
         })
@@ -349,7 +378,7 @@ module.exports = {
                     return res.json(response.NOT_ACCESS);
                 }
 
-                if(data.length < 1) {
+                if (data.length < 1) {
                     return res.json(response.NOT_ACCESS);
                 }
 
@@ -458,7 +487,7 @@ module.exports = {
     },
 
     getProducts: async function (req, res) {
-       console.log(req.param('category_id'));
+        console.log(req.param('category_id'));
         let categoryId = req.param('category_id') || 'ALL';
         let index = req.param('index') || 0;
         let sort = req.param('sort') || 'p_fromdate';
