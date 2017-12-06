@@ -17,7 +17,7 @@ class Order extends React.Component{
                         <div className="col-md-12 ">
                           <div className="noidung">
                             <div className="headings color-heading">
-                                <h5>Quản đơn hàng</h5>
+                                <h5>Quản lý đơn hàng</h5>
                             </div>
                             <div className="tabsbutton">
                                     <ul> 

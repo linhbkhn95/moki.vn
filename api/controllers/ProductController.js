@@ -76,7 +76,7 @@ module.exports = {
             })
         })
     },
-
+  
     setOrder: function (req, res) {
         let user_id = req.session.user_id;
         let order_detail = req.param('order_detail');
@@ -203,6 +203,7 @@ module.exports = {
                         })
                     })
                 })).then((orders) => {
+                    console.log(orders)
                     let result = response.OK;
                     result.data = orders.map(({ data, order }) => {
                         return {

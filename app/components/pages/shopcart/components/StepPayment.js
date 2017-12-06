@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect}from 'react-redux';
 import {stepSuccess}from 'app/action/actionStepOrder.js';
-
+import axios from 'axios';
+import {resetCart} from 'app/action/actionShoppingCart.js';
 class StepPayment extends React.Component{
     constructor(props){
         super(props);
@@ -65,8 +66,26 @@ class StepPayment extends React.Component{
          }
     }
     nextStep(){
-		var {dispatch} = this.props
-		
+                 var {dispatch} = this.props
+                let data={};
+                var cart = this.props.shoppingCart.cart.map((product)=>{
+                        return {
+                             product_id : product.product_id,
+                             number : product.quantity
+                        }
+                })
+                console.log(cart);
+                data.order_detail = cart;
+                data.city = "Hà Nội";
+                data.phone = "01689952267";
+                data.address = "Ngõ 1 Bùi Xương Trạch";
+                axios.post('/api/buy_cart',data)
+                .then((res)=>{
+                    if(res.data.code==1000){
+                        
+                    }
+                })
+                dispatch(resetCart())
 				dispatch(stepSuccess())
 				this.props.history.push('/user/order/step/success')
 	

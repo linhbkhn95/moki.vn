@@ -41,5 +41,8 @@ function addCart(product){
  function setCart(){
      return{type:SET_CART}
  }
- module.exports = {addCart,removeCart,setQuantity,setCart};
+ function resetCart(){
+  return{type:"RESET_CART"}
+}
+ module.exports = {addCart,removeCart,setQuantity,setCart,resetCart};
  
