@@ -49,7 +49,7 @@ class Product extends React.Component{
       return(
           <div className="product ">
               <div className="img-product"> 
-                  <NavLink to={"/category/product/"+this.props.name.split(' ').join('-')+"--"+ this.props.productId+".html"}><img style={{width:"100%",height:"400px"}} src={this.props.src} /></NavLink>
+                  <NavLink to={"/category/product/"+this.props.name.trim().split(' ').join('-')+"--"+ this.props.productId+".html"}><img style={{width:"100%",height:"400px"}} src={this.props.src} /></NavLink>
              </div>
              <div className="name-product">
              <NavLink to={"/category/product/"+this.props.name.split(' ').join('-')+"--"+ this.props.productId+".html"}>{this.props.name} </NavLink>
