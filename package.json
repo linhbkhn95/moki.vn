@@ -44,6 +44,7 @@
     "react-color": "^2.13.8",
     "react-csv": "^1.0.8",
     "react-d3-components": "^0.6.6",
+    "react-datepicker": "^0.61.0",
     "react-dom": "^15.6.1",
     "react-image-magnify": "^2.0.4",
     "react-image-zoom": "^0.6.1",
