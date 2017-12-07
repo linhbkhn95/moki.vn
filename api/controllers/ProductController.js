@@ -77,6 +77,28 @@ module.exports = {
         })
     },
 
+    statistics_shop_revenue: function (req, res) {
+        let user_id = req.session.user_id
+        let fromdate = req.param('fromdate')
+        let thrudate = req.param('thrudate');
+
+        if(!fromdate || !thrudate) {
+            return res.json(response.PARAMETER_VALUE_IS_INVALID)
+        }
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.statistics_shop_revenue(?, ?, ?)", [user_id, fromdate, thrudate], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                let result = response.OK
+                result.data = data
+                return res.json(result)
+            })
+        })
+    },
+
     searchAnyWhere: function (req, res) {
         let keyword = req.param('keyword');
 
