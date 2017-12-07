@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 // Import React Table
 
-
+import {connect} from 'react-redux'
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {Modal,Button,Checkbox, FormGroup,ControlLabel,FormControl,HelpBlock} from 'react-bootstrap';
@@ -42,6 +42,13 @@ class ModalOrder extends React.Component{
           unSelectedRows:[]
         };
         this.fetchData = this.fetchData.bind(this);
+      }
+      componentDidMount(){
+          axios.post('/api/get_list_order_shop',{status:"ENABLE"})
+          .then((res)=>{
+            console.log(res.data);
+              this.setState({data:res.data.data});
+          })
       }
       showModalAddProduct(){
           this.setState({showModalAddProduct:true});
@@ -254,4 +261,4 @@ class ModalOrder extends React.Component{
     }
   };
   
-  module.exports = ModalOrder;
+  module.exports = connect(function(state){return{auth:state.auth}})(ModalOrder);
