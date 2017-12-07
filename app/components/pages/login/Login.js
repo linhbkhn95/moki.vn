@@ -21,6 +21,10 @@ class Login extends React.Component{
              
         }
     }
+    componentDidMount(){
+        if(this.props.isAuthenticated)
+        this.context.router.history.push('/');
+    }
     login(e){
         var {dispatch} = this.props;
 
@@ -42,7 +46,7 @@ class Login extends React.Component{
          localStorage.setItem('jwToken',data.token);
          setAuthorizationToken(data.token);
       //   dispatch(setCurrentUser(jwtDecode(res.data.token)));
-          dispatch(setCurrentUser({id:data.id,username:data.username,avartar:data.avartar}))
+          dispatch(setCurrentUser(jwtDecode(res.data.token).data))
 
        //  dispatch(showNotifi(""));
          console.log(jwtDecode(data.token));
@@ -153,4 +157,6 @@ Login.contextTypes = {
     router: React.PropTypes.object.isRequired
   }
 
-module.exports = connect(function(state){return{}})(Login);
+module.exports = connect(function(state){return{
+    isAuthenticated:state.auth.isAuthenticated
+}})(Login);

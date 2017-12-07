@@ -5,7 +5,7 @@ import MenuCategory from './MenuCategory.js';
 import LayoutMain from 'app/components/Layout.js';
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
 import {connect}from 'react-redux'
-
+import ListProductNew from './ListProductNew.js';
 class Layout extends React.Component{
   constructor(props){
     super(props);
@@ -27,6 +27,8 @@ class Layout extends React.Component{
               
                   <MenuCategory />
                   <img className="banner" src="../../images/caidatmoki.jpg" alt=""/>
+                  <div className="col-md-12 new-product"><h2>Sản phẩm mới nhất</h2></div>
+                  <ListProductNew />
               </div>
              
              {this.props.children}

@@ -31,7 +31,7 @@ import {logout}  from 'app/action/actionAuthenticate.js';
 if(localStorage.jwToken){
   console.log('cssssssssssssssssssssssssssmm');
   setAuthorizationToken(localStorage.jwToken);
-  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwToken)));
+  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwToken).data));
   
 }
  class App extends React.Component{
@@ -40,12 +40,12 @@ if(localStorage.jwToken){
 //require('style!css!sass!./css/style.scss');
 // $(document).ready(() => $(document).foundation());
       componentDidMount(){
-           axios.get('/api/check_login')
-           .then((res)=>{
-                  if(res.data.code==1000){
-                      store.dispatch(login(res.data.data.username))
-                  }
-           })
+          //  axios.get('/api/check_login')
+          //  .then((res)=>{
+          //         if(res.data.code==1000){
+          //             store.dispatch(login(res.data.data.username))
+          //         }
+          //  })
       }
 
      render(){
