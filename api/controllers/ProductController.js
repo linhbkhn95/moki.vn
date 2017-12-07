@@ -78,6 +78,77 @@ module.exports = {
         })
     },
 
+    get_count_product_shop: function (req, res) {
+        let user_id = req.session.user_id
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.get_count_product_shop()", [], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+                StoredProcedure.query("call moki.get_category_parent()", [], function (err, [categories, server_status]) {
+                    if (err) {
+                        reject(err)
+                        return;
+                    }
+
+                    categories = categories.map((category)=> {
+                        return {
+                            id: category.pc_id,
+                            name: category.pc_name,
+                            count: 0
+                        }
+                    });
+
+                    Promise.all(data.map((shop) => {
+                        return new Promise((resolve, reject) => {
+                            StoredProcedure.query("call moki.statistics_product_category_shop(?)", [shop.s_user_id], function (err, [data, server_status]) {
+                                if (err) {
+                                    reject(err)
+                                    return;
+                                }
+
+                                let s = {
+                                    id: shop.s_user_id,
+                                    shop_name: shop.s_shop_name,
+                                    count: shop.count
+                                }
+                                s.categories = data.map((category)=> {
+                                    return {
+                                        id: category.pc_id,
+                                        name: category.pc_name,
+                                        count: category.count
+                                    }
+                                })
+                                let ca = [];
+                                categories.forEach((category) => {
+                                    let temp = s.categories.find((c) => {
+                                        return c.id == category.id
+                                    })
+
+                                    if(!!temp) {
+                                        ca.push(temp);
+                                    } else {
+                                        ca.push(category)
+                                    }
+                                })
+
+                                s.categories = ca;
+
+                                resolve(s)
+                            })
+                        })
+                    })).then((shops) => {
+                        let result = response.OK;
+                        result.data = shops;
+                        res.json(result);  
+                    })
+                })
+            })
+        })
+    },
+
     statistics_shop_revenue: function (req, res) {
         let user_id = req.session.user_id
         let fromdate = req.param('fromdate')

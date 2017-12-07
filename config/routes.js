@@ -99,7 +99,8 @@ module.exports.routes = {
 
   '/api/set_order_status': 'ProductController.setOrderStatus',
   '/api/get_list_order': 'ProductController.viewListOrder',
-
+  '/api/get_count_product_shop': 'ProductController.get_count_product_shop',
+  
   /**
    * Route view user
    */
