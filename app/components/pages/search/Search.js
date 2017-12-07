@@ -3,7 +3,10 @@ import Product from 'app/utils/Product.js'
 import axios from 'axios';
 import Layout from 'app/components/pages/home/components/Layout.js';
 import {setTitle}from 'app/action/actionTitlePage.js'
+import { Table, Pagination } from "react-bootstrap";
+
 import { connect } from "react-redux";
+import { parse } from 'url';
 class Search extends React.Component{
     constructor(props) {
         super(props);
@@ -11,7 +14,9 @@ class Search extends React.Component{
         this.state = {
           data:[
            
-          ]
+          ],
+          activePage:'1',
+          pagesize:10,
         };
       }
     componentWillReceiveProps(nextProps){
@@ -19,6 +24,20 @@ class Search extends React.Component{
         this.props.dispatch(setTitle("kết quả tìm kiếm"))
         console.log(nextProps)
     }
+    handleSelect(eventKey) {
+        this.setState({activePage: eventKey});
+        console.log(eventKey);
+        let index = parseInt(eventKey)*10
+        var that =this;
+
+        axios.post('/api/search',{index:index,keyword:this.props.keysearch})
+        .then((res)=>{
+
+              that.setState({data:res.data.data.products});
+        })
+   
+     }
+   
     componentDidMount(){
         var that =this;
         console.log('  componentDidMount(){')
@@ -48,7 +67,20 @@ class Search extends React.Component{
                       )
 
                   })
+
               }
+              <div className="pull-left">  <Pagination
+                   className={that.state.data.length === 0? 'hidden':'shown'}
+                   prev
+                   next
+                   first
+                   last
+                   ellipsis
+                   maxButtons={5}
+                   items={this.state.numPerPage}
+                   activePage={this.state.activePage}
+                   onSelect={this.handleSelect.bind(this)}>
+               </Pagination></div>
             </div>
         </Layout>
         )
