@@ -1,4 +1,6 @@
 import React from 'react';
+var Recharts  =require('recharts');
+
 import {Modal,Button,Checkbox, FormGroup,ControlLabel,FormControl,HelpBlock} from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 
@@ -76,6 +78,9 @@ class Report extends React.Component{
 
                                 </div>
                     </div>
+                    </div>
+                    <div className="col-md-12">
+                            <div style={{textAlign:"center",paddingTop:"20px"}}><button className="btn btn-lg btn-primary">Xem Thống kê</button></div>
                     </div>
             </div>
         )
