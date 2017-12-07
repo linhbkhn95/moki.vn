@@ -4,6 +4,7 @@ import isEmpty from 'lodash.isempty';
 var data = {
   isAuthenticated: false,
   user: {}
+  
 };
 
 

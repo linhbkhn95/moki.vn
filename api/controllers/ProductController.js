@@ -142,6 +142,7 @@ module.exports = {
         })
     },
 
+  
     setOrder: function (req, res) {
         let user_id = req.session.user_id;
         let order_detail = req.param('order_detail');
@@ -375,6 +376,29 @@ module.exports = {
                         })
                     })
                 })).then((orders) => {
+                    console.log(orders)
+                    let result = response.OK;
+                    result.data = orders.map(({ data, order }) => {
+                        return {
+                            id: order.ord_id,
+                            id_p: order.ord_p_id,
+                            code: order.ord_p_code,
+                            name: order.ord_p_name,
+                            number: order.ord_number,
+                            price: order.ord_p_price,
+                            price_percent: order.ord_p_price_percent,
+                            status: order.ord_status,
+                            create: order.ord_p_fromdate,
+                            user: {
+                                id: data[0].ui_userid,
+                                name: data[0].ui_name,
+                                phone: data[0].ui_phone,
+                                avartar: data[0].ui_avartar
+                            }
+                        }
+                    });
+                    res.json(result);
+                    resolve(result)
                     Promise.all(orders.map(({ data, order }) => {
                         return new Promise(async (resolve, reject) => {
                             resolve(

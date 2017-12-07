@@ -20,12 +20,14 @@
 
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment'
 // Import React Table
 import {Col, FormControl,Checkbox} from 'react-bootstrap';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import {CSVLink, CSVDownload} from 'react-csv';
 //
+import ModalDetailOrder from './ModalDetailOrder.js';
 // const requestData = (pageSize, page, sorted, filtered) => {
 
 class TableDemo extends React.Component {
@@ -38,6 +40,8 @@ class TableDemo extends React.Component {
 
            }
       ],
+      products:[],
+      showModalDetailOrder:false,
       pages: null,
       // page:1,
       // pageSize:5,
@@ -58,19 +62,23 @@ class TableDemo extends React.Component {
     console.log(state.filtered);
     console.log(state.sorted);
     // Request the data however you want.  Here, we'll use our mocked service we created earlier
-    //  axios.post('/userindex/search',{pagesize:state.pageSize,page:state.page+1,keySearch:state.filtered,sortSearch:state.sorted}
+   // {pagesize:state.pageSize,page:state.page+1,keySearch:state.filtered,sortSearch:state.sorted}
+     axios.post('/api/view_order'
 
-    // ).then(res => {
-    //   console.log(res.data);
-    //   // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
-    //   that.setState({
-    //     data: res.data.data,
-    //     pages: res.data.numPerPage,
-    //     loading: false,
-    //     checkedAll:false
-    //   });
-    //   console.log(that.state);
-    // });
+    ).then(res => {
+      console.log(res.data);
+      if(res.data.code=1000){
+      // Now just get the rows of data to your React Table (and update anything else like total pages or loading)
+          that.setState({
+             data: res.data.data,
+           //  pages: res.data.numPerPage,
+            loading: false,
+            checkedAll:false
+          });
+        }
+          console.log(that.state);
+        });
+      
   }
  fn(row){
 
@@ -111,6 +119,16 @@ class TableDemo extends React.Component {
     }
 
 }
+showModalDetailOrder(row){
+  this.setState({products:row.original.products});
+  this.setState({showModalDetailOrder:true});
+  console.log(row.original.products);
+ 
+}
+closeModalDetailOrder(){
+  this.setState({showModalDetailOrder:false});
+}
+
  handleChange(row) {
    console.log(row);
   if(!this.state.selectedRows.has(row.original.id))
@@ -148,16 +166,22 @@ class TableDemo extends React.Component {
                     
                     {
                       Header:props =><div  className=" header-react-table">Stt</div>,
-                      id: "shtk",
+                      id: "id",
                       maxWidth:70,
                       sortable:false,
+                      style:{textAlign:'center'},
+                      Cell: (row) => (
+                         <div>{row.index +1}</div>
+                      ),
+                      width: 40,
+                      hideFilter: true,
                       Filter: ({ filter, onChange }) => null,
                       accessor:"shtk"
                       
                     },
                     {
                         Header:props =><div  className=" header-react-table">Mã đơn hàng</div>,
-                        accessor: "id",
+                        accessor: "code",
                         style:{textAlign:'center'},
                         maxWidth:150
 
@@ -166,12 +190,15 @@ class TableDemo extends React.Component {
                       Header:props =><div  className=" header-react-table">Ngày Tạo</div>,
                       maxWidth:200,
                       style:{textAlign:'center'},
-                      accessor: "date"
+                      accessor: "create",
+                      Cell:(row)=> (
+                           <div> {moment(row.value).lang('vi').fromNow()} </div>
+                      )
 
                     },
                     {
                       Header:props =><div className=" header-react-table">Tổng tiền</div>,
-                      accessor: "total",
+                      accessor: "total_price",
                       style:{textAlign:'center'},
                       maxWidth:200
                     },
@@ -185,7 +212,7 @@ class TableDemo extends React.Component {
                         style:{textAlign:'center'},
                         Cell: (row) => (
           
-                          <button style={{textAlign:"center"}} className="btn btn-info"   >Chi tiết </button>
+                          <button style={{textAlign:"center"}} onClick={this.showModalDetailOrder.bind(this,row)} className="btn btn-info"   >Chi tiết </button>
           
           
           
@@ -203,7 +230,7 @@ class TableDemo extends React.Component {
                   manual // Forces table not to paginate or sort automatically, so we can handle it server-side
                   data={data}
                   noDataText="Không có kết quả!"
-                  pages={pages} // Display the total number of pages
+               //   pages={pages} // Display the total number of pages
                   loading={loading} // Display the loading overlay when we need it
                   onFetchData={this.fetchData}
 
@@ -233,6 +260,8 @@ class TableDemo extends React.Component {
                   className="-striped -highlight"
                 />
                 <br />
+                <ModalDetailOrder products={this.state.products} show={this.state.showModalDetailOrder} close={this.closeModalDetailOrder.bind(this)}/>
+
              </div>
               )
             }

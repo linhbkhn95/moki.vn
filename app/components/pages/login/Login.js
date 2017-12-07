@@ -66,6 +66,9 @@ class Login extends React.Component{
      //   //  dispatch(showNotifi(res.data));
      //   }
         }
+        else{
+            this.setState({textError:"Tên tài khoản hoặc mật khẩu không chính xác"})
+        }
       })
      .catch(function(err){
       //  that.setState({textError:err.response.data.err});

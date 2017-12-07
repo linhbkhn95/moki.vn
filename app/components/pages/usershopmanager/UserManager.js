@@ -9,7 +9,7 @@ import AccountSetting from './components/AccountSetting.js'
 import AddressSetting from './components/AddressSetting.js'
 import AccountInf from './components/AccountInf.js'
 import ChangePass from './components/ChangePass.js'
-
+var LayoutMain = require('app/components/Layout.js');
 import Order from './components/OrderManager.js';
 class UserManager extends React.Component{
   
@@ -18,6 +18,8 @@ class UserManager extends React.Component{
         return(
        
             <div>
+               <LayoutMain>
+
                 <Layout>
                   
                     <div>
@@ -37,7 +39,7 @@ class UserManager extends React.Component{
                     </div>
                 </Layout>
            
-             
+             </LayoutMain>
            </div>
        )
     }

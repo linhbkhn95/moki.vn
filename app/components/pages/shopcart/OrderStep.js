@@ -3,6 +3,7 @@ import LayoutStep from './components/LayoutStep.js';
 import StepAddress from './components/StepAddress.js';
 import StepPayment from './components/StepPayment.js';
 import StepSuccess from './components/StepSuccess.js';
+var LayoutMain = require('app/components/Layout.js');
 
 import {Route} from 'react-router-dom';
 import {connect}from 'react-redux';
@@ -12,7 +13,9 @@ class OrderStep extends React.Component{
     }
     render(){
         return(
+            <LayoutMain>
             <div style={{marginTop:"10px"}}>
+              
                <LayoutStep>
                    
                  <div>
@@ -27,7 +30,9 @@ class OrderStep extends React.Component{
                             
                     </div>
                </LayoutStep>
+            
             </div>
+            </LayoutMain>
         )
     }
 }

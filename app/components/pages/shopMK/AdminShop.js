@@ -11,6 +11,8 @@ import OrderManager from './components/OrderManager.js';
 
 import ProductManager from './components/ProductManager.js';
 import ProfileManager from './components/ProfileManager.js';
+import Report from './components/Report.js'
+var LayoutMain = require('app/components/Layout.js');
 
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect,NavLink} from 'react-router-dom';
 class AdminShop extends React.Component{
@@ -41,15 +43,17 @@ class AdminShop extends React.Component{
    }
     render(){
         return(
-             
-              <Layout>
-                  <Route exact path="/shop/admin" component={Home}/>
-                  <Route  path="/shop/admin/product" component={ProductManager}/>
-                  <Route  path="/shop/admin/order" component={OrderManager}/>
-                  <Route  path="/shop/admin/profile" component={ProfileManager}/>
-                  <Route  path="/shop/admin/report" component={ProfileManager}/>
-              </Layout>
-            
+            <div>
+              <LayoutMain>
+                <Layout>
+                    <Route exact path="/shop/admin" component={Home}/>
+                    <Route  path="/shop/admin/product" component={ProductManager}/>
+                    <Route  path="/shop/admin/order" component={OrderManager}/>
+                    <Route  path="/shop/admin/profile" component={ProfileManager}/>
+                    <Route  path="/shop/admin/report" component={Report}/>
+                </Layout>
+            </LayoutMain>
+         </div>
         )
     }
 }

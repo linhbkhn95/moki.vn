@@ -14,7 +14,9 @@ function setCookie(cname, cvalue, exdays) {
   var expires = "expires="+d.toUTCString();
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-
+var delete_cookie = function(name) {
+  document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
 function getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
@@ -112,6 +114,12 @@ var shoppingCart = (state = data, action) => {
            count= parseInt(count_data);
         }
         return {...state,count:count,cart:cart}
+       case "RESET_CART":
+          // delete_cookie("cart");
+          // delete_cookie("cart_count");
+          setCookie("cart","",-1);
+          setCookie("cart_count",0,-1);
+        return {...state,count:0,cart:[]};
       default:
         return state;
     }
