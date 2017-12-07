@@ -14,7 +14,7 @@ module.exports = {
         let index = params['index'] || 0;
         let sort = params['sort'] || 'p_id';
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
-        let count = params['count'] || 20; //default 20
+        let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
         let token = req.headers['authorization'];
 
@@ -93,6 +93,7 @@ module.exports = {
                 reject(err)
                 return;
             }
+            //console.log(data)
 
             let user_id = req.session.user_id;
             Promise.all(data.map((product) => {
@@ -581,7 +582,7 @@ module.exports = {
         let index = req.param('index') || 0;
         let sort = req.param('sort') || 'p_fromdate';
         let typeSort = req.param('typeSort') || 1; //0: DESC, 1: ASC
-        let count = req.param('count') || 20; //default 20
+        let count = req.param('count') || 10; //default 20
 
         let products = await this.listProduct(req.allParams(), req);
 
@@ -991,7 +992,7 @@ module.exports = {
 
     getListMyLike: function (req) {
         let index = req.param('index') || 0;
-        let count = req.param('count') || 20;
+        let count = req.param('count') || 10;
         let user_id = req.session.user_id;
 
 
@@ -1046,7 +1047,7 @@ module.exports = {
         let index = params['index'] || 1;
         let sort = params['sort'] || 'p_id';
         let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
-        let count = params['count'] || 20; //default 20
+        let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
         let token = req.headers['authorization'];
         var self = this;

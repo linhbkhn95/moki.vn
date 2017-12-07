@@ -129,6 +129,7 @@ module.exports.routes = {
   '/api/get_list_conditions': 'ProductController.get_list_conditions',
   '/api/get_user_listings': 'ProductController.user_listings',
   '/api/get_new_products': 'ProductController.getNewProducts',
+  '/api/get_shop_infor': 'UserController.get_shop_infor',
   
   
 

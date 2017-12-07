@@ -60,6 +60,64 @@ module.exports = {
             })
     },
 
+    get_shop_infor: function (req, res) {
+
+        let user_id = req.param('user_id')
+
+        if (!user_id) {
+            return res.json(response.PARAMETER_IS_NOT_ENOUGHT);
+        }
+        let token = req.headers['authorization'];
+        let me = false;
+        if (!!token) {
+            if (user_id == req.session.user_id) {
+                me = true;
+            }
+        }
+
+        StoredProcedure.query('call moki.get_shop_info(?)', [user_id], function (err, [user, server_status]) {
+            if (err) {
+                return res.json(err)
+            }
+            if(user.length < 1) {
+                res.json(response.PARAMETER_VALUE_IS_INVALID);
+            } else {
+                user = user[0]
+            }
+            StoredProcedure.query('call moki.get_top_comment(?)', [user_id], function (err, [comments, server_status]) {
+                let resuilt = response.OK;
+                resuilt.data = {
+                    id: user.ui_userid,
+                    username: user.ui_name,
+                    address: !me ? undefined : user.ui_address,
+                    avartar: user.ui_avartar,
+                    email: user.ui_email,
+                    create: user.ui_fromdate,
+                    shop: {
+                        shop_name: user.s_shop_name,
+                        address_shop: user.s_adress_shop,
+                        score: user.s_score,
+                        listing: user.s_listing
+                    },
+                    top_comments: comments.map((cmt) => {
+                        return {
+                            id: cmt.cmt_id,
+                            comment: cmt.cmt_content,
+                            created: cmt.cmt_fromdate,
+                            poster: {
+                                id: cmt.cmt_user_id,
+                                name: cmt.ui_name,
+                                avatar: cmt.ui_avartar
+                            }
+                        }
+                    })
+                }
+                res.json(resuilt);
+            })
+
+        })
+    },
+
     get: function (req, res) {
         User_Information.find()
             .exec(function (err, user) {
@@ -243,14 +301,14 @@ module.exports = {
                             unread: room.md_user_id == user_id ? 0 : (room.md_read == 'READ' ? 0 : 1),
                         }
                     })
-            })
+                })
             })).then((conversation) => {
-            result.data = conversation;
-            result.numNewMessage = numNewMessage;
-            return res.json(result)
-        })
-    });
-},
+                result.data = conversation;
+                result.numNewMessage = numNewMessage;
+                return res.json(result)
+            })
+        });
+    },
 
     get_conversation: function (req, res) {
         let user_id = req.session.user_id;
@@ -308,30 +366,30 @@ module.exports = {
 
     },
 
-get_members_room: function (room_id) {
+    get_members_room: function (room_id) {
 
-    return new Promise((resolve, reject) => {
-        StoredProcedure.query('call moki.get_members_room(?)', [room_id], function (err, [data, server_status]) {
-            if (err) {
-                console.log(err)
-                reject(err)
-                return;
-            }
-            //console.log(data)
-            resolve(
-                data.map((member) => {
-                    return {
-                        id: member.ui_userid,
-                        username: member.ui_name,
-                        avatar: member.ui_avartar,
-                    }
-                })
-            )
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query('call moki.get_members_room(?)', [room_id], function (err, [data, server_status]) {
+                if (err) {
+                    console.log(err)
+                    reject(err)
+                    return;
+                }
+                //console.log(data)
+                resolve(
+                    data.map((member) => {
+                        return {
+                            id: member.ui_userid,
+                            username: member.ui_name,
+                            avatar: member.ui_avartar,
+                        }
+                    })
+                )
+            })
+
+
         })
-
-        
-    })
-},
+    },
 
 };
 
