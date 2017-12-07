@@ -96,6 +96,8 @@ module.exports = {
             var payload = {
                 user_id: user.u_id,
                 user_code: user.u_code,
+                username: user.u_user_name,
+                avartar: user.ui_avartar,
                 type: user.u_type,
             }
 
