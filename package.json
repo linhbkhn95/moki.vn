@@ -56,7 +56,7 @@
     "react-table": "^6.5.3",
     "react-tap-event-plugin": "^2.0.1",
     "react-toolbox": "^2.0.0-beta.12",
-    "recharts": "^1.0.0-alpha.4",
+    "recharts": "^1.0.0-beta.6",
     "redux": "^3.7.2",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9",
