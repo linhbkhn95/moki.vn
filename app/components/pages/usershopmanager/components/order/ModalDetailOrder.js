@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import Product from 'app/utils/Product.js'
 import {Modal,Button,Checkbox, FormGroup,ControlLabel,FormControl,HelpBlock} from 'react-bootstrap';
 function FieldGroup({ id, label, help, ...props }) {
     return (
@@ -40,6 +41,7 @@ class ModalOrder extends React.Component{
       
     render(){
        const { data, pages, loading } = this.state;
+       var products = this.props.products;
       return (
         <Modal   show={this.props.show}
         onHide={this.close.bind(this)} 
@@ -50,7 +52,17 @@ class ModalOrder extends React.Component{
           </Modal.Header>
           <Modal.Body>
               <div className="row">
-
+                    <div className="col-md-12">
+                          {products.map((product)=>{
+                              return <div className="col-md-4">
+                                   
+                                     <Product name = {product.name } productId={product.id} src = {product.image[0].url}  />
+                                     <div style={{textAlign:"center",paddingBottom:"5px",fontSize:"15px"}} > Số lượng đặt : <i style={{color:"#c72f8a",fontWeight:"bold"}}>{product.number}</i> </div>
+                                     <div style={{textAlign:"center"}} > Trạng thái : <i style={{color:"#2e70d2"}}>{product.status=="ENABLE" ? "Đang chờ phê xác nhận":"Chờ giao hàng"}</i> </div>
+                                  </div>
+                          })
+                        }
+                       </div>
               </div>
           </Modal.Body>
           <Modal.Footer>

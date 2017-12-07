@@ -52,7 +52,7 @@ class Product extends React.Component{
                   <NavLink to={"/category/product/"+this.props.name.split(' ').join('-')+"--"+ this.props.productId+".html"}><img style={{width:"100%",height:"400px"}} src={this.props.src} /></NavLink>
              </div>
              <div className="name-product">
-                  <a href="">{this.props.name} </a>
+             <NavLink to={"/category/product/"+this.props.name.split(' ').join('-')+"--"+ this.props.productId+".html"}>{this.props.name} </NavLink>
              </div>
              
              <div className="vote">

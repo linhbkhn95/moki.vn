@@ -115,10 +115,11 @@ var shoppingCart = (state = data, action) => {
         }
         return {...state,count:count,cart:cart}
        case "RESET_CART":
-          delete_cookie("cart");
-          delete_cookie("cart_count");
-        
-        return data;
+          // delete_cookie("cart");
+          // delete_cookie("cart_count");
+          setCookie("cart","",-1);
+          setCookie("cart_count",0,-1);
+        return {...state,count:0,cart:[]};
       default:
         return state;
     }

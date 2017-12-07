@@ -310,7 +310,6 @@ module.exports = {
                         })
                     })
                 })).then((orders) => {
-<<<<<<< HEAD
                     console.log(orders)
                     let result = response.OK;
                     result.data = orders.map(({ data, order }) => {
@@ -334,7 +333,6 @@ module.exports = {
                     });
                     res.json(result);
                     resolve(result)
-=======
                     Promise.all(orders.map(({ data, order }) => {
                         return new Promise(async (resolve, reject) => {
                             resolve(
@@ -366,7 +364,6 @@ module.exports = {
                         result.data = orders;
                         res.json(result);
                     })
->>>>>>> c63f9b4d7e9b5d84d357d54cd4b5e64d39f73ca0
                 })
             })
         })

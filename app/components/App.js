@@ -76,10 +76,8 @@ if(localStorage.jwToken){
 
                           
                           
-                      <PrivateRoute path="/user/order/step"  render={function(){
-                          return<Layout><OrderStep /></Layout>
-                           }
-                       } />
+                      <PrivateRoute path="/user/order/step"  component={OrderStep}
+                        />
                       <Route path="/category" component={Home}/>
                       <Route path="/products/search.:key.html" render={function({match}){
                            console.log(match.params)

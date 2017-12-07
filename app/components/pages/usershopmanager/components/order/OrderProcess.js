@@ -20,6 +20,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment'
 // Import React Table
 import {Col, FormControl,Checkbox} from 'react-bootstrap';
 import ReactTable from "react-table";
@@ -39,6 +40,7 @@ class TableDemo extends React.Component {
 
            }
       ],
+      products:[],
       showModalDetailOrder:false,
       pages: null,
       // page:1,
@@ -117,8 +119,11 @@ class TableDemo extends React.Component {
     }
 
 }
-showModalDetailOrder(){
+showModalDetailOrder(row){
+  this.setState({products:row.original.products});
   this.setState({showModalDetailOrder:true});
+  console.log(row.original.products);
+ 
 }
 closeModalDetailOrder(){
   this.setState({showModalDetailOrder:false});
@@ -185,7 +190,10 @@ closeModalDetailOrder(){
                       Header:props =><div  className=" header-react-table">Ngày Tạo</div>,
                       maxWidth:200,
                       style:{textAlign:'center'},
-                      accessor: "date"
+                      accessor: "create",
+                      Cell:(row)=> (
+                           <div> {moment(row.value).lang('vi').fromNow()} </div>
+                      )
 
                     },
                     {
@@ -204,7 +212,7 @@ closeModalDetailOrder(){
                         style:{textAlign:'center'},
                         Cell: (row) => (
           
-                          <button style={{textAlign:"center"}} onClick={this.showModalDetailOrder.bind(this)} className="btn btn-info"   >Chi tiết </button>
+                          <button style={{textAlign:"center"}} onClick={this.showModalDetailOrder.bind(this,row)} className="btn btn-info"   >Chi tiết </button>
           
           
           
@@ -252,7 +260,7 @@ closeModalDetailOrder(){
                   className="-striped -highlight"
                 />
                 <br />
-                <ModalDetailOrder show={this.state.showModalDetailOrder} close={this.closeModalDetailOrder.bind(this)}/>
+                <ModalDetailOrder products={this.state.products} show={this.state.showModalDetailOrder} close={this.closeModalDetailOrder.bind(this)}/>
 
              </div>
               )
