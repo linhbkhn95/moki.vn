@@ -23,6 +23,15 @@ class Search extends React.Component{
         console.log('  componentWillReceiveProps(nextProps){')
         this.props.dispatch(setTitle("kết quả tìm kiếm"))
         console.log(nextProps)
+        var that =this;
+        this.props.dispatch(setTitle("kết quả tìm kiếm"))
+       
+         axios.post('/api/search',{keyword:nextProps.keysearch})
+         .then(function(res){
+             console.log(res.data.data.products);
+              that.setState({data:res.data.data.products});
+           
+         })
     }
     handleSelect(eventKey) {
         this.setState({activePage: eventKey});
@@ -52,12 +61,13 @@ class Search extends React.Component{
          })
     } 
     render(){
+        if(this.state.data&&this.state.data.length>0)
         return(
          <Layout> 
             <div className="col-md-9 right">
               
               {/* {this.props.url} */}
-            
+              <div className="col-md-12" >
               {
                   this.state.data.map(function(item,index){
                       return(
@@ -69,8 +79,10 @@ class Search extends React.Component{
                   })
 
               }
-              <div className="pull-left">  <Pagination
-                   className={that.state.data.length === 0? 'hidden':'shown'}
+             </div>
+             <div className="col-md-12">
+              <div className="pull-right">  <Pagination
+                   className={this.state.data.length === 0? 'hidden':'shown'}
                    prev
                    next
                    first
@@ -80,11 +92,21 @@ class Search extends React.Component{
                    items={this.state.numPerPage}
                    activePage={this.state.activePage}
                    onSelect={this.handleSelect.bind(this)}>
-               </Pagination></div>
+               </Pagination></div></div>
             </div>
+
         </Layout>
+
         )
-       
+       else{
+           return (
+               <Layout>
+                      <div className="col-md-9 right">
+                <div style={{textAlign:"center"}} className="col-md-12"><h2>Không tìm thấy kết quả</h2></div>
+                </div>
+               </Layout>
+           )
+       }
     }
 }
 module.exports = connect(function(state){

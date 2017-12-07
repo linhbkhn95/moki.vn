@@ -44,7 +44,7 @@ class CategoryPage extends React.Component{
     } 
     render(){
         console.log(this.props.category_id);
-        if(this.state.data.length>0){
+        if(this.state.data &&this.state.data.length>0){
          return(
              
             <div style={{paddingTop:"20px"}} className="col-md-12">
