@@ -89,6 +89,7 @@ module.exports.routes = {
   '/api/get_list_order_shop': 'ProductController.viewOrderByShop',
   '/api/set_status_product_order': 'ProductController.setStatusProductOrder',
   '/api/statistics_shop_revenue': 'ProductController.statistics_shop_revenue',
+  '/api/statistics_product_inventory': 'ProductController.statistics_product_inventory',
   
   
 

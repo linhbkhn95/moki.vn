@@ -54,6 +54,7 @@ module.exports = {
                             brand: product.pb_name,//Thương hiệu
                             described: product.p_description,
                             created: product.ui_fromdate,
+                            number: product.p_number,
                             like: product.p_nlike,
                             comment: product.p_ncomment,
                             is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
@@ -94,6 +95,39 @@ module.exports = {
                 }
                 let result = response.OK
                 result.data = data
+                return res.json(result)
+            })
+        })
+    },
+
+    statistics_product_inventory: function (req, res) {
+        let user_id = req.session.user_id
+
+        return new Promise((resolve, reject) => {
+            StoredProcedure.query("call moki.statistics_product_inventory(?)", [user_id], function (err, [data, server_status]) {
+                if (err) {
+                    reject(err)
+                    return;
+                }
+
+                let result = response.OK
+                result.data = data.map((product) => {
+                    return {
+                        id: product.p_id,
+                        code: product.p_code,
+                        name: product.p_name,
+                        price: product.p_price,
+                        price_percent: product.p_price_percent,
+                        brand: product.pb_name,//Thương hiệu
+                        category: product.pc_name,
+                        condition: product.cond_name,
+                        number: product.p_number,
+                        described: product.p_description,
+                        created: product.p_fromdate,
+                        like: product.p_nlike,
+                        comment: product.p_ncomment,
+                    }
+                })
                 return res.json(result)
             })
         })
@@ -140,6 +174,7 @@ module.exports = {
                         described: product.p_description,
                         created: product.ui_fromdate,
                         like: product.p_nlike,
+                        number: product.p_number,
                         comment: product.p_ncomment,
                         is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
                         is_blocked: 0,
@@ -1107,6 +1142,7 @@ module.exports = {
                             described: product.p_description,
                             created: product.ui_fromdate,
                             like: product.p_nlike,
+                            number: product.p_number,
                             comment: product.p_ncomment,
                             is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
                             is_blocked: 0,
