@@ -76,6 +76,72 @@ module.exports = {
             })
         })
     },
+
+    searchAnyWhere: function (req, res) {
+        let keyword = req.param('keyword');
+
+        let index = req.param('index') || 0;
+        let count = req.param('count') || 10;
+        let token = req.headers['authorization'];
+        let self = this;
+        if (count > 200) {
+            count = 200;
+        }
+
+        StoredProcedure.query('call moki.search_any_where(?, ?, ?)', [keyword, index, count], function (err, [data, server_status]) {
+            if (err) {
+                reject(err)
+                return;
+            }
+
+            let user_id = req.session.user_id;
+            Promise.all(data.map((product) => {
+                let listImages = self.listImages;
+                let listVideos = self.listVideos;
+                let isLike = self.isLike;
+                let ui_userid = product.ui_name;
+                let can_edit = 0;
+                if (!!token && (ui_userid == user_id || req.session.type == 'ADMIN')) {
+                    can_edit = 1;
+                }
+
+                return new Promise(async (resolve, reject) => {
+                    resolve({
+                        id: product.p_id,
+                        code: product.p_code,
+                        name: product.p_name,
+                        image: await listImages(product.p_id),
+                        video: await listVideos(product.p_id),
+                        price: product.p_price,
+                        price_percent: product.p_price_percent,
+                        described: product.p_description,
+                        created: product.ui_fromdate,
+                        like: product.p_nlike,
+                        comment: product.p_ncomment,
+                        is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                        is_blocked: 0,
+                        can_edit: can_edit,
+                        banned: 0, //khoá user
+                        seller: {
+                            id: product.ui_userid,
+                            username: product.ui_name,
+                            avatar: product.ui_avartar,
+                        }
+                    })
+                })
+            })).then((products) => {
+                let result = response.OK;
+                result.data = {};
+                if (products.length > 0) {
+                    result.data.products = products
+                    result.data.new_items = 0;
+                    result.data.last_id = products[products.length - 1].id;
+                }
+                res.json(result);
+            })
+        })
+    },
+
   
     setOrder: function (req, res) {
         let user_id = req.session.user_id;

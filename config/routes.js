@@ -117,7 +117,7 @@ module.exports.routes = {
   /**
    * Route search product
    */
-  '/api/search': 'ProductController.search',
+  '/api/search': 'ProductController.searchAnyWhere',
 
 
   /**

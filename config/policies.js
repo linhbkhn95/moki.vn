@@ -72,7 +72,7 @@ module.exports.policies = {
     get: 'public'
   },
 
-  '/api/search': 'public',
+  '/api/searchAnyWhere': 'public',
   '/api/get_list_news': 'public',
   '/api/get_news': 'public',
   '/api/get_user_info': 'public',
