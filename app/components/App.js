@@ -24,7 +24,9 @@ import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
 import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
 import {setCurrentUser} from 'app/action/authActions.js';
+import {login} from 'app/action/actionUserName';
 
+import axios from 'axios'
 import {logout}  from 'app/action/actionAuthenticate.js';
 if(localStorage.jwToken){
   console.log('cssssssssssssssssssssssssssmm');
@@ -38,7 +40,12 @@ if(localStorage.jwToken){
 //require('style!css!sass!./css/style.scss');
 // $(document).ready(() => $(document).foundation());
       componentDidMount(){
-           
+           axios.get('/api/check_login')
+           .then((res)=>{
+                  if(res.data.code==1000){
+                      store.dispatch(login(res.data.data.username))
+                  }
+           })
       }
 
      render(){
