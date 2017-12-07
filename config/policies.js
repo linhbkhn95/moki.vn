@@ -66,7 +66,8 @@ module.exports.policies = {
     viewOrderByShop: 'salesman',
     setOrderStatus: 'admin',
     setStatusProductOrder: 'salesman',
-    viewListOrder: 'admin'
+    viewListOrder: 'admin',
+    statistics_shop_revenue: 'salesman'
   },
 
   CategoryController: {
