@@ -116,7 +116,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                       </NavDropdown> */}
                   {html1}
                      
-                  <li><Link to=""><i className="fa fa-flag-checkered" aria-hidden="true"></i>Kiểm tra đơn hàng</Link></li>
+                  {/* <li><Link to=""><i className="fa fa-flag-checkered" aria-hidden="true"></i>Kiểm tra đơn hàng</Link></li> */}
                   <li><NavLink to="/shopCart"><i className="fa fa-shopping-cart" ></i>Giỏ hàng</NavLink> <span className="badge">{this.props.count}</span></li>
                  {html2}
                 </ul>

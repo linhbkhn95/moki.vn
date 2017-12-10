@@ -40,16 +40,16 @@ class Login extends React.Component{
       axios.post('/api/login', {user_name: phone.value,password: password.value})
        .then(res => {
          
-    //  console.log(res.data);
+      console.log(res.data);
         if(res.data.code==1000){
          var data =res.data.data;
          localStorage.setItem('jwToken',data.token);
          setAuthorizationToken(data.token);
       //   dispatch(setCurrentUser(jwtDecode(res.data.token)));
-          dispatch(setCurrentUser(jwtDecode(res.data.token).data))
+          dispatch(setCurrentUser(jwtDecode(data.token).data))
 
        //  dispatch(showNotifi(""));
-         console.log(jwtDecode(data.token));
+         //console.log(jwtDecode(data.token));
          console.log("dang nhap ok");
      //    console.log(that.refs.phone.getVal+' ' +that.refs.password.getValue());
          dispatch(login(that.refs.phone.value));

@@ -26,10 +26,10 @@ class Home extends React.Component{
                     <Route exact  path="/category/group-product/:y--:d.html" component={Category} />
                     
                     <Route  path="/category/product/:x--:c.html" component={DetailProduct}/>
-                    <Route render={function(){
+                    {/* <Route render={function(){
                           return <p> Danh mục không tồn tại</p>
                            }
-                       } />
+                       } /> */}
              
           </Layout>
              
