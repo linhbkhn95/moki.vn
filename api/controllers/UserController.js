@@ -159,6 +159,7 @@ module.exports = {
                 user_id: user.u_id,
                 user_code: user.u_code,
                 username: user.u_user_name,
+                name: user.ui_name,
                 avartar: user.ui_avartar,
                 type: user.u_type,
             }
@@ -171,6 +172,7 @@ module.exports = {
 
             result.data = {
                 id: user.u_id,
+                name: user.ui_name,
                 username: user.u_user_name,
                 avartar: user.ui_avartar,
                 token: token

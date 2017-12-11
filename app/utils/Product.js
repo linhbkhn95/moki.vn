@@ -53,7 +53,7 @@ class Product extends React.Component {
                 {priceSale==0?<div className="price-pre"><br /></div>:<div className="price-pre">{(this.props.pre).toLocaleString('VND') + "đ"}</div>}
             </div>
         );
-        let name = this.props.name.replace(/-/g, ' ').replace(/\s\s+/g, ' ');
+        let name = this.props.name.replace(/-|\//g, ' ').replace(/\s\s+/g, ' ');
         
         return (
             <div className="product " style={{display: "inline-block"}}>
