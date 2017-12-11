@@ -109,7 +109,7 @@ class CategoryPage extends React.Component {
                     (!!this.state.data && this.state.data.length > 0) ?
                         this.state.data.map(function (item, index) {
                             return (
-                                <div key={index} style={{ width: "33%", float: "left" }}>
+                                <div key={index} style={{ width: "33%", float: "left", display: "inline-block" }}>
                                     <Product like={item.like} is_liked={item.is_liked} comment={item.comment} productId={item.id} src={item.image.length > 0 ? item.image[0].url : '../images/product1.jpg'} name={item.name} priceSale={item.price_percent} pre={item.price} />
                                 </div>
                             )

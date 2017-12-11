@@ -899,6 +899,9 @@ module.exports = {
 
     getComments: function (req, res) {
         let productId = req.param('product_id');
+        if(isNaN(productId)) {
+            return res.json(response.PARAMETER_VALUE_IS_INVALID);
+        }
         StoredProcedure.query('call moki.getCommentsProduct(?, NULl)', [productId], function (err, [data, server_status]) {
             let result = response.OK;
 
@@ -1284,7 +1287,8 @@ module.exports = {
                                 name: product.ui_name,
                                 avatar: product.ui_avartar,
                                 score: product.s_score,
-                                listing: product.s_listing
+                                listing: product.s_listing,
+                                created: product.ui_fromdate
                             },
                             category: await categoryChild(product.p_category_id)
                         })

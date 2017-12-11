@@ -46,20 +46,22 @@ class Product extends React.Component {
     }
     render() {
         let priceSale = this.props.priceSale < 100 ? this.props.priceSale * this.props.pre / 100 : this.props.priceSale;
-
+        
         let price = (
             <div className="price-product">
-                <div className="price-sale">{this.props.pre - priceSale}</div>
-                {priceSale==0?<div className="price-pre"><br /></div>:<div className="price-pre">{this.props.pre}</div>}
+                <div className="price-sale">{(this.props.pre - priceSale).toLocaleString('VND') + "đ"}</div>
+                {priceSale==0?<div className="price-pre"><br /></div>:<div className="price-pre">{(this.props.pre).toLocaleString('VND') + "đ"}</div>}
             </div>
         );
+        let name = this.props.name.replace(/-/g, ' ').replace(/\s\s+/g, ' ');
+        
         return (
-            <div className="product ">
+            <div className="product " style={{display: "inline-block"}}>
                 <div className="img-product">
-                    <NavLink to={"/category/product/" + this.props.name.trim().split(' ').join('-') + "--" + this.props.productId + ".html"}><img style={{ width: "100%", height: "250px" }} src={this.props.src} /></NavLink>
+                    <NavLink to={"/category/product/" + name.trim().split(' ').join('-') + "--" + this.props.productId + ".html"}><img style={{ width: "100%", height: "250px" }} src={this.props.src} /></NavLink>
                 </div>
                 <div className="name-product">
-                    <NavLink to={"/category/product/" + this.props.name.trim().split(' ').join('-') + "--" + this.props.productId + ".html"}>{this.props.name} </NavLink>
+                    <NavLink to={"/category/product/" + name.trim().split(' ').join('-') + "--" + this.props.productId + ".html"}>{this.props.name} </NavLink>
                 </div>
 
                 <div className="vote">

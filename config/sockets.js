@@ -185,16 +185,16 @@ module.exports.sockets = {
     ***************************************************************************/
     onConnect: function (session, socket, cb) {
         // `true` allows the connection
-        console.log(socket.conn)
-        console.log("------------------")
-        console.log(socket.handshake.query.token)
-        console.log("------------------")
-        console.log(socket.handshake.headers)
-        console.log("------------------")
-        console.log(socket.conn.id)
-        console.log("------------------")
+        // console.log(socket.conn)
+        // console.log("------------------")
+        // console.log(socket.handshake.query.token)
+        // console.log("------------------")
+        // console.log(socket.handshake.headers)
+        // console.log("------------------")
+        // console.log(socket.conn.id)
+        // console.log("------------------")
         
-        console.log("Socket--", sails.sockets.getId(socket))
+        // console.log("Socket--", sails.sockets.getId(socket))
         // console.log(handshake.headers)
         // console.log("------------------")
         // console.log(handshake._query)
@@ -322,7 +322,7 @@ module.exports.sockets = {
                                 product_id: room.r_product_id
                             }
                         })
-                        console.log(sails.sockets.socketRooms(req.socket))
+                        //console.log(sails.sockets.socketRooms(req.socket))
                     }
                 });
             });

@@ -15,7 +15,10 @@ module.exports = {
         let user_id = req.param('user_id')
 
         if (!user_id) {
-            return res.json(response.PARAMETER_IS_NOT_ENOUGHT);
+            if(!req.headers['authorization']) {
+                return res.json(response.PARAMETER_IS_NOT_ENOUGHT);
+            }
+            user_id = req.session.user_id;
         }
 
         User_Information.find(
@@ -31,7 +34,8 @@ module.exports = {
                 }
                 user = user[0]
                 let me = false;
-                if (!!req.param('token')) {
+                let token = req.headers['authorization'];
+                if (!!token) {
                     if (user_id == req.session.user_id) {
                         me = true;
                     }
