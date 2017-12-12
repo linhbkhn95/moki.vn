@@ -93,8 +93,7 @@ class shoppingCart extends React.Component {
                     let price = (
                         <td className="price">
                             <p className="price ng-binding">{(product.price - priceSale).toLocaleString('VND') + "đ"}</p>
-                            <p className="ori_price ng-scope"><s><span className="line ng-binding">{(product.price).toLocaleString('VND') + "đ"}</span></s>&nbsp;&nbsp;&nbsp;<span className="percent ng-binding">KM {(priceSale).toLocaleString('VND') + "đ"}</span>
-                            </p>
+                            {priceSale==0?"":<p className="ori_price ng-scope"><s><span className="line ng-binding">{(product.price).toLocaleString('VND') + "đ"}</span></s>&nbsp;&nbsp;&nbsp;<span className="percent ng-binding">KM {(priceSale).toLocaleString('VND') + "đ"}</span></p>}
                         </td>
                     );
                     return (

@@ -6,24 +6,16 @@ import { Tabs, Tab } from 'material-ui/Tabs';
 import Slider from 'material-ui/Slider';
 import { BrowserRouter as Router, Route, Switch, Ridirect, hashHistory, Redirect } from 'react-router-dom';
 import { removeCart } from 'app/action/actionShoppingCart';
-
-const styles = {
-    headline: {
-        fontSize: 24,
-        paddingTop: 16,
-        marginBottom: 12,
-        fontWeight: 400,
-    },
-};
-
+import Phone from 'material-ui-icons/Phone'
+import OrderManager from './OrderManager';
 class Layout extends React.Component {
 
 
     render() {
         return (
             <section>
-                <Tabs>
-                    <Tab icon={<FontIcon className="material-icons">phone</FontIcon>} label="RECENTS" >
+                <Tabs tabItemContainerStyle={{ background: 'rgb(255, 255, 255)', boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px" }}>
+                    <Tab label="Thông tin người dùng" style={{ color: "#f16e8e" }}>
                         <div className="manager-user-shopcart">
                             <div className="container conetent-manager">
                                 <div className="row">
@@ -59,20 +51,14 @@ class Layout extends React.Component {
                             </div>
                         </div>
                     </Tab>
-                    <Tab label="Item Two" >
-                        <div>
-                            <h2 style={styles.headline}>Tab Two</h2>
-                            <p>
-                                This is another example tab.
-        </p>
-                        </div>
+                    <Tab label="Danh sách đơn hàng" style={{ color: "#f16e8e" }}>
+                        <OrderManager />
                     </Tab>
                     <Tab
-                        label="onActive"
-                        data-route="/home"
+                        label="Danh sách sản phẩm yêu thích" style={{ color: "#f16e8e" }}
                     >
                         <div>
-                            <h2 style={styles.headline}>Tab Three</h2>
+
                             <p>
                                 This is a third example tab.
         </p>

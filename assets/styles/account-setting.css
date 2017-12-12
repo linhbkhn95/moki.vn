@@ -121,3 +121,8 @@ div {
 .col-md-9 {
     width: 1000px;
 }
+
+.shopname a {
+    color: #f16e8e!important;
+    font-weight: bold;
+}

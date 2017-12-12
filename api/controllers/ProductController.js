@@ -363,6 +363,11 @@ module.exports = {
                                             number: p.ord_number,
                                             price: p.ord_p_price,
                                             price_percent: p.ord_p_price_percent,
+                                            seller: {
+                                                id: p.ui_userid,
+                                                user_name: p.ui_name,
+                                                avatar: p.ui_avartar
+                                            },
                                             status: p.ord_status
                                         }
                                     )
