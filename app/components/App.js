@@ -28,6 +28,8 @@ import {login} from 'app/action/actionUserName';
 
 import axios from 'axios'
 import {logout}  from 'app/action/actionAuthenticate.js';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 if(localStorage.jwToken){
   console.log('cssssssssssssssssssssssssssmm');
   setAuthorizationToken(localStorage.jwToken);
@@ -50,7 +52,7 @@ if(localStorage.jwToken){
 
      render(){
         return(
-        
+          <MuiThemeProvider>
              <Provider store={store}>
               <Router>
                   <div>
@@ -112,7 +114,7 @@ if(localStorage.jwToken){
              </Router>
              </Provider>
         
-     
+             </MuiThemeProvider>
     )
   }
 }

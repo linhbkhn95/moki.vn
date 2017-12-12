@@ -160,5 +160,6 @@ module.exports.routes = {
   '/api/check_login': 'UserController.checkLogin',
   '/api/buy_cart': 'ProductController.setOrder',
   '/api/view_order': 'ProductController.viewOrder',
+  '/api/change_password': 'UserController.changePassword',
   
 };

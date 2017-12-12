@@ -30,6 +30,11 @@ module.exports = {
       columnName: "ui_name",
       require: true
     },
+    email: {
+      type: "string",
+      columnName: "ui_email",
+      require: true
+    },
     phone: {
       type: "string",
       columnName: "ui_phone",

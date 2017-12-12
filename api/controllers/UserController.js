@@ -50,6 +50,10 @@ module.exports = {
                     avatar: user.avartar,
                     address: me ? user.address : undefined,
                     city: me ? user.city : undefined,
+                    email: user.email,
+                    birthday: user.birthday,
+                    gender: user.gender,
+                    phone: user.phone,
                     followed: 0,
                     is_blocked: 0,
                     default_address: !me ? undefined : {
@@ -179,6 +183,34 @@ module.exports = {
             }
 
             return res.json(result)
+        });
+    },
+
+    changePassword: function (req, res) {
+        let user_id = req.session.user_id;
+        let old_password = req.param('old_password');
+        let new_password = req.param('new_password');
+        
+        let old_password_MD5 = md5(old_password);
+        let new_password_MD5 = md5(new_password);
+
+        StoredProcedure.query('call moki.checkPassword(?, ?)', [user_id, old_password_MD5], function (err, [data, server_status]) {
+            if (err) {
+                return res.json(err)
+            }
+
+            if(!!data && data.length == 1 && data[0].u_id==user_id) {
+                StoredProcedure.query('call moki.changePassword(?, ?)', [user_id, new_password_MD5], function (err, [data, server_status]) {
+                
+                    if(!!data && data.length == 1 && data[0].u_id==user_id && data[0].u_token==new_password_MD5) {
+                        return res.json(response.OK)
+                    } else {
+                        return res.json(response.NO_DATA_OR_END_OF_LIST_DATA)
+                    }
+                })
+            } else {
+                return res.json(response.NO_DATA_OR_END_OF_LIST_DATA)
+            }
         });
     },
 

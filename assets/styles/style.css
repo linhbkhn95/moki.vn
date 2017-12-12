@@ -746,3 +746,7 @@ section.cart .checkout .content .checkoutnow a {
   font-weight: bold;
   padding: 5px 0;
   clear: left; }
+
+.row {
+    margin: 0
+}

@@ -148,7 +148,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
                 </div>
               </div>
             </div>
-            <ScrollToTop showUnder={160}>
+            <ScrollToTop showUnder={160} style={{zIndex: "10000"}}>
              <img src="../images/up_arrow_round.png"/>
                                 </ScrollToTop>
 

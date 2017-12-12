@@ -64,10 +64,6 @@ strong {
 .text-muted {
     color: #777;
 }
-::-webkit-scrollbar {
-    width: 7px;
-    background-color: transparent;
-}
 section .account-setting .noidung .update_profile {
     color: #fff;
     background: #f16e8e;
