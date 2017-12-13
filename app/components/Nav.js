@@ -30,7 +30,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
   }
   search(e){
     e.preventDefault();
-    let key = this.refs.search.value;
+    let key = this.refs.search.value||" ";
     this.context.router.history.push('/products/search.'+key+'.html');
   }
   logout(){

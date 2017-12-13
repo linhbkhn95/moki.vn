@@ -66,7 +66,7 @@ class AccountSetting extends React.Component {
 							<div className="form-group">
 								<strong><i className="fa fa-unlock-alt margin-r-5"></i>Mật khẩu</strong>
 								<p className="text-muted editable password">
-									<a href="/user_shop/manager/changepass"><i>(Thay đổi mật khẩu)</i></a>
+									<Link to="/user_shop/manager/changepass" className="">(Thay đổi mật khẩu)</Link>
 								</p>
 							</div>
 						</div>

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 var Rate = require('rc-rate');
 import { Tabs, Tab } from 'react-bootstrap';
 import ReactImageZoom from 'react-image-zoom';
@@ -15,27 +15,19 @@ class InfoProduct extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            product: {
-                Id: "5",
-                nameProduct: "Giày cho trẻ em",
-                price: "80,000",
-                shopMK: "shopLinh",
-                urlImage: "../images/test.jpg"
-            }
-
+            product: props.data,
         }
     }
     componentDidMount() {
 
-        //    var that =this;
-        //     axios.post('/f/getDetail',{productId:this.props.productId})
-        //     .then(function(res){
-        //         console.log(res.data);
-        //         that.setState({product:res.data});
-        //     })
-        //     .catch(function(e){
-        //         console.log(e);
-        //     })
+        // axios.post('/product/getDetail', { productId: nextProps.productId })
+        // .then(function (res) {
+        //     console.log(res.data);
+        //     that.setState({ product: res.data });
+        // })
+        // .catch(function (e) {
+        //     console.log(e);
+        // })
 
     }
     // componentWillReceiveProps(nextProps){
@@ -45,17 +37,17 @@ class InfoProduct extends React.Component {
     //  }
     // //componentWillMount()
     componentWillReceiveProps(nextProps) {
-        var that = this;
+        // var that = this;
 
-        console.log(nextProps.productId);
-        axios.post('/product/getDetail', { productId: nextProps.productId })
-            .then(function (res) {
-                console.log(res.data);
-                that.setState({ product: res.data });
-            })
-            .catch(function (e) {
-                console.log(e);
-            })
+        // console.log(nextProps.productId);
+        // axios.post('/product/getDetail', { productId: nextProps.productId })
+        //     .then(function (res) {
+        //         console.log(res.data);
+        //         that.setState({ product: res.data });
+        //     })
+        //     .catch(function (e) {
+        //         console.log(e);
+        //     })
 
     }
     buy(productId) {
@@ -68,32 +60,53 @@ class InfoProduct extends React.Component {
         let product = {};
         product.product_id = productId;
         product.quantity = parseInt(this.refs.quantity.value);
-        product.image = this.props.data.image[0].url;
-        product.name = this.props.data.name;
-        product.price = this.props.data.price;
-        product.price_percent = this.props.data.price_percent;
-        product.price_new = this.props.data.price_new;
-        product.shop_name = this.props.data.seller.name;
-        product.shop_id = this.props.data.seller.id;
+        product.image = this.state.product.image[0].url;
+        product.name = this.state.product.name;
+        product.price = this.state.product.price;
+        product.price_percent = this.state.product.price_percent;
+        product.price_new = this.state.product.price_new;
+        product.shop_name = this.state.product.seller.name;
+        product.shop_id = this.state.product.seller.id;
         dispatch(addCart(product));
 
         $('html,body').animate({
             scrollTop: $("Header").offset().top
         }, 'slow')
     }
-    render() {
-        const props = { width: 400, zoomZindex: 99, zoomStyle: "z-index:9", zoomWidth: 500, img: this.props.data.image[0].url };
-        console.log("abc", this.props.data)
 
-        let priceSale = this.props.data.price_percent < 100 ? this.props.data.price_percent * this.props.data.price / 100 : this.props.data.price_percent;
-        console.log(this.props.data.price_percent, this.props.data.price)
+    like() {
+        var that = this;
+        var { auth } = this.props;
+        if (!auth.isAuthenticated) {
+            alert("Bạn chưa đăng nhập")
+            this.context.router.history.push('/user/login');
+        }
+        else {
+            axios.post('/api/like_products', { product_id: this.state.product.id })
+                .then((res) => {
+                    if (res.data.code == 1000) {
+                        let product = this.state.product;
+                        product.like = res.data.data.like;
+                        product.is_liked = !product.is_liked;
+                        this.setState({product: product})
+                    }
+                })
+        }
+    }
+
+    render() {
+        const props = { width: 400, zoomZindex: 99, zoomStyle: "z-index:9", zoomWidth: 500, img: this.state.product.image[0].url };
+        console.log("abc", this.state)
+
+        let priceSale = this.state.product.price_percent < 100 ? this.state.product.price_percent * this.state.product.price / 100 : this.state.product.price_percent;
+        console.log(this.state.product.price_percent, this.state.product.price)
         let price = (
             <div>
-                <div className="price-sale">{(this.props.data.price - priceSale).toLocaleString('VND') + "đ"}</div>
-                {priceSale == 0 ? null : <div className="price-pre">{(this.props.data.price).toLocaleString('VND') + "đ"}</div>}
+                <div className="price-sale">{(this.state.product.price - priceSale).toLocaleString('VND') + "đ"}</div>
+                {priceSale == 0 ? null : <div className="price-pre">{(this.state.product.price).toLocaleString('VND') + "đ"}</div>}
             </div>
         );
-        let categories = this.props.data.category;
+        let categories = this.state.product.category;
         let categoriesEl = []
         for (var i = 0; i < categories.length; ++i) {
             let category = categories[i];
@@ -125,14 +138,14 @@ class InfoProduct extends React.Component {
                 </div>
                 <div className="col-md-6">
                     <div className="col-md-12">
-                        <h2 style={{ textAlign: "left" }} className="name-product">{this.props.data.name}</h2>
+                        <h2 style={{ textAlign: "left" }} className="name-product">{this.state.product.name}</h2>
 
-                        <div style={{ textAlign: "left" }} className="vote">
-
-                            <i className="fa fa-star-o" aria-hidden="true"></i>
-                            <i className="fa fa-star-o" aria-hidden="true"></i>
-                            <i className="fa fa-star-o" aria-hidden="true"></i>
-                            <i className="fa fa-star-o" aria-hidden="true"></i>
+                        <div className="like-product" style={{lineHeight: "2", color: "#ff789e"}}>
+                            
+                            <div style={{display: "inline-block"}} onClick={this.like.bind(this, this.state.product.id)} >
+                                {this.state.product.is_liked?<i style={{ cursor: "pointer", fontSize: "20px", color: "#ff789e" }} className="fa fa-heart" aria-hidden="true"/>:<i style={{ cursor: "pointer", fontSize: "20px", color: "#ff789e" }} className="fa fa-heart-o" aria-hidden="true"/>}
+                            </div>
+                            &nbsp;{this.state.product.like}
                         </div>
                     </div>
                     <div className="col-md-12">
@@ -141,16 +154,16 @@ class InfoProduct extends React.Component {
                         </div>
                     </div>
                     <div className="col-md-12">
-                        <p className="detail">Sản phẩm bán từ shop: <Link to="#"><span>{this.props.data.seller.name}</span></Link> </p>
-                        <p className="detail">Diểm uy tín shop: <span>{this.props.data.seller.score}</span></p>
-                        <p className="detail">Số sản phẩm: <span>{this.props.data.seller.listing}</span> </p>
-                        <p className="detail">Ngày tham gia: <span>{moment(this.props.data.seller.created).format('DD/MM/YYYY')}</span> </p>
+                        <p className="detail">Sản phẩm bán từ shop: <NavLink to={"/shopMK." + this.state.product.seller.id + ".html"} className="ng-binding" style={{ color: "#ff789e" }}>{this.state.product.seller.name}</NavLink></p>
+                        <p className="detail">Diểm uy tín shop: <span>{this.state.product.seller.score}</span></p>
+                        <p className="detail">Số sản phẩm: <span>{this.state.product.seller.listing}</span> </p>
+                        <p className="detail">Ngày tham gia: <span>{moment(this.state.product.seller.created).format('DD/MM/YYYY')}</span> </p>
                     </div>
                     <div className="col-md-12">
                         <div style={{ borderBottom: "1px solid #d9d9da", lineHeight: "0" }}></div>
                     </div>
                     <div className="col-md-12">
-                        <p className="detail"><i className="fa fa-bullseye"></i>Trạng thái: <span>{this.props.data.condition}</span> </p>
+                        <p className="detail"><i className="fa fa-bullseye"></i>Trạng thái: <span>{this.state.product.condition}</span> </p>
                         <p className="detail"><i className="fa fa-folder"></i>Thuộc danh mục: <Link to="#">
                             {
                                 categoriesEl.map((categoryEl) => {
@@ -167,7 +180,7 @@ class InfoProduct extends React.Component {
                         </Link>
                             <span>, </span>
                             <Link to="#">
-                                <span>{this.props.data.seller.name}</span>
+                                <span>{this.state.product.seller.name}</span>
                             </Link> </p>
                     </div>
                     <div className="col-md-12">
@@ -184,7 +197,7 @@ class InfoProduct extends React.Component {
                     <div className="col-md-12">
                         <div style={{ paddingTop: "20px" }} className="btn-buynow">
                             {/* <button onClick={this.buy.bind(this,this.state.product.Id)} className="btn btn-lg btn-success">Mua ngay</button> */}
-                            <button onClick={this.buy.bind(this, this.props.data.id)} className="btn btn-lg btn-success">Mua ngay</button>
+                            <button onClick={this.buy.bind(this, this.state.product.id)} className="btn btn-lg btn-success">Mua ngay</button>
 
                         </div>
 
@@ -195,4 +208,9 @@ class InfoProduct extends React.Component {
         )
     }
 }
-module.exports = connect(function (state) { return {} })(InfoProduct);
+module.exports = connect(function (state) {
+    console.log("log", state)
+    return {
+        auth: state.auth
+    }
+})(InfoProduct);

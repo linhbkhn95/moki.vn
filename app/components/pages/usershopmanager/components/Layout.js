@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Switch, Ridirect, hashHistory, Redirect
 import { removeCart } from 'app/action/actionShoppingCart';
 import Phone from 'material-ui-icons/Phone'
 import OrderManager from './OrderManager';
+import ProductMeLike from './ProductMeLike.js';
 class Layout extends React.Component {
 
 
@@ -57,12 +58,8 @@ class Layout extends React.Component {
                     <Tab
                         label="Danh sách sản phẩm yêu thích" style={{ color: "#f16e8e" }}
                     >
-                        <div>
 
-                            <p>
-                                This is a third example tab.
-        </p>
-                        </div>
+                        <ProductMeLike />
                     </Tab>
                 </Tabs>
 

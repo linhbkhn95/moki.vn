@@ -3,7 +3,7 @@ var Rate = require('rc-rate');
 import { Tabs, Tab } from 'react-bootstrap';
 import ReactImageZoom from 'react-image-zoom';
 import ReactImageMagnify from 'react-image-magnify';
-import SlideProduct from './SlideProduct.js';
+import SlideProduct from '../components/pages/home/components/SlideProduct';
 import Slider from 'react-slick';
 const props = { width: 400, zoomZindex: 99, zoomStyle: "z-index:9", zoomWidth: 500, img: "../images/test.jpg" };
 import React from 'react';
@@ -15,6 +15,7 @@ import InfoProduct from './components/InfoProduct.js';
 import { addCart } from 'app/action/actionShoppingCart.js';
 import axios from 'axios';
 import date from 'date-and-time';
+
 class Detail extends React.Component {
     constructor(props) {
         super(props);
@@ -132,7 +133,7 @@ class Detail extends React.Component {
                             <div className="sub-content">
                                 <span>Bởi </span>
                                 <a className="sub">{comment.poster.name}</a>
-                                <span> lúc </span>
+                                <span> vào </span>
                                 <a className="sub">{moment(comment.created).lang('vi').fromNow()}</a>
                             </div>
                             <p className="content"> {comment.comment} </p>
@@ -173,19 +174,22 @@ class Detail extends React.Component {
                                                 {/* <p className="no-comments">Chưa có bình luận </p> */}
                                                 <div id="commentDiv">
                                                     {this.renderListComment(this.state.listComment)}
-
-
                                                 </div>
                                                 <p className="section">Viết bình luận:  </p>
-                                                <div className="comment-form">
+                                                {this.props.auth.isAuthenticated?<div className="comment-form" style={{zIndex: 10000000000}}>
                                                     <div className="avatar-me">
-                                                        <img style={{ width: "55px" }} className="img-avatar" src={this.props.auth ? this.props.auth.user.avatar : "../images/avatar.jpg"} />
+                                                        <img style={{ width: "55px" }} className="img-avatar" src={this.props.auth.user.avartar} />
                                                     </div>
                                                     <div className="box-comment">
-                                                        <textarea onChange={this.onChange.bind(this)} value={this.state.comment} className="form-control" placeholder="Ý kiến của bạn...." id="text-comment" rows="3"></textarea>
-                                                        <div className="btn-comment"><button onClick={this.comment.bind(this)} className="btn btn-success" disabled={this.state.comment ? "" : "disabled"} >Gửi</button></div>
+                                                        <textarea onChange={this.onChange.bind(this)} value={this.state.comment} className="form-control" placeholder="Ý kiến của bạn...." id="text-comment" rows="3" style={{position: "relative", zIndex:"999999999"}}></textarea>
+                                                        <div className="btn-comment"><button onClick={this.comment.bind(this)} className="btn btn-success" style={{position: "relative", zIndex:"999999999"}} disabled={this.state.comment ? "" : "disabled"} >Gửi</button></div>
                                                     </div>
+                                                </div>:
+                                                <div style={{marginLeft: "50px", padding: "20px"}}>
+                                                    Bạn cần <Link to="/user/login" style={{position: "relative", zIndex:"999999999", color: "#ff789e"}}>Đăng nhập</Link> để bình luận
                                                 </div>
+                                            }
+                                                
 
                                             </div>
                                         </div>
@@ -193,6 +197,7 @@ class Detail extends React.Component {
 
                                 </Tabs>
                             </div>
+                            <SlideProduct />
                         </div>
                     </div>
                 </div>

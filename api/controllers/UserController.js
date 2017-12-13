@@ -101,6 +101,7 @@ module.exports = {
                     avartar: user.ui_avartar,
                     email: user.ui_email,
                     create: user.ui_fromdate,
+                    city: user.ui_city,
                     shop: {
                         shop_name: user.s_shop_name,
                         address_shop: user.s_adress_shop,

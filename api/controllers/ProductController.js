@@ -17,7 +17,7 @@ module.exports = {
         let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
         let token = req.headers['authorization'];
-
+        
         var self = this;
 
         if (count > 200) {
@@ -57,7 +57,7 @@ module.exports = {
                             number: product.p_number,
                             like: product.p_nlike,
                             comment: product.p_ncomment,
-                            is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                            is_liked: !token ? 0 : await isLike(req.session.user_id, product.p_id),
                             is_blocked: 0,
                             can_edit: can_edit,
                             banned: 0, //khoá user
@@ -247,7 +247,7 @@ module.exports = {
                         like: product.p_nlike,
                         number: product.p_number,
                         comment: product.p_ncomment,
-                        is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                        is_liked: !token ? 0 : await isLike(req.session.user_id||0, product.p_id),
                         is_blocked: 0,
                         can_edit: can_edit,
                         banned: 0, //khoá user
@@ -891,7 +891,7 @@ module.exports = {
             return res.json(result);
         }
 
-        let products = await this.productDetail({ product_id: product_id })
+        let products = await this.productDetail(req)
 
         let result = response.OK;
         result.data = products;
@@ -1087,7 +1087,7 @@ module.exports = {
                             created: product.ui_fromdate,
                             like: product.p_nlike,
                             comment: product.p_ncomment,
-                            is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                            is_liked: !token ? 0 : await isLike(req.session.user_id, product.p_id),
                             is_blocked: 0,
                             can_edit: can_edit,
                             banned: 0, //khoá user
@@ -1163,6 +1163,7 @@ module.exports = {
                             described: product.p_description,
                             created: product.ui_fromdate,
                             like: product.p_nlike,
+                            is_liked: await isLike(user_id, product.p_id),
                             comment: product.p_ncomment,
                             seller: {
                                 id: product.ui_userid,
@@ -1223,7 +1224,7 @@ module.exports = {
                             like: product.p_nlike,
                             number: product.p_number,
                             comment: product.p_ncomment,
-                            is_liked: !!token ? 0 : await isLike(req.session.user_id, product.p_id),
+                            is_liked: !token ? 0 : await isLike(req.session.user_id, product.p_id),
                             is_blocked: 0,
                             can_edit: can_edit,
                             banned: 0, //khoá user
@@ -1241,12 +1242,12 @@ module.exports = {
         })
     },
 
-    productDetail: function (params) {
+    productDetail: function (req) {
         return new Promise((resolve, reject) => {
-            let product_id = params['product_id'];
+            let product_id = req.param('id');
             let status = 'ENABLE';
             let self = this;
-
+            let user_id = req.session.user_id||0;
             if (!product_id) {
                 reject()
                 return;
@@ -1283,7 +1284,7 @@ module.exports = {
                             created: product.ui_fromdate,
                             like: product.p_nlike,
                             comment: product.p_ncomment,
-                            is_liked: await isLike(product.ui_userid, product.p_id),
+                            is_liked: await isLike(user_id, product.p_id),
                             is_blocked: 0,
                             can_edit: 0,
                             banned: 0, //khoá user
@@ -1433,12 +1434,13 @@ module.exports = {
     isLike: function (user_id, product_id) {
 
         return new Promise((resolve, reject) => {
-            StoredProcedure.query('select moki.isLike(?, ?)', [product_id, user_id], function (err, [check, server_status]) {
+            StoredProcedure.query('select moki.isLike(?, ?) as sa', [product_id, user_id], function (err, [check, server_status]) {
                 if (err) {
                     reject(err)
                     return;
                 }
-                resolve(check == 1 ? 1 : 0)
+                
+                resolve(check.sa)
             })
         })
     },

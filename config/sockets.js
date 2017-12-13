@@ -118,7 +118,7 @@ module.exports.sockets = {
     afterDisconnect: function (session, socket, cb) {
         try {
             // Look up the user ID using the connected socket
-            console.log(socket)
+            //console.log(socket)
             let socketId = sails.sockets.getId(socket)
             // Get the user instance
             let user = session[socketId];
