@@ -19,15 +19,14 @@ class InfoProduct extends React.Component {
         }
     }
     componentDidMount() {
-
-        // axios.post('/product/getDetail', { productId: nextProps.productId })
-        // .then(function (res) {
-        //     console.log(res.data);
-        //     that.setState({ product: res.data });
-        // })
-        // .catch(function (e) {
-        //     console.log(e);
-        // })
+        axios.post('/api/get_products', { id: this.props.data.id })
+        .then(function (res) {
+            console.log(res.data);
+            that.setState({ product: res.data.data[0] });
+        })
+        .catch(function (e) {
+            console.log(e);
+        })
 
     }
     // componentWillReceiveProps(nextProps){
@@ -37,17 +36,16 @@ class InfoProduct extends React.Component {
     //  }
     // //componentWillMount()
     componentWillReceiveProps(nextProps) {
-        // var that = this;
-
-        // console.log(nextProps.productId);
-        // axios.post('/product/getDetail', { productId: nextProps.productId })
-        //     .then(function (res) {
-        //         console.log(res.data);
-        //         that.setState({ product: res.data });
-        //     })
-        //     .catch(function (e) {
-        //         console.log(e);
-        //     })
+        var that = this;
+        
+        axios.post('/api/get_products', { id: nextProps.data.id })
+            .then(function (res) {
+                console.log(res.data);
+                that.setState({ product: res.data.data[0] });
+            })
+            .catch(function (e) {
+                console.log(e);
+            })
 
     }
     buy(productId) {
@@ -117,7 +115,7 @@ class InfoProduct extends React.Component {
         }
 
         return (
-            <div className="row page-detail">
+            <div className="row page-detail" key={`product-detail-${this.state.id}`}>
                 <div className="col-md-6">
                     {/* <div className="col-md-4">ảnh liên quan</div>
                   <div className="col-md-8">ảnh chính </div> */}

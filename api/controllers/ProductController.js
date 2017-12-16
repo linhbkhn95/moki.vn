@@ -7,7 +7,7 @@
 
 const response = require('../util/response');
 const pushnotify = require('../util/pushnotify');
-
+const moment = require('moment');
 module.exports = {
     getNewProducts: function (req, res) {
         let params = req.allParams();
@@ -17,7 +17,7 @@ module.exports = {
         let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
         let token = req.headers['authorization'];
-        
+
         var self = this;
 
         if (count > 200) {
@@ -93,7 +93,7 @@ module.exports = {
                         return;
                     }
 
-                    categories = categories.map((category)=> {
+                    categories = categories.map((category) => {
                         return {
                             id: category.pc_id,
                             name: category.pc_name,
@@ -114,7 +114,7 @@ module.exports = {
                                     shop_name: shop.s_shop_name,
                                     count: shop.count
                                 }
-                                s.categories = data.map((category)=> {
+                                s.categories = data.map((category) => {
                                     return {
                                         id: category.pc_id,
                                         name: category.pc_name,
@@ -127,7 +127,7 @@ module.exports = {
                                         return c.id == category.id
                                     })
 
-                                    if(!!temp) {
+                                    if (!!temp) {
                                         ca.push(temp);
                                     } else {
                                         ca.push(category)
@@ -142,19 +142,42 @@ module.exports = {
                     })).then((shops) => {
                         let result = response.OK;
                         result.data = shops;
-                        res.json(result);  
+                        res.json(result);
                     })
                 })
             })
         })
     },
 
+    statistics_product_category_shop: function (req, res) {
+
+        let user_id = req.session.user_id;
+
+        StoredProcedure.query("call moki.statistics_product_category_shop(?)", [user_id], function (err, [data, server_status]) {
+            if (err) {
+                reject(err)
+                return;
+            }
+            let result = response.OK;
+            console.log(data)
+            result.data = data.map((category) => {
+                return {
+                    id: category.pc_id,
+                    name: category.pc_name,
+                    count: category.count
+                }
+            })
+            
+            res.json(result);
+        })
+    },
+
     statistics_shop_revenue: function (req, res) {
         let user_id = req.session.user_id
-        let fromdate = req.param('fromdate')
-        let thrudate = req.param('thrudate');
+        let fromdate = moment(req.param('fromdate')).format('YYYY-MM-DD');
+        let thrudate = moment(req.param('thrudate')).format('YYYY-MM-DD');
 
-        if(!fromdate || !thrudate) {
+        if (!fromdate || !thrudate) {
             return res.json(response.PARAMETER_VALUE_IS_INVALID)
         }
 
@@ -247,7 +270,7 @@ module.exports = {
                         like: product.p_nlike,
                         number: product.p_number,
                         comment: product.p_ncomment,
-                        is_liked: !token ? 0 : await isLike(req.session.user_id||0, product.p_id),
+                        is_liked: !token ? 0 : await isLike(req.session.user_id || 0, product.p_id),
                         is_blocked: 0,
                         can_edit: can_edit,
                         banned: 0, //khoá user
@@ -271,7 +294,7 @@ module.exports = {
         })
     },
 
-  
+
     setOrder: function (req, res) {
         let user_id = req.session.user_id;
         let order_detail = req.param('order_detail');
@@ -496,74 +519,64 @@ module.exports = {
         let status = req.param('status') || 'ENABLE';
         let self = this;
 
-        return new Promise((resolve, reject) => {
-            StoredProcedure.query("call moki.viewOrderOfShop(?, ?)", [user_id, status], function (err, [data, server_status]) {
-                if (err) {
-                    reject(err)
-                    return;
-                }
+        from = moment(req.param('from')).format('YYYY-MM-DD');
+        thru = moment(req.param('thru')).format('YYYY-MM-DD');
 
-                Promise.all(data.map((order) => {
-                    return new Promise((resolve, reject) => {
-                        StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [data, server_status]) {
-                            resolve({ data, order });
-                        })
+        StoredProcedure.query("call moki.viewOrderOfShop(?, ?, ?, ?)", [user_id, status, from, thru], function (err, [data, server_status]) {
+            if (err) {
+                reject(err)
+                return;
+            }
+
+            Promise.all(data.map((order) => {
+                return new Promise((resolve, reject) => {
+                    StoredProcedure.query("call moki.get_user_information(?, 'ENABLE')", [order.o_user_id], function (err, [data, server_status]) {
+                        order.user = {
+                            id: data[0].ui_userid,
+                            name: data[0].ui_name,
+                            phone: data[0].ui_phone,
+                            avartar: data[0].ui_avartar,
+                            created: data[0].ui_fromdate,
+                        }
+                        resolve(order);
                     })
-                })).then((orders) => {
-                    console.log(orders)
-                    let result = response.OK;
-                    result.data = orders.map(({ data, order }) => {
-                        return {
-                            id: order.ord_id,
-                            id_p: order.ord_p_id,
+                })
+            })).then((orders) => {
+                let products = []
+                orders.forEach((order) => {
+                    let product = products.find((p) => {
+                        return p.id == order.ord_p_id
+                    })
+
+                    if (!product) {
+                        product = {
+                            id: order.ord_p_id,
                             code: order.ord_p_code,
                             name: order.ord_p_name,
                             number: order.ord_number,
                             price: order.ord_p_price,
                             price_percent: order.ord_p_price_percent,
-                            status: order.ord_status,
-                            create: order.ord_p_fromdate,
-                            user: {
-                                id: data[0].ui_userid,
-                                name: data[0].ui_name,
-                                phone: data[0].ui_phone,
-                                avartar: data[0].ui_avartar
-                            }
+                            p_fromdate: order.ord_p_fromdate,
+                            order: []
                         }
-                    });
-                    res.json(result);
-                    resolve(result)
-                    Promise.all(orders.map(({ data, order }) => {
-                        return new Promise(async (resolve, reject) => {
-                            resolve(
-                                {
-                                    id: order.ord_id,
-                                    id_p: order.ord_p_id,
-                                    code: order.ord_p_code,
-                                    name: order.ord_p_name,
-                                    number: order.ord_number,
-                                    price: order.ord_p_price,
-                                    image: await self.listImages(order.ord_p_id),
-                                    video: await self.listVideos(order.ord_p_id),
-                                    price_percent: order.ord_p_price_percent,
-                                    status: order.ord_status,
-                                    create: order.ord_p_fromdate,
-                                    user: {
-                                        id: data[0].ui_userid,
-                                        name: data[0].ui_name,
-                                        phone: data[0].ui_phone,
-                                        address: order.o_address,
-                                        city: order.o_city,
-                                        avartar: data[0].ui_avartar
-                                    }
-                                }
-                            )
-                        })
-                    })).then((orders) => {
-                        let result = response.OK;
-                        result.data = orders;
-                        res.json(result);
+                        products.push(product);
+                    }
+                    product.order.push({
+                        id: order.ord_id,
+                        user: order.user,
+                        number: order.ord_number,
+                        created: order.ord_created,
+                        price_total: order.o_total_price
                     })
+                })
+                Promise.all(products.map(async (product) => {
+                    product.image = await self.listImages(product.id);
+                    product.video = await self.listVideos(product.id);
+                    return product
+                })).then((products) => {
+                    let result = response.OK;
+                    result.data = products;
+                    res.json(result);
                 })
             })
         })
@@ -580,6 +593,9 @@ module.exports = {
                 break;
             case 'APPROVED':
                 status = "APPROVED";
+                break;
+            case 'SUCCESS':
+                status = "SUCCESS";
                 break;
             case 'UNENABLE':
                 status = "UNENABLE";
@@ -904,7 +920,7 @@ module.exports = {
 
     getComments: function (req, res) {
         let productId = req.param('product_id');
-        if(isNaN(productId)) {
+        if (isNaN(productId)) {
             return res.json(response.PARAMETER_VALUE_IS_INVALID);
         }
         StoredProcedure.query('call moki.getCommentsProduct(?, NULl)', [productId], function (err, [data, server_status]) {
@@ -1247,7 +1263,7 @@ module.exports = {
             let product_id = req.param('id');
             let status = 'ENABLE';
             let self = this;
-            let user_id = req.session.user_id||0;
+            let user_id = req.session.user_id || 0;
             if (!product_id) {
                 reject()
                 return;
@@ -1439,7 +1455,7 @@ module.exports = {
                     reject(err)
                     return;
                 }
-                
+
                 resolve(check.sa)
             })
         })

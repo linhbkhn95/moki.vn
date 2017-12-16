@@ -76,6 +76,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
           <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img style={{width:"24px",marginRight:"4px"}} src={this.props.auth.user.avartar} />{this.props.auth.user.username}<span className="caret"></span></a>
           <ul className="dropdown-menu">
             <li><Link to="/user_shop/manager/accountsetting">Quản lý tài khoản</Link></li>
+            {this.props.auth.user.type=="SELLER"?<li><NavLink to="/shop/admin">Quản lý shop</NavLink></li>:""}
             <li><Link onClick={this.logout.bind(this)} to="">Đăng xuất</Link></li>
           
           </ul>
@@ -148,7 +149,7 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from
               </div>
             </div>
             <ScrollToTop showUnder={160} style={{zIndex: "10000"}}>
-             <img src="../images/up_arrow_round.png"/>
+             <img src="/images/up_arrow_round.png"/>
                                 </ScrollToTop>
 
           </header>

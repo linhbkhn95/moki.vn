@@ -154,14 +154,14 @@ class shopMK extends React.Component {
                                                                 <i className="fa fa-shopping-bag"></i> Sản phẩm :
                                                             </span>
                                                             <span className="total_product">
-                                                            {this.state.shop_info.shop.listing}                            </span>
+                                                                {this.state.shop_info.shop.listing}                            </span>
                                                         </p>
                                                     </li>
                                                     <li>
                                                         <p>
                                                             <span className="color-title"><i className="fa fa-shopping-bag"></i> Người theo dõi:</span>
                                                             <span className="total_product">
-                                                            {this.state.shop_info.shop.score}                            </span>
+                                                                {this.state.shop_info.shop.score}                            </span>
                                                         </p>
                                                     </li>
                                                     {/* <li>
@@ -246,24 +246,24 @@ class shopMK extends React.Component {
                                                     <aside>
                                                         <div className="comment">
                                                             {
-                                                                this.state.shop_info.top_comments.length==0?<div>Không có đánh giá</div>:
-                                                                this.state.shop_info.top_comments.map((comment, index) => {
-                                                                    return (
-                                                                        <div className="item" key={`shop-topcomment-moki-${index}`}>
-                                                                            {index !== 0 ? <hr /> : null}
-                                                                            <figure>
-                                                                                <img className="commentor_avatar" src={comment.poster.avatar} alt="Moki.vn - Ứng dụng mua bán trên di động | ZIN XaLa" />
-                                                                            </figure>
-                                                                            <p className="text-a truncated" style={{ wordWrap: "break-word" }}>
-                                                                                {comment.comment}
-                                                                            </p>
-                                                                            <div className="sub-content">
-                                                                                <span>Bởi</span> <a className="sub">{comment.poster.name}</a> <span>vào</span> <a className="sub">{moment(comment.created).lang('vi').fromNow()}</a>
-                                                                            </div>
+                                                                this.state.shop_info.top_comments.length == 0 ? <div>Không có đánh giá</div> :
+                                                                    this.state.shop_info.top_comments.map((comment, index) => {
+                                                                        return (
+                                                                            <div className="item" key={`shop-topcomment-moki-${index}`}>
+                                                                                {index !== 0 ? <hr /> : null}
+                                                                                <figure>
+                                                                                    <img className="commentor_avatar" src={comment.poster.avatar} alt="Moki.vn - Ứng dụng mua bán trên di động | ZIN XaLa" />
+                                                                                </figure>
+                                                                                <p className="text-a truncated" style={{ wordWrap: "break-word" }}>
+                                                                                    {comment.comment}
+                                                                                </p>
+                                                                                <div className="sub-content">
+                                                                                    <span>Bởi</span> <a className="sub">{comment.poster.name}</a> <span>vào</span> <a className="sub">{moment(comment.created).lang('vi').fromNow()}</a>
+                                                                                </div>
 
-                                                                        </div>
-                                                                    )
-                                                                })
+                                                                            </div>
+                                                                        )
+                                                                    })
                                                             }
                                                         </div>
                                                     </aside>
@@ -301,7 +301,6 @@ class shopMK extends React.Component {
                                                                                     <Product like={item.like} is_liked={item.is_liked} productId={item.id} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_new} pre={item.price_percent} />
                                                                                 </div>
                                                                             )
-
                                                                         })
                                                                     }
                                                                 </div>

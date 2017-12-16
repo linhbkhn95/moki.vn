@@ -39,15 +39,16 @@ class Detail extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         var that = this;
+        
         this.props.dispatch(setTitle(this.props.titlePage))
 
-        axios.post('/api/get_products', { id: 3 })
+        axios.post('/api/get_products', { id: nextProps.product_Id })
             .then(function (res) {
                 console.log(res.data.data);
                 // that.setState({listComment:res.data});
                 that.setState({ data: res.data.data[0] });
             })
-        axios.post('/api/get_comment_products', { product_id: this.props.product_Id })
+        axios.post('/api/get_comment_products', { product_id: nextProps.product_Id })
             .then(function (res) {
                 console.log(res.data.data);
                 // that.setState({listComment:res.data});

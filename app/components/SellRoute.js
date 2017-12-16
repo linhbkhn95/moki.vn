@@ -8,25 +8,26 @@ var store = require('app/store.js');
 //import {login,logout}  from 'app/action/actionAuthenticate.js';
 
 
-
+// var store = require('store');
 console.log('const PrivateRoute = ({ component: Component, ...rest }) =>(');
 
-
+//console.log(store.getState());
 const PrivateRoute = ({ component: Component, ...rest }) => {
   
+  let state = store.getState();
   return (
-    <Route {...rest} render={props => {
-      return (
-        localStorage.jwToken ? (
-          <Component {...props} />
-        ) : (
-            <Redirect to={{
-              pathname: '/',
-              state: { from: props.location }
-            }} />
-          )
-      )
-    }} />
+
+    <Route {...rest} render={props => (
+
+      localStorage.jwToken&&state.auth.isAuthenticated&&state.auth.user.type=="SELLER"? (
+        <Component {...props} />
+      ) : (
+          <Redirect to={{
+            pathname: '/',
+            state: { from: props.location }
+          }} />
+        )
+    )} />
   )
 }
 module.exports =
