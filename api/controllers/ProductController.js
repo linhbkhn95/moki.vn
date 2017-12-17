@@ -78,6 +78,47 @@ module.exports = {
         })
     },
 
+    getProductsAllByUser: function (req, res) {
+        let user_id = req.session.user_id;
+        var self = this;
+
+        StoredProcedure.query("call moki.get_all_product_by_user_id(?)", [user_id], function (err, [data, server_status]) {
+            if (err) {
+                reject(err)
+                return;
+            }
+
+            Promise.all(data.map((product) => {
+                let listImages = self.listImages;
+
+                return new Promise(async (resolve, reject) => {
+                    resolve({
+                        id: product.p_id,
+                        code: product.p_code,
+                        name: product.p_name,
+                        image: (await listImages(product.p_id)).map(i => i.url).join(", "),
+                        price: product.p_price,
+                        price_percent: product.p_price_percent,
+                        brand: product.pb_name,//Thương hiệu
+                        described: product.p_description,
+                        created: product.p_fromdate,
+                        number: product.p_number,
+                        like: product.p_nlike,
+                        comment: product.p_ncomment,
+                        address: product.pa_address,
+                        category: product.pc_name,
+                        condition: product.cond_name
+                    })
+                })
+            })).then((products) => {
+                let result = response.OK;
+                result.data = products;
+                res.json(result);
+                resolve(products)
+            })
+        })
+    },
+
     get_count_product_shop: function (req, res) {
         let user_id = req.session.user_id
 
@@ -167,7 +208,7 @@ module.exports = {
                     count: category.count
                 }
             })
-            
+
             res.json(result);
         })
     },
@@ -760,7 +801,7 @@ module.exports = {
 
         let name = req.param('name');
         let price = req.param('price');
-        let product_size_id = req.param('product_size_id');
+        let product_size_id = req.param('product_size_id') || 1;
         let brand_id = req.param('brand_id');
         let category_id = req.param('category_id');
         let image = req.param('image');
@@ -779,7 +820,7 @@ module.exports = {
         let number = req.param('number') || 0;
         let idAddress = await this.getIdAddress(ships_from, user_id);
         let condition_id = req.param('condition_id') || 1;
-
+        console.log(req.allParams())
         StoredProcedure.query('call moki.addProduct(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [name, user_id, price, price_percent, number, described, idAddress, category_id, price_new, 0, condition_id], async function (err, [data, server_status]) {
             let result = response.OK;
 

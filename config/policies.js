@@ -71,7 +71,8 @@ module.exports.policies = {
     statistics_shop_revenue: 'salesman',
     statistics_product_inventory: 'salesman',
     statistics_product_category_shop: 'salesman',
-    get_count_product_shop: 'admin'
+    get_count_product_shop: 'admin',
+    getProductsAllByUser: 'salesman'
   },
 
   CategoryController: {

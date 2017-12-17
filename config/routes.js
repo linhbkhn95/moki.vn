@@ -91,7 +91,8 @@ module.exports.routes = {
   '/api/statistics_shop_revenue': 'ProductController.statistics_shop_revenue',
   '/api/statistics_product_inventory': 'ProductController.statistics_product_inventory',
   '/api/statistics_product_category_shop': 'ProductController.statistics_product_category_shop',
-
+  '/api/get_product_all': 'ProductController.getProductsAllByUser',
+  
 
   /**
    * Route view admin

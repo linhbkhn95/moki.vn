@@ -298,7 +298,7 @@ class shopMK extends React.Component {
                                                                         this.state.data.map(function (item, index) {
                                                                             return (
                                                                                 <div key={`shop-product-moki-${index}`} style={{ width: "33%", float: "left" }}>
-                                                                                    <Product like={item.like} is_liked={item.is_liked} productId={item.id} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_new} pre={item.price_percent} />
+                                                                                    <Product like={item.like} is_liked={item.is_liked} productId={item.id} comment={item.comment} src={item.image[0].url} name={item.name} priceSale={item.price_percent} pre={item.price} />
                                                                                 </div>
                                                                             )
                                                                         })
