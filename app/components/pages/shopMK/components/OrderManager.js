@@ -56,8 +56,29 @@ class TableDemo extends React.Component {
         this.changeStatusOrder = this.changeStatusOrder.bind(this);
     }
 
-    changeStatusOrder(order_id, status) {
-        
+    changeStatusOrder(ord_id, status, order_id) {
+        var that = this;
+
+        axios.post('/api/set_status_product_order', {ord_id: ord_id, status: status})
+            .then(function (res) {
+                if(status !== that.state.status) {
+                    let orders = that.state.data;
+                    let new_orders = orders.map((order, index) => {
+                        if(order.id == order_id) {
+                            let order_detail = [];
+                            order.order.forEach((ord) => {
+                                if(ord.id!==ord_id) {
+                                    order_detail.push(ord)
+                                }
+                            })
+                            order.order = order_detail;
+                        }
+                        return order;
+                    })
+                    that.setState({ data: new_orders });
+                }
+                
+            })
     }
 
     handleChangeFromDate(event, date) {
@@ -101,7 +122,7 @@ class TableDemo extends React.Component {
             })
     }
 
-    renderOrderDetail(orders) {
+    renderOrderDetail(orders, product_id) {
         if (orders.length > 0) {
             return (
                 orders.map((order, index) => {
@@ -130,19 +151,19 @@ class TableDemo extends React.Component {
                             </td>
                             <td className="coupon" style={{ minWidth: "115px" }}>
                                 {this.state.status == "ENABLE" ?
-                                    <IconButton>
+                                    <IconButton onClick={() => {this.changeStatusOrder(order.id, "APPROVED", product_id)}}>
                                         <PlaylistAddCheck
                                         />
                                     </IconButton>
                                     : null}
-                                {this.state.status == "APPROVED"?
-                                    <IconButton>
+                                {this.state.status == "APPROVED" ?
+                                    <IconButton onClick={() => {this.changeStatusOrder(order.id, "SUCCESS", product_id)}}>
                                         <Check
                                         />
                                     </IconButton>
                                     : null}
-                                {this.state.status !== "SUCCESS" ?
-                                    <IconButton>
+                                {this.state.status !== "SUCCESS" || this.state.status !== "UNENABLE"?
+                                    <IconButton onClick={() => {this.changeStatusOrder(order.id, "UNENABLE", product_id)}}>
                                         <Close
                                         />
                                     </IconButton>
@@ -262,7 +283,7 @@ class TableDemo extends React.Component {
                                                                 </tr>
                                                             </thead>
                                                             <tbody className="ng-scope">
-                                                                {this.renderOrderDetail(product.order)}
+                                                                {this.renderOrderDetail(product.order, product.id)}
                                                             </tbody>
                                                         </table>
                                                     </div>
