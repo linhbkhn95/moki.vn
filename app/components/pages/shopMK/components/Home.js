@@ -2,6 +2,8 @@ import React from 'react';
 import Product from 'app/utils/Product.js'
 import axios from 'axios';
 import { connect } from 'react-redux';
+import ModalAddProduct from './product/ModalAddProduct.js';
+import ModalEditProduct from './product/ModalEditProduct.js';
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -34,7 +36,8 @@ class Home extends React.Component {
                 },
                 "top_comments": [
                 ]
-            }
+            },
+            showModalAddProduct: true,
         };
         this.handleScroll = this.handleScroll.bind(this);
     }
@@ -109,6 +112,13 @@ class Home extends React.Component {
         }
     }
 
+    showModalAddProduct(){
+        this.setState({showModalAddProduct:true});
+    }
+    closeModalAddProduct(){
+        this.setState({showModalAddProduct:false});
+    }
+
     render() {
         return (
             <div>
@@ -116,6 +126,7 @@ class Home extends React.Component {
                     <h2>Sản phẩm của shop {this.state.shop_info.shop.shop_name}</h2>
                     <hr />
                 </div>
+                <button style={{marginTop:"36px"}} onClick={this.showModalAddProduct.bind(this)} className="btn btn-primary">Thêm sản phẩm</button>
                 <div className="product-user">
                     <div className="all-product">
                         <div className="product-row">
@@ -137,6 +148,7 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ModalAddProduct show={this.state.showModalAddProduct} close={this.closeModalAddProduct.bind(this)}/>
             </div>
         )
     }
