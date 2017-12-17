@@ -1240,8 +1240,8 @@ module.exports = {
     listProduct: function (params, req) {
         let categoryId = params['category_id'] || 0;
         let index = params['index'] || 1;
-        let sort = params['sort'] || 'p_id';
-        let typeSort = params['typeSort'] || 1; //0: DESC, 1: ASC
+        let sort = params['sort'] || 'p_fromdate';
+        let typeSort = params['typeSort'] || 0; //0: DESC, 1: ASC
         let count = params['count'] || 10; //default 20
         let status = 'ENABLE';
         let token = req.headers['authorization'];
