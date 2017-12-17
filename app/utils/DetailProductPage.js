@@ -15,6 +15,7 @@ import InfoProduct from './components/InfoProduct.js';
 import { addCart } from 'app/action/actionShoppingCart.js';
 import axios from 'axios';
 import date from 'date-and-time';
+import * as validator from 'validator'
 
 class Detail extends React.Component {
     constructor(props) {
@@ -98,6 +99,7 @@ class Detail extends React.Component {
         if (listComment.length > 0) {
             last_id = listComment[listComment.length - 1].id;
         }
+        
         axios.post('/api/set_comment_products', { product_id: this.props.product_Id, comment: this.state.comment, last_id: last_id })
             .then(function (res) {
                 if (res.data.code == 1000) {

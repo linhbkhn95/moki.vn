@@ -126,7 +126,7 @@ class ModalAddProduct extends React.Component {
         let category_id = this.state.choose_category.id;
         let condition_id = this.state.choose_condition.id;
 
-        name = validator.escape(name);
+        //name = validator.escape(name);
 
         if (validator.isEmpty(name)) {
             alert("Bạn chưa nhập tên sản phẩm");
@@ -150,14 +150,14 @@ class ModalAddProduct extends React.Component {
             image = image[0];
         }
 
-        described = validator.escape(described);
+        //described = validator.escape(described);
 
         if (validator.isEmpty(described)) {
             alert("Bạn chưa điền mô tả sản phẩm");
             return;
         }
 
-        ships_from = validator.escape(ships_from);
+        //ships_from = validator.escape(ships_from);
 
         if (validator.isEmpty(ships_from)) {
             alert("Bạn chưa điền nơi bán");

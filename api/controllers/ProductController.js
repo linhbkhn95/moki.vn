@@ -607,6 +607,7 @@ module.exports = {
                         user: order.user,
                         number: order.ord_number,
                         created: order.ord_created,
+                        address: order.o_address,
                         price_total: order.o_total_price
                     })
                 })

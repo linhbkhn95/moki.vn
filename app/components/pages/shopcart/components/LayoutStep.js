@@ -82,7 +82,7 @@ class Layout extends React.Component{
                     </div>
                     <div className ="container">
                          <div className="col-md-12">
-                             {this.props.children};
+                             {this.props.children}
                          </div>
                     </div>
                 </div>

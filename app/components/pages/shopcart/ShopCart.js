@@ -66,16 +66,17 @@ class shoppingCart extends React.Component {
 
         this.setState({ showModalDelete: false, productId_Del: null });
     }
-    onChangeQuantity(value, product_id) {
-        console.log(value + " " + product_id);
+    onChangeQuantity(value, product_id, e) {
+        
         if(isNaN(value)) {
             return ;
         }
         var quantity;
-        if(!value) {
+        if(!value|| parseInt(value) < 0) {
+            e.target.value = 0;
             quantity = 0;
         } else {
-            quantity = parseInt(value);
+            quantity = parseInt(value)< 0?0: parseInt(value);
         }
         this.props.dispatch(setQuantity({ product_id: product_id, quantity: quantity }));
     }
@@ -110,7 +111,7 @@ class shoppingCart extends React.Component {
                             </td>
                             {price}
                             <td className="coupon">
-                                <input min="1" step="1" onChange={e => that.onChangeQuantity(e.target.value, product.product_id)} style={{ textAlign: "center" }} defaultValue={product.quantity} className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="number" />
+                                <input min="1" step="1" onChange={e => that.onChangeQuantity(e.target.value, product.product_id, e)} style={{ textAlign: "center" }} defaultValue={product.quantity} className="form-control ng-pristine ng-untouched ng-valid ng-scope ng-empty" type="number" />
 
                             </td>
                             <td className="coupon">

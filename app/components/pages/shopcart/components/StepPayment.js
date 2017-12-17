@@ -249,11 +249,6 @@ class StepPayment extends React.Component {
                                                                     <td className="price text-right price-colors">
                                                                     </td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <td colSpan="3">
-                                                                        <img src="/moki/themes/img/linhtinh.png" className="img-responsive" />
-                                                                    </td>
-                                                                </tr>
                                                             </thead>
                                                         </table>
                                                     </div>

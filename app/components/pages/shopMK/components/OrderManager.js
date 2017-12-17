@@ -126,6 +126,7 @@ class TableDemo extends React.Component {
         if (orders.length > 0) {
             return (
                 orders.map((order, index) => {
+                    console.log(order)
                     return (
                         <tr key={`order-sell-${order.id}-${order.user.id}`} className="ng-scope">
                             <td className="coupon">
@@ -134,11 +135,14 @@ class TableDemo extends React.Component {
                             <td className="name">
                                 <img style={{ width: "50px", height: "50px" }} className="img-responsive btn-block ng-scope" src={order.user.avartar || "https://moki.vn/files/product/images/o/bc41109667a4180814ce96793c899498.jpg"} />
                             </td>
-                            <td className="noname">
+                            <td className="noname" title={order.user.name}>
                                 <p className="name ng-binding">{order.user.name}</p>
                             </td>
-                            <td className="noname">
+                            <td className="noname" title={order.user.phone}>
                                 <p className="name ng-binding">{order.user.phone}</p>
+                            </td>
+                            <td className="noname" title={order.address}>
+                                <p className="name ng-binding">{order.address}</p>
                             </td>
                             <td className="coupon">
                                 <p className="name ng-binding">{moment(order.user.created).lang('vi').fromNow()}</p>
@@ -146,7 +150,7 @@ class TableDemo extends React.Component {
                             <td className="coupon">
                                 <p className="name ng-binding">{order.number}</p>
                             </td>
-                            <td >
+                            <td title={parseInt(order.price_total).toLocaleString('VND') + "đ"}>
                                 {parseInt(order.price_total).toLocaleString('VND') + "đ"}
                             </td>
                             <td className="coupon" style={{ minWidth: "115px" }}>
@@ -274,6 +278,7 @@ class TableDemo extends React.Component {
                                                                     <td>Avartar</td>
                                                                     <td>Tên</td>
                                                                     <td>Số DT</td>
+                                                                    <td>Địa chỉ</td>
                                                                     <td>Tham gia</td>
                                                                     <td>Số lượng</td>
                                                                     <td className="price">
