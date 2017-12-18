@@ -11,9 +11,6 @@ class ChangePass extends React.Component {
         this.state = {
         };
     }
-    componentDidMount() {
-        let validate = $("#change-password").validate();
-    }
     changePassword() {
         console.log("Change PAsss ")
 

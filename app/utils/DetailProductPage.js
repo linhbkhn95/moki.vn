@@ -41,7 +41,7 @@ class Detail extends React.Component {
     componentWillReceiveProps(nextProps) {
         var that = this;
         
-        this.props.dispatch(setTitle(this.props.titlePage))
+        this.props.dispatch(setTitle(nextProps.titlePage))
 
         axios.post('/api/get_products', { id: nextProps.product_Id })
             .then(function (res) {
